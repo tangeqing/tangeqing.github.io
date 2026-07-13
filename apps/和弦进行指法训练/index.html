@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0077)file:///C:/Users/shuo/WorkBuddy/2026-07-13-09-12-46/guitar-chord-trainer.html -->
-<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>吉他和弦练习 · 和声走向与把位训练器</title>
 <style>
@@ -233,115 +233,43 @@ body {
 <div class="controls" id="controls">
   <div class="ctrl-group">
     <label>调性 Key</label>
-    <select id="keySelect"><option value="C">C 大调</option><option value="C#">C# 大调</option><option value="D">D 大调</option><option value="D#">D# 大调</option><option value="E">E 大调</option><option value="F">F 大调</option><option value="F#">F# 大调</option><option value="G">G 大调</option><option value="G#">G# 大调</option><option value="A">A 大调</option><option value="A#">A# 大调</option><option value="B">B 大调</option></select>
+    <select id="keySelect"></select>
   </div>
   <div class="ctrl-group">
     <label>和弦类型</label>
     <div class="chord-types-toggle" id="chordTypeToggle">
-      <button data-type="triad" class="">三和弦</button>
-      <button data-type="seventh" class="">七和弦</button>
-      <button data-type="sus" class="">Sus</button>
-      <button data-type="extended" class="active">扩展</button>
+      <button data-type="triad" class="active">三和弦</button>
+      <button data-type="seventh">七和弦</button>
+      <button data-type="sus">Sus</button>
+      <button data-type="extended">扩展</button>
     </div>
   </div>
   <div class="ctrl-group">
     <label>和声走向</label>
-    <select id="progressionSelect"><option value="canon_full">I-V-vi-iii-IV-I-IV-V 卡农走向</option><option value="pop4536251">IV-V-iii-vi-ii-V-I 4536251</option><option value="pop1564">I-V-vi-IV 流行万能走向</option><option value="pop6415">vi-IV-I-V 流行变体</option><option value="pop1645">I-vi-IV-V 1645</option><option value="pop156341">I-V-vi-iii-IV-I 卡农前6</option><option value="pop1436">I-IV-iii-vi 流行变体</option><option value="pop1364">I-iii-vi-IV 流行变体2</option><option value="descending">IV-iii-ii-I 下行走向</option><option value="jazz1625">I-vi-ii-V 爵士1625</option><option value="jazz251">ii-V-I 爵士251</option><option value="blues145">I-IV-V 布鲁斯三和弦</option><option value="50s1645">I-vi-IV-V 50年代</option><option value="pop6251">vi-ii-V-I 6251</option><option value="pop4536">IV-V-iii-vi 4536</option><option value="pop2516">ii-V-I-vi 2516</option></select>
+    <select id="progressionSelect"></select>
   </div>
   <div class="ctrl-group">
     <label>把位 Position</label>
-    <select id="positionSelect"><option value="0">开放把位</option><option value="1">第1把位</option><option value="2">第3把位</option><option value="3">第5把位</option><option value="4">第7把位</option><option value="5">第9把位</option></select>
+    <select id="positionSelect"></select>
   </div>
   <div class="ctrl-group">
     <label>歌曲保存 / 曲库</label>
     <div class="save-library-group">
-      <button id="saveSongBtn" style="">💾 保存</button>
+      <button id="saveSongBtn">💾 保存</button>
       <button id="libraryBtn">📚 曲库</button>
     </div>
   </div>
 </div>
 
-<div class="info-bar" id="infoBar">调性: C大调 | 走向: I-V-vi-iii-IV-I-IV-V 卡农走向 | 把位: 第1把位 | 和弦: 扩展和弦 | 拍号: 4/4 | 分解: 柱式</div>
+<div class="info-bar" id="infoBar"></div>
 
-<div class="metronome-bar" id="metronomeBar"><div class="beat-dot beat-1 ">1</div><div class="beat-dot  ">2</div><div class="beat-dot  ">3</div><div class="beat-dot  ">4</div></div>
+<div class="metronome-bar" id="metronomeBar"></div>
 
-<div class="chords-area" id="chordsArea"><div class="chord-card active" id="chordCard0" onclick="selectChord(0)">
-      <span class="override-badge">自定义</span>
-      <div class="degree">I</div>
-      <div class="chord-name">C#sus4</div>
-      <div class="shape-label">Dsus4指型 (2/4)</div>
-      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#f0a830" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">C#sus4</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">I</text><text x="12" y="64" fill="#a99bb5" font-size="13" font-weight="600">6品</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="172" x2="122" y2="172" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="172" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="172" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="172" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="172" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="172" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="172" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="88" r="3" fill="#3d344f"></circle><circle cx="77" cy="136" r="3" fill="#3d344f"></circle><text x="32" y="42" text-anchor="middle" fill="#e85d5d" font-size="13" font-weight="700">✕</text><text x="50" y="42" text-anchor="middle" fill="#e85d5d" font-size="13" font-weight="700">✕</text><circle cx="68" cy="64" r="9" fill="#f0a830"></circle><text x="68" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="86" cy="112" r="9" fill="#5d9bd8"></circle><text x="86" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="104" cy="136" r="9" fill="#5d9bd8"></circle><text x="104" y="140" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text><circle cx="122" cy="136" r="9" fill="#5d9bd8"></circle><text x="122" y="140" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
-      <div class="notes">🎵 C# · F# · G#</div>
-      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(0)">🔄 换按法</button>
-      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(0)">🎨 换和弦</button>
-    </div><div class="chord-card" id="chordCard1" onclick="selectChord(1)">
-      
-      <div class="degree">V</div>
-      <div class="chord-name">G9</div>
-      <div class="shape-label">E9指型 (1/3)</div>
-      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">G9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">V</text><text x="12" y="64" fill="#a99bb5" font-size="13" font-weight="600">3品</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="148" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="148" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="148" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="148" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="148" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="148" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="64" r="3" fill="#3d344f"></circle><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="68" cy="64" r="9" fill="#5d9bd8"></circle><text x="68" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="86" cy="88" r="9" fill="#5d9bd8"></circle><text x="86" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
-      <div class="notes">🎵 G · B · D · F · A</div>
-      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(1)">🔄 换按法</button>
-      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(1)">🎨 换和弦</button>
-    </div><div class="chord-card" id="chordCard2" onclick="selectChord(2)">
-      
-      <div class="degree">vi</div>
-      <div class="chord-name">Am9</div>
-      <div class="shape-label">Em9指型 (1/2)</div>
-      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Am9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">vi</text><text x="12" y="64" fill="#a99bb5" font-size="13" font-weight="600">5品</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="148" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="148" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="148" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="148" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="148" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="148" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="64" r="3" fill="#3d344f"></circle><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="68" cy="64" r="9" fill="#5d9bd8"></circle><text x="68" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="86" cy="64" r="9" fill="#5d9bd8"></circle><text x="86" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
-      <div class="notes">🎵 A · C · E · G · B</div>
-      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(2)">🔄 换按法</button>
-      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(2)">🎨 换和弦</button>
-    </div><div class="chord-card" id="chordCard3" onclick="selectChord(3)">
-      
-      <div class="degree">iii</div>
-      <div class="chord-name">Em9</div>
-      <div class="shape-label">Em9指型 (1/3)</div>
-      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Em9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">iii</text><line x1="28" y1="52" x2="126" y2="52" stroke="#e8e0f0" stroke-width="3"></line><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="148" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="148" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="148" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="148" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="148" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="148" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><circle cx="32" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"></circle><circle cx="68" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"></circle><circle cx="86" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"></circle><circle cx="104" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"></circle><circle cx="50" cy="88" r="9" fill="#5d9bd8"></circle><text x="50" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="122" cy="88" r="9" fill="#5d9bd8"></circle><text x="122" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
-      <div class="notes">🎵 E · G · B · D · F#</div>
-      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(3)">🔄 换按法</button>
-      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(3)">🎨 换和弦</button>
-    </div><div class="chord-card" id="chordCard4" onclick="selectChord(4)">
-      
-      <div class="degree">IV</div>
-      <div class="chord-name">Fadd9</div>
-      <div class="shape-label">Eadd9指型 (1/3)</div>
-      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Fadd9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">IV</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="172" x2="122" y2="172" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="172" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="172" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="172" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="172" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="172" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="172" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><circle cx="77" cy="160" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="68" cy="160" r="9" fill="#5d9bd8"></circle><text x="68" y="164" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text><circle cx="86" cy="88" r="9" fill="#5d9bd8"></circle><text x="86" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text></svg>
-      <div class="notes">🎵 F · A · C · G</div>
-      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(4)">🔄 换按法</button>
-      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(4)">🎨 换和弦</button>
-    </div><div class="chord-card" id="chordCard5" onclick="selectChord(5)">
-      
-      <div class="degree">I</div>
-      <div class="chord-name">Cadd9</div>
-      <div class="shape-label">Aadd9指型 (1/3)</div>
-      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Cadd9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">I</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="172" x2="122" y2="172" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="172" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="172" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="172" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="172" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="172" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="172" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><circle cx="77" cy="160" r="3" fill="#3d344f"></circle><text x="32" y="42" text-anchor="middle" fill="#e85d5d" font-size="13" font-weight="700">✕</text><rect x="42" y="105" width="88" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="50" cy="64" r="9" fill="#f0a830"></circle><text x="50" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="68" cy="112" r="9" fill="#5d9bd8"></circle><text x="68" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="86" cy="160" r="9" fill="#5d9bd8"></circle><text x="86" y="164" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text><circle cx="104" cy="112" r="9" fill="#5d9bd8"></circle><text x="104" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="122" cy="64" r="9" fill="#5d9bd8"></circle><text x="122" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text></svg>
-      <div class="notes">🎵 C · E · G · D</div>
-      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(5)">🔄 换按法</button>
-      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(5)">🎨 换和弦</button>
-    </div><div class="chord-card" id="chordCard6" onclick="selectChord(6)">
-      
-      <div class="degree">IV</div>
-      <div class="chord-name">Fadd9</div>
-      <div class="shape-label">Eadd9指型 (1/3)</div>
-      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Fadd9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">IV</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="172" x2="122" y2="172" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="172" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="172" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="172" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="172" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="172" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="172" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><circle cx="77" cy="160" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="68" cy="160" r="9" fill="#5d9bd8"></circle><text x="68" y="164" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text><circle cx="86" cy="88" r="9" fill="#5d9bd8"></circle><text x="86" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text></svg>
-      <div class="notes">🎵 F · A · C · G</div>
-      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(6)">🔄 换按法</button>
-      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(6)">🎨 换和弦</button>
-    </div><div class="chord-card" id="chordCard7" onclick="selectChord(7)">
-      
-      <div class="degree">V</div>
-      <div class="chord-name">G9</div>
-      <div class="shape-label">E9指型 (1/3)</div>
-      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">G9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">V</text><text x="12" y="64" fill="#a99bb5" font-size="13" font-weight="600">3品</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="148" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="148" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="148" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="148" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="148" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="148" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="64" r="3" fill="#3d344f"></circle><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="68" cy="64" r="9" fill="#5d9bd8"></circle><text x="68" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="86" cy="88" r="9" fill="#5d9bd8"></circle><text x="86" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
-      <div class="notes">🎵 G · B · D · F · A</div>
-      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(7)">🔄 换按法</button>
-      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(7)">🎨 换和弦</button>
-    </div></div>
+<div class="chords-area" id="chordsArea"></div>
 
 <div class="fretboard-section" id="fretboardSection">
   <h3>📐 指板俯视图 — 当前走向所有和弦在指板上的位置</h3>
-  <div id="fretboardView"><svg viewBox="0 0 266 80" width="100%" height="80" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="14" x2="560" y2="14" stroke="#e8e0f0" stroke-width="3" opacity="0.3"></line><line x1="20" y1="27" x2="560" y2="27" stroke="#e8e0f0" stroke-width="2.5" opacity="0.3"></line><line x1="20" y1="40" x2="560" y2="40" stroke="#e8e0f0" stroke-width="2" opacity="0.3"></line><line x1="20" y1="53" x2="560" y2="53" stroke="#e8e0f0" stroke-width="1.5" opacity="0.3"></line><line x1="20" y1="66" x2="560" y2="66" stroke="#e8e0f0" stroke-width="1.2" opacity="0.3"></line><line x1="20" y1="79" x2="560" y2="79" stroke="#e8e0f0" stroke-width="1" opacity="0.3"></line><line x1="20" y1="14" x2="20" y2="70" stroke="#3d344f" stroke-width="0.8"></line><line x1="56" y1="14" x2="56" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="38" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">1</text><line x1="92" y1="14" x2="92" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="74" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">2</text><line x1="128" y1="14" x2="128" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="110" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">3</text><line x1="164" y1="14" x2="164" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="146" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">4</text><line x1="200" y1="14" x2="200" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="182" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">5</text><line x1="236" y1="14" x2="236" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="218" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">6</text><line x1="272" y1="14" x2="272" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="254" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">7</text><line x1="308" y1="14" x2="308" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="290" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">8</text><line x1="344" y1="14" x2="344" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="326" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">9</text><line x1="380" y1="14" x2="380" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="362" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">10</text><line x1="416" y1="14" x2="416" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="398" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">11</text><line x1="452" y1="14" x2="452" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="434" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">12</text><line x1="488" y1="14" x2="488" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="470" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">13</text><line x1="524" y1="14" x2="524" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="506" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">14</text><line x1="560" y1="14" x2="560" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="542" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">15</text><circle cx="110" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="182" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="254" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="326" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="434" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="542" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="218" cy="40" r="7" fill="#f0a830" opacity="0.9"></circle><circle cx="290" cy="53" r="5.5" fill="#f0a830" opacity="0.65"></circle><circle cx="326" cy="66" r="5.5" fill="#f0a830" opacity="0.65"></circle><circle cx="326" cy="79" r="5.5" fill="#f0a830" opacity="0.65"></circle><circle cx="574" cy="18" r="4" fill="#f0a830"></circle><text x="582" y="21" fill="#a99bb5" font-size="9">I C#sus4</text><circle cx="110" cy="14" r="7" fill="#e85d5d" opacity="0.9"></circle><circle cx="182" cy="27" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="110" cy="40" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="146" cy="53" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="110" cy="66" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="182" cy="79" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="574" cy="29" r="4" fill="#e85d5d"></circle><text x="582" y="32" fill="#a99bb5" font-size="9">V G9</text><circle cx="182" cy="14" r="7" fill="#5d9bd8" opacity="0.9"></circle><circle cx="254" cy="27" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="182" cy="40" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="182" cy="53" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="182" cy="66" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="254" cy="79" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="574" cy="40" r="4" fill="#5d9bd8"></circle><text x="582" y="43" fill="#a99bb5" font-size="9">vi Am9</text><circle cx="2" cy="14" r="7" fill="#5dba6a" opacity="0.9"></circle><circle cx="74" cy="27" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="2" cy="40" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="2" cy="53" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="2" cy="66" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="74" cy="79" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="574" cy="51" r="4" fill="#5dba6a"></circle><text x="582" y="54" fill="#a99bb5" font-size="9">iii Em9</text><circle cx="38" cy="14" r="7" fill="#e8854a" opacity="0.9"></circle><circle cx="110" cy="27" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="182" cy="40" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="74" cy="53" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="38" cy="66" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="110" cy="79" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="574" cy="62" r="4" fill="#e8854a"></circle><text x="582" y="65" fill="#a99bb5" font-size="9">IV Fadd9</text><circle cx="38" cy="27" r="7" fill="#a99bb5" opacity="0.9"></circle><circle cx="110" cy="40" r="5.5" fill="#a99bb5" opacity="0.65"></circle><circle cx="182" cy="53" r="5.5" fill="#a99bb5" opacity="0.65"></circle><circle cx="110" cy="66" r="5.5" fill="#a99bb5" opacity="0.65"></circle><circle cx="38" cy="79" r="5.5" fill="#a99bb5" opacity="0.65"></circle><circle cx="574" cy="73" r="4" fill="#a99bb5"></circle><text x="582" y="76" fill="#a99bb5" font-size="9">I Cadd9</text><circle cx="38" cy="14" r="7" fill="#5d9bd8" opacity="0.9"></circle><circle cx="110" cy="27" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="182" cy="40" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="74" cy="53" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="38" cy="66" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="110" cy="79" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="574" cy="84" r="4" fill="#5d9bd8"></circle><text x="582" y="87" fill="#a99bb5" font-size="9">IV Fadd9</text><circle cx="110" cy="14" r="7" fill="#e85d5d" opacity="0.9"></circle><circle cx="182" cy="27" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="110" cy="40" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="146" cy="53" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="110" cy="66" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="182" cy="79" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="574" cy="95" r="4" fill="#e85d5d"></circle><text x="582" y="98" fill="#a99bb5" font-size="9">V G9</text></svg></div>
+  <div id="fretboardView"></div>
 </div>
 
 <div class="play-controls">
@@ -359,7 +287,7 @@ body {
   <div class="ctrl-inline">
     <label>拍号</label>
     <select id="timeSigSelect">
-      <option value="4/4" selected="">4/4</option>
+      <option value="4/4" selected>4/4</option>
       <option value="3/4">3/4</option>
       <option value="6/8">6/8</option>
     </select>
@@ -369,7 +297,7 @@ body {
     <select id="beatsPerChordSelect">
       <option value="1">1拍</option>
       <option value="2">2拍</option>
-      <option value="4" selected="">4拍(1小节)</option>
+      <option value="4" selected>4拍(1小节)</option>
     </select>
   </div>
   <div class="ctrl-inline">
@@ -385,7 +313,7 @@ body {
   <div class="ctrl-inline">
     <label>节拍器</label>
     <select id="metronomeSelect">
-      <option value="on" selected="">开启</option>
+      <option value="on" selected>开启</option>
       <option value="off">关闭</option>
     </select>
   </div>
@@ -395,10 +323,10 @@ body {
 <div class="modal-overlay" id="chordPickerModal">
   <div class="modal-content">
     <h3>🎨 自定义和弦</h3>
-    <div class="picker-degree-label" id="pickerDegreeLabel">位置 1/8 — 音级 I</div>
+    <div class="picker-degree-label" id="pickerDegreeLabel"></div>
     <div class="picker-row">
       <label>根音</label>
-      <select id="pickerRoot"><option value="0">C</option><option value="1">C#</option><option value="2">D</option><option value="3">D#</option><option value="4">E</option><option value="5">F</option><option value="6">F#</option><option value="7">G</option><option value="8">G#</option><option value="9">A</option><option value="10">A#</option><option value="11">B</option></select>
+      <select id="pickerRoot"></select>
     </div>
     <div class="picker-row">
       <label>和弦色彩</label>
@@ -416,9 +344,9 @@ body {
         <option value="11">属十一 (11)</option>
       </select>
     </div>
-    <div class="picker-preview" id="pickerPreview"><div class="voicing-info"><b>C#sus4</b><br><span style="font-size:12px;">组成音: C# · F# · G#</span><br><span style="font-size:12px;">可用指型: 4 个</span><br><span style="font-size:11px;color:var(--text3);">最佳: Asus4指型 (第2品)</span></div></div>
+    <div class="picker-preview" id="pickerPreview"></div>
     <div class="picker-actions">
-      <button class="danger" id="pickerResetBtn" style="">恢复默认</button>
+      <button class="danger" id="pickerResetBtn">恢复默认</button>
       <button id="pickerCancelBtn">取消</button>
       <button class="primary" id="pickerApplyBtn">应用</button>
     </div>
@@ -441,7 +369,7 @@ body {
       <label>备注</label>
       <input type="text" id="songNotesInput" placeholder="如：副歌4536251走向" maxlength="100">
     </div>
-    <div class="picker-preview" id="songSettingsPreview" style="flex-direction:column;gap:4px;align-items:flex-start;text-align:left;"><div style="font-size:13px;line-height:1.8;"><div>调性: <b style="color:var(--accent)">C大调</b></div><div>走向: <b style="color:var(--accent)">I-V-vi-iii-IV-I-IV-V 卡农走向</b></div><div>把位: <b style="color:var(--accent)">第1把位</b></div><div>和弦类型: <b style="color:var(--accent)">扩展和弦</b></div><div>拍速: <b style="color:var(--accent)">80 BPM</b> | 拍号: <b style="color:var(--accent)">4/4</b></div><div>每和弦: <b style="color:var(--accent)">4拍</b> | 分解: <b style="color:var(--accent)">柱式</b></div><div style="margin-top:6px;color:var(--text2);font-size:12px;">Cadd9 → G9 → Am9 → Em9 → Fadd9 → Cadd9 → Fadd9 → G9</div></div></div>
+    <div class="picker-preview" id="songSettingsPreview" style="flex-direction:column;gap:4px;align-items:flex-start;text-align:left;"></div>
     <div class="picker-actions">
       <button id="saveCancelBtn">取消</button>
       <button class="primary" id="saveConfirmBtn">保存</button>
@@ -453,7 +381,7 @@ body {
 <div class="modal-overlay" id="songLibraryModal">
   <div class="modal-content modal-large">
     <h3>📚 我的曲库</h3>
-    <div id="songList"><div class="song-empty">还没有保存的歌曲<br>练习时点击「💾 保存」来收藏和弦走向</div></div>
+    <div id="songList"></div>
     <div class="picker-actions" style="margin-top:16px;">
       <button id="libraryCloseBtn">关闭</button>
     </div>
@@ -510,44 +438,43 @@ function getChordInfo(degreeIdx, chordType) {
 }
 
 // Movable chord shapes. frets relative to barre/root position (-1=muted, 0=root/barre)
-// rootStr: string #1-6 where root is
-// fingers: 1-4 for fretting fingers, -1=muted, 0=open
+// rootStr: 1=6弦(低E)~6=1弦(高E). fingers: 0=开放, 1=食指,2=中指,3=无名指,4=小指
 const SHAPES = {
-  'M_E':  {frets:[0,2,2,1,0,0], fingers:[1,3,4,2,1,1], barre:[6,1], rootStr:6, label:'E指型'},
-  'M_A':  {frets:[-1,0,2,2,2,0], fingers:[-1,1,3,4,4,1], barre:[5,1], rootStr:5, label:'A指型'},
-  'M_C':  {frets:[-1,3,2,0,1,0], fingers:[-1,4,3,1,2,1], barre:[5,1], rootStr:5, label:'C指型'},
-  'M_G':  {frets:[3,2,0,0,0,3], fingers:[2,1,1,1,1,3], barre:[3,1], rootStr:6, label:'G指型'},
-  'M_D':  {frets:[-1,-1,0,2,3,2], fingers:[-1,-1,1,3,4,2], barre:null, rootStr:4, label:'D指型'},
-  'm_E':  {frets:[0,2,2,0,0,0], fingers:[1,3,4,1,1,1], barre:[6,1], rootStr:6, label:'Em指型'},
-  'm_A':  {frets:[-1,0,2,2,1,0], fingers:[-1,1,3,4,2,1], barre:[5,1], rootStr:5, label:'Am指型'},
-  'm_D':  {frets:[-1,-1,0,2,3,1], fingers:[-1,-1,1,3,4,1], barre:null, rootStr:4, label:'Dm指型'},
-  '7_E':  {frets:[0,2,0,1,0,0], fingers:[1,3,1,2,1,1], barre:[6,1], rootStr:6, label:'E7指型'},
-  '7_A':  {frets:[-1,0,2,0,2,0], fingers:[-1,1,3,1,4,1], barre:[5,1], rootStr:5, label:'A7指型'},
-  '7_D':  {frets:[-1,-1,0,2,1,2], fingers:[-1,-1,1,3,2,4], barre:null, rootStr:4, label:'D7指型'},
-  'M7_E': {frets:[0,2,1,1,0,0], fingers:[1,3,2,2,1,1], barre:[6,1], rootStr:6, label:'Emaj7指型'},
-  'M7_A': {frets:[-1,0,2,1,2,0], fingers:[-1,1,3,2,4,1], barre:[5,1], rootStr:5, label:'Amaj7指型'},
-  'm7_E': {frets:[0,2,0,0,0,0], fingers:[1,3,1,1,1,1], barre:[6,1], rootStr:6, label:'Em7指型'},
-  'm7_A': {frets:[-1,0,2,0,1,0], fingers:[-1,1,3,1,2,1], barre:[5,1], rootStr:5, label:'Am7指型'},
+  'M_E':  {frets:[0,2,2,1,0,0], fingers:[0,2,3,1,0,0], barre:[6,1], rootStr:6, label:'E指型'},
+  'M_A':  {frets:[-1,0,2,2,2,0], fingers:[-1,0,1,2,3,0], barre:[5,1], rootStr:5, label:'A指型'},
+  'M_C':  {frets:[-1,3,2,0,1,0], fingers:[-1,3,2,0,1,0], barre:[5,1], rootStr:5, label:'C指型'},
+  'M_G':  {frets:[3,2,0,0,0,3], fingers:[2,1,0,0,0,3], barre:[3,1], rootStr:6, label:'G指型'},
+  'M_D':  {frets:[-1,-1,0,2,3,2], fingers:[-1,-1,0,1,3,2], barre:null, rootStr:4, label:'D指型'},
+  'm_E':  {frets:[0,2,2,0,0,0], fingers:[0,2,3,0,0,0], barre:[6,1], rootStr:6, label:'Em指型'},
+  'm_A':  {frets:[-1,0,2,2,1,0], fingers:[-1,0,2,3,1,0], barre:[5,1], rootStr:5, label:'Am指型'},
+  'm_D':  {frets:[-1,-1,0,2,3,1], fingers:[-1,-1,0,2,3,1], barre:null, rootStr:4, label:'Dm指型'},
+  '7_E':  {frets:[0,2,0,1,0,0], fingers:[0,2,0,1,0,0], barre:[6,1], rootStr:6, label:'E7指型'},
+  '7_A':  {frets:[-1,0,2,0,2,0], fingers:[-1,0,2,0,3,0], barre:[5,1], rootStr:5, label:'A7指型'},
+  '7_D':  {frets:[-1,-1,0,2,1,2], fingers:[-1,-1,0,2,1,3], barre:null, rootStr:4, label:'D7指型'},
+  'M7_E': {frets:[0,2,1,1,0,0], fingers:[0,2,1,1,0,0], barre:[6,1], rootStr:6, label:'Emaj7指型'},
+  'M7_A': {frets:[-1,0,2,1,2,0], fingers:[-1,0,3,2,4,0], barre:[5,1], rootStr:5, label:'Amaj7指型'},
+  'm7_E': {frets:[0,2,0,0,0,0], fingers:[0,2,0,0,0,0], barre:[6,1], rootStr:6, label:'Em7指型'},
+  'm7_A': {frets:[-1,0,2,0,1,0], fingers:[-1,0,2,0,1,0], barre:[5,1], rootStr:5, label:'Am7指型'},
   // sus4
-  'sus4_E': {frets:[0,2,2,2,0,0], fingers:[1,3,4,4,1,1], barre:[6,1], rootStr:6, label:'Esus4指型'},
-  'sus4_A': {frets:[-1,0,2,2,3,0], fingers:[-1,1,3,4,4,1], barre:[5,1], rootStr:5, label:'Asus4指型'},
-  'sus4_D': {frets:[-1,-1,0,2,3,3], fingers:[-1,-1,1,3,4,4], barre:null, rootStr:4, label:'Dsus4指型'},
+  'sus4_E': {frets:[0,2,2,2,0,0], fingers:[0,2,3,4,0,0], barre:[6,1], rootStr:6, label:'Esus4指型'},
+  'sus4_A': {frets:[-1,0,2,2,3,0], fingers:[-1,0,1,2,3,0], barre:[5,1], rootStr:5, label:'Asus4指型'},
+  'sus4_D': {frets:[-1,-1,0,2,3,3], fingers:[-1,-1,0,1,3,4], barre:null, rootStr:4, label:'Dsus4指型'},
   // sus2
-  'sus2_E': {frets:[0,2,4,4,0,0], fingers:[1,3,4,4,1,1], barre:[6,1], rootStr:6, label:'Esus2指型'},
-  'sus2_A': {frets:[-1,0,2,2,0,0], fingers:[-1,1,3,4,1,1], barre:[5,1], rootStr:5, label:'Asus2指型'},
-  'sus2_D': {frets:[-1,-1,0,2,3,0], fingers:[-1,-1,1,3,4,1], barre:null, rootStr:4, label:'Dsus2指型'},
-  // add9 (major triad + 9th, no 7th)
-  'add9_E': {frets:[0,2,4,1,0,2], fingers:[1,2,4,1,1,3], barre:[6,1], rootStr:6, label:'Eadd9指型'},
-  'add9_A': {frets:[-1,0,2,4,2,0], fingers:[-1,1,2,4,3,1], barre:[5,1], rootStr:5, label:'Aadd9指型'},
+  'sus2_E': {frets:[0,2,4,4,0,0], fingers:[0,1,3,4,0,0], barre:[6,1], rootStr:6, label:'Esus2指型'},
+  'sus2_A': {frets:[-1,0,2,2,0,0], fingers:[-1,0,1,2,0,0], barre:[5,1], rootStr:5, label:'Asus2指型'},
+  'sus2_D': {frets:[-1,-1,0,2,3,0], fingers:[-1,-1,0,1,3,0], barre:null, rootStr:4, label:'Dsus2指型'},
+  // add9
+  'add9_E': {frets:[0,2,4,1,0,2], fingers:[0,2,4,1,0,3], barre:[6,1], rootStr:6, label:'Eadd9指型'},
+  'add9_A': {frets:[-1,0,2,4,2,0], fingers:[-1,0,1,4,2,0], barre:[5,1], rootStr:5, label:'Aadd9指型'},
   // dom9
-  '9_E': {frets:[0,2,0,1,0,2], fingers:[1,3,1,2,1,4], barre:[6,1], rootStr:6, label:'E9指型'},
-  '9_A': {frets:[-1,0,2,0,2,0], fingers:[-1,1,3,1,4,1], barre:[5,1], rootStr:5, label:'A9指型'},
+  '9_E': {frets:[0,2,0,1,0,2], fingers:[0,2,0,1,0,4], barre:[6,1], rootStr:6, label:'E9指型'},
+  '9_A': {frets:[-1,0,2,4,2,3], fingers:[-1,0,1,4,2,3], barre:null, rootStr:5, label:'A9指型'},
   // m9
-  'm9_E': {frets:[0,2,0,0,0,2], fingers:[1,3,1,1,1,4], barre:[6,1], rootStr:6, label:'Em9指型'},
-  'm9_A': {frets:[-1,0,2,4,1,3], fingers:[-1,1,2,4,1,3], barre:null, rootStr:5, label:'Am9指型'},
-  // 11 (dom11, root on 5th, simplified voicing)
-  '11_A': {frets:[-1,0,0,0,2,3], fingers:[-1,1,1,1,3,4], barre:null, rootStr:5, label:'A11指型'},
-  '11_E': {frets:[0,0,0,1,0,0], fingers:[1,1,1,2,1,1], barre:[6,1], rootStr:6, label:'E11指型'},
+  'm9_E': {frets:[0,2,0,0,0,2], fingers:[0,2,0,0,0,4], barre:[6,1], rootStr:6, label:'Em9指型'},
+  'm9_A': {frets:[-1,0,2,4,1,3], fingers:[-1,0,2,4,1,3], barre:null, rootStr:5, label:'Am9指型'},
+  // 11
+  '11_A': {frets:[-1,0,0,0,0,0], fingers:[-1,0,0,0,0,0], barre:null, rootStr:5, label:'A11指型'},
+  '11_E': {frets:[0,0,0,1,0,0], fingers:[0,0,0,1,0,0], barre:[6,1], rootStr:6, label:'E11指型'},
 };
 
 // Quality -> available shape prefixes
@@ -1386,7 +1313,8 @@ function findVoicings(rootSemi, quality, targetFret) {
 
   for (const sk of shapeKeys) {
     const shape = SHAPES[sk];
-    const rf = fretOf(rootSemi, shape.rootStr - 1);
+    // rootStr: 1=6弦(低E)~6=1弦(高E). STR_OPEN idx: 0=6弦~5=1弦. 转换: 6-rootStr
+    const rf = fretOf(rootSemi, 6 - shape.rootStr);
     for (const rootFret of [rf, rf + 12]) {
       if (rootFret < 0 || rootFret > 15) continue;
       const frets = shape.frets.map(f => f === -1 ? -1 : f + rootFret);
@@ -1591,6 +1519,5 @@ function playClick() {
 }
 </script>
 
-
-
-</body></html>
+</body>
+</html>
