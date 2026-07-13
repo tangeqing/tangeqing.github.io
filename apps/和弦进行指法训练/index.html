@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)file:///C:/Users/shuo/WorkBuddy/2026-07-13-09-12-46/guitar-chord-trainer.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吉他和弦练习 · 和声走向与把位训练器</title>
+<style>
+:root {
+  --bg: #1a1625; --bg2: #221d33; --card: #2a2440; --card2: #332b4d;
+  --border: #3d344f; --accent: #f0a830; --accent2: #e8854a;
+  --text: #e8e0f0; --text2: #a99bb5; --text3: #7a6d8a;
+  --red: #e85d5d; --green: #5dba6a; --blue: #5d9bd8;
+  --radius: 12px; --gap: 16px;
+}
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  background: linear-gradient(135deg, var(--bg), var(--bg2));
+  color: var(--text); min-height: 100vh; padding: 24px;
+}
+.header {
+  text-align: center; margin-bottom: 28px;
+}
+.header h1 {
+  font-size: 28px; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 4px;
+}
+.header p { color: var(--text2); font-size: 14px; }
+
+.controls {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--gap); margin-bottom: 24px; max-width: 1000px; margin-inline: auto;
+}
+.ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+.ctrl-group label { font-size: 12px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.ctrl-group select, .ctrl-group button {
+  background: var(--card2); color: var(--text); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; font-size: 14px; cursor: pointer;
+  transition: all 0.2s; font-family: inherit;
+}
+.ctrl-group select:hover, .ctrl-group button:hover { border-color: var(--accent); background: var(--card); }
+.ctrl-group select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(240,168,48,0.15); }
+
+.chords-area {
+  display: flex; flex-wrap: wrap; gap: var(--gap); justify-content: center;
+  margin-bottom: 24px;
+}
+.chord-card {
+  background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius);
+  padding: 16px; min-width: 170px; text-align: center; transition: all 0.3s;
+}
+.chord-card.active { border-color: var(--accent); box-shadow: 0 0 24px rgba(240,168,48,0.2); transform: translateY(-2px); }
+.chord-card .degree { font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+.chord-card .chord-name { font-size: 22px; font-weight: 600; margin-bottom: 2px; }
+.chord-card .shape-label { font-size: 11px; color: var(--text3); margin-bottom: 12px; }
+.chord-card svg { display: block; margin: 0 auto; }
+.chord-card .notes { font-size: 11px; color: var(--text2); margin-top: 8px; }
+.chord-card .voicing-btn {
+  margin-top: 8px; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text2); padding: 4px 12px; border-radius: 6px; cursor: pointer;
+  font-size: 12px; font-family: inherit; transition: all 0.2s;
+}
+.chord-card .voicing-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.fretboard-section {
+  background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 24px; max-width: 1000px; margin-inline: auto; overflow-x: auto;
+}
+.fretboard-section h3 { font-size: 14px; color: var(--text2); margin-bottom: 12px; text-align: center; }
+
+.play-controls {
+  display: flex; gap: var(--gap); justify-content: center; align-items: center;
+  margin-bottom: 24px; flex-wrap: wrap;
+}
+.play-btn {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #1a1625; border: none; border-radius: 50px; padding: 12px 28px;
+  font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  font-family: inherit;
+}
+.play-btn:hover { transform: scale(1.04); box-shadow: 0 4px 20px rgba(240,168,48,0.3); }
+.play-btn.playing { background: var(--red); color: #fff; }
+.tempo-group { display: flex; align-items: center; gap: 8px; }
+.tempo-group label { color: var(--text2); font-size: 13px; }
+.tempo-group input { width: 60px; }
+.tempo-group input[type="range"] { cursor: pointer; accent-color: var(--accent); width: 100px; }
+
+.info-bar {
+  text-align: center; color: var(--text2); font-size: 13px;
+  margin-bottom: 16px; min-height: 20px;
+}
+.chord-types-toggle {
+  display: flex; gap: 6px; background: var(--bg); border-radius: 8px; padding: 3px;
+}
+.chord-types-toggle button {
+  padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer;
+  font-size: 13px; font-family: inherit; background: transparent; color: var(--text2);
+  transition: all 0.2s;
+}
+.chord-types-toggle button.active { background: var(--accent); color: var(--bg); font-weight: 600; }
+
+/* Metronome */
+.metronome-bar {
+  display: flex; gap: 8px; justify-content: center; align-items: center;
+  margin-bottom: 16px;
+}
+.beat-dot {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border);
+  background: var(--card); display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--text3); transition: all 0.1s;
+}
+.beat-dot.beat-1 { border-color: var(--accent); }
+.beat-dot.active { background: var(--accent); color: var(--bg); transform: scale(1.15); box-shadow: 0 0 12px rgba(240,168,48,0.4); }
+.beat-dot.beat-1.active { background: var(--red); border-color: var(--red); color: #fff; box-shadow: 0 0 12px rgba(232,93,93,0.4); }
+
+/* Arpeggio & extra controls */
+.extra-controls {
+  display: flex; gap: var(--gap); justify-content: center; align-items: center;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.extra-controls .ctrl-inline {
+  display: flex; align-items: center; gap: 6px; background: var(--card);
+  border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 14px;
+}
+.extra-controls label { color: var(--text2); font-size: 12px; white-space: nowrap; }
+.extra-controls select {
+  background: var(--card2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer; font-family: inherit;
+}
+.extra-controls select:focus { outline: none; border-color: var(--accent); }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 1000;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal-content {
+  background: var(--bg2); border: 1.5px solid var(--border); border-radius: 16px;
+  padding: 28px; max-width: 480px; width: 100%; max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.modal-content.modal-large { max-width: 640px; }
+.modal-content h3 {
+  font-size: 20px; margin-bottom: 20px; color: var(--accent);
+}
+.modal-content .picker-degree-label {
+  font-size: 14px; color: var(--text2); margin-bottom: 16px;
+}
+.picker-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.picker-row label { font-size: 13px; color: var(--text2); min-width: 70px; }
+.picker-row select, .picker-row input {
+  flex: 1; background: var(--card); color: var(--text); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 8px 12px; font-size: 14px; font-family: inherit; cursor: pointer;
+}
+.picker-row select:focus, .picker-row input:focus { outline: none; border-color: var(--accent); }
+.picker-preview {
+  background: var(--card); border-radius: 10px; padding: 12px; margin-bottom: 16px;
+  text-align: center; min-height: 60px; display: flex; align-items: center; justify-content: center;
+}
+.picker-preview .voicing-info { font-size: 13px; color: var(--text2); }
+.picker-preview .voicing-info b { color: var(--accent); font-size: 16px; }
+.picker-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.picker-actions button {
+  background: var(--card2); color: var(--text); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 8px 20px; font-size: 14px; cursor: pointer; font-family: inherit;
+  transition: all 0.2s;
+}
+.picker-actions button:hover { border-color: var(--accent); }
+.picker-actions button.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--bg);
+  border: none; font-weight: 600;
+}
+.picker-actions button.danger { border-color: var(--red); color: var(--red); }
+.picker-actions button.danger:hover { background: var(--red); color: #fff; }
+
+/* Save/Library buttons in controls */
+.save-library-group { display: flex; gap: 8px; }
+.save-library-group button {
+  flex: 1; background: var(--card2); color: var(--text); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; font-size: 13px; cursor: pointer; font-family: inherit;
+  transition: all 0.2s; text-align: center;
+}
+.save-library-group button:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Override badge on chord cards */
+.chord-card .override-badge {
+  display: inline-block; font-size: 10px; color: var(--accent); background: rgba(240,168,48,0.15);
+  padding: 2px 8px; border-radius: 4px; margin-bottom: 4px;
+}
+.chord-card .chord-picker-btn {
+  margin-top: 6px; background: var(--bg); border: 1px solid var(--border);
+  color: var(--accent); padding: 4px 12px; border-radius: 6px; cursor: pointer;
+  font-size: 12px; font-family: inherit; transition: all 0.2s; width: 100%;
+}
+.chord-card .chord-picker-btn:hover { border-color: var(--accent); background: rgba(240,168,48,0.1); }
+
+/* Song list */
+.song-item {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px;
+  transition: all 0.2s;
+}
+.song-item:hover { border-color: var(--accent); }
+.song-item .song-info { flex: 1; }
+.song-item .song-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.song-item .song-meta { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.song-item .song-prog { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.song-item button {
+  background: var(--card2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 6px; padding: 6px 14px; font-size: 12px; cursor: pointer; font-family: inherit;
+  transition: all 0.2s; white-space: nowrap;
+}
+.song-item button.load-btn:hover { border-color: var(--green); color: var(--green); }
+.song-item button.del-btn:hover { border-color: var(--red); color: var(--red); }
+.song-empty { text-align: center; color: var(--text3); padding: 40px 0; font-size: 14px; }
+
+@media (max-width: 768px) {
+  .chord-card { min-width: 140px; padding: 12px; }
+  .controls { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎸 吉他和弦练习 · 和声走向与把位训练器</h1>
+  <p>选择调性、和声走向和把位，练习不同位置的按法</p>
+</div>
+
+<div class="controls" id="controls">
+  <div class="ctrl-group">
+    <label>调性 Key</label>
+    <select id="keySelect"><option value="C">C 大调</option><option value="C#">C# 大调</option><option value="D">D 大调</option><option value="D#">D# 大调</option><option value="E">E 大调</option><option value="F">F 大调</option><option value="F#">F# 大调</option><option value="G">G 大调</option><option value="G#">G# 大调</option><option value="A">A 大调</option><option value="A#">A# 大调</option><option value="B">B 大调</option></select>
+  </div>
+  <div class="ctrl-group">
+    <label>和弦类型</label>
+    <div class="chord-types-toggle" id="chordTypeToggle">
+      <button data-type="triad" class="">三和弦</button>
+      <button data-type="seventh" class="">七和弦</button>
+      <button data-type="sus" class="">Sus</button>
+      <button data-type="extended" class="active">扩展</button>
+    </div>
+  </div>
+  <div class="ctrl-group">
+    <label>和声走向</label>
+    <select id="progressionSelect"><option value="canon_full">I-V-vi-iii-IV-I-IV-V 卡农走向</option><option value="pop4536251">IV-V-iii-vi-ii-V-I 4536251</option><option value="pop1564">I-V-vi-IV 流行万能走向</option><option value="pop6415">vi-IV-I-V 流行变体</option><option value="pop1645">I-vi-IV-V 1645</option><option value="pop156341">I-V-vi-iii-IV-I 卡农前6</option><option value="pop1436">I-IV-iii-vi 流行变体</option><option value="pop1364">I-iii-vi-IV 流行变体2</option><option value="descending">IV-iii-ii-I 下行走向</option><option value="jazz1625">I-vi-ii-V 爵士1625</option><option value="jazz251">ii-V-I 爵士251</option><option value="blues145">I-IV-V 布鲁斯三和弦</option><option value="50s1645">I-vi-IV-V 50年代</option><option value="pop6251">vi-ii-V-I 6251</option><option value="pop4536">IV-V-iii-vi 4536</option><option value="pop2516">ii-V-I-vi 2516</option></select>
+  </div>
+  <div class="ctrl-group">
+    <label>把位 Position</label>
+    <select id="positionSelect"><option value="0">开放把位</option><option value="1">第1把位</option><option value="2">第3把位</option><option value="3">第5把位</option><option value="4">第7把位</option><option value="5">第9把位</option></select>
+  </div>
+  <div class="ctrl-group">
+    <label>歌曲保存 / 曲库</label>
+    <div class="save-library-group">
+      <button id="saveSongBtn" style="">💾 保存</button>
+      <button id="libraryBtn">📚 曲库</button>
+    </div>
+  </div>
+</div>
+
+<div class="info-bar" id="infoBar">调性: C大调 | 走向: I-V-vi-iii-IV-I-IV-V 卡农走向 | 把位: 第1把位 | 和弦: 扩展和弦 | 拍号: 4/4 | 分解: 柱式</div>
+
+<div class="metronome-bar" id="metronomeBar"><div class="beat-dot beat-1 ">1</div><div class="beat-dot  ">2</div><div class="beat-dot  ">3</div><div class="beat-dot  ">4</div></div>
+
+<div class="chords-area" id="chordsArea"><div class="chord-card active" id="chordCard0" onclick="selectChord(0)">
+      <span class="override-badge">自定义</span>
+      <div class="degree">I</div>
+      <div class="chord-name">C#sus4</div>
+      <div class="shape-label">Dsus4指型 (2/4)</div>
+      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#f0a830" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">C#sus4</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">I</text><text x="12" y="64" fill="#a99bb5" font-size="13" font-weight="600">6品</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="172" x2="122" y2="172" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="172" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="172" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="172" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="172" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="172" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="172" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="88" r="3" fill="#3d344f"></circle><circle cx="77" cy="136" r="3" fill="#3d344f"></circle><text x="32" y="42" text-anchor="middle" fill="#e85d5d" font-size="13" font-weight="700">✕</text><text x="50" y="42" text-anchor="middle" fill="#e85d5d" font-size="13" font-weight="700">✕</text><circle cx="68" cy="64" r="9" fill="#f0a830"></circle><text x="68" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="86" cy="112" r="9" fill="#5d9bd8"></circle><text x="86" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="104" cy="136" r="9" fill="#5d9bd8"></circle><text x="104" y="140" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text><circle cx="122" cy="136" r="9" fill="#5d9bd8"></circle><text x="122" y="140" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
+      <div class="notes">🎵 C# · F# · G#</div>
+      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(0)">🔄 换按法</button>
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(0)">🎨 换和弦</button>
+    </div><div class="chord-card" id="chordCard1" onclick="selectChord(1)">
+      
+      <div class="degree">V</div>
+      <div class="chord-name">G9</div>
+      <div class="shape-label">E9指型 (1/3)</div>
+      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">G9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">V</text><text x="12" y="64" fill="#a99bb5" font-size="13" font-weight="600">3品</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="148" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="148" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="148" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="148" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="148" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="148" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="64" r="3" fill="#3d344f"></circle><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="68" cy="64" r="9" fill="#5d9bd8"></circle><text x="68" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="86" cy="88" r="9" fill="#5d9bd8"></circle><text x="86" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
+      <div class="notes">🎵 G · B · D · F · A</div>
+      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(1)">🔄 换按法</button>
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(1)">🎨 换和弦</button>
+    </div><div class="chord-card" id="chordCard2" onclick="selectChord(2)">
+      
+      <div class="degree">vi</div>
+      <div class="chord-name">Am9</div>
+      <div class="shape-label">Em9指型 (1/2)</div>
+      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Am9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">vi</text><text x="12" y="64" fill="#a99bb5" font-size="13" font-weight="600">5品</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="148" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="148" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="148" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="148" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="148" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="148" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="64" r="3" fill="#3d344f"></circle><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="68" cy="64" r="9" fill="#5d9bd8"></circle><text x="68" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="86" cy="64" r="9" fill="#5d9bd8"></circle><text x="86" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
+      <div class="notes">🎵 A · C · E · G · B</div>
+      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(2)">🔄 换按法</button>
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(2)">🎨 换和弦</button>
+    </div><div class="chord-card" id="chordCard3" onclick="selectChord(3)">
+      
+      <div class="degree">iii</div>
+      <div class="chord-name">Em9</div>
+      <div class="shape-label">Em9指型 (1/3)</div>
+      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Em9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">iii</text><line x1="28" y1="52" x2="126" y2="52" stroke="#e8e0f0" stroke-width="3"></line><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="148" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="148" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="148" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="148" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="148" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="148" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><circle cx="32" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"></circle><circle cx="68" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"></circle><circle cx="86" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"></circle><circle cx="104" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"></circle><circle cx="50" cy="88" r="9" fill="#5d9bd8"></circle><text x="50" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="122" cy="88" r="9" fill="#5d9bd8"></circle><text x="122" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
+      <div class="notes">🎵 E · G · B · D · F#</div>
+      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(3)">🔄 换按法</button>
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(3)">🎨 换和弦</button>
+    </div><div class="chord-card" id="chordCard4" onclick="selectChord(4)">
+      
+      <div class="degree">IV</div>
+      <div class="chord-name">Fadd9</div>
+      <div class="shape-label">Eadd9指型 (1/3)</div>
+      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Fadd9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">IV</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="172" x2="122" y2="172" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="172" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="172" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="172" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="172" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="172" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="172" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><circle cx="77" cy="160" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="68" cy="160" r="9" fill="#5d9bd8"></circle><text x="68" y="164" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text><circle cx="86" cy="88" r="9" fill="#5d9bd8"></circle><text x="86" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text></svg>
+      <div class="notes">🎵 F · A · C · G</div>
+      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(4)">🔄 换按法</button>
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(4)">🎨 换和弦</button>
+    </div><div class="chord-card" id="chordCard5" onclick="selectChord(5)">
+      
+      <div class="degree">I</div>
+      <div class="chord-name">Cadd9</div>
+      <div class="shape-label">Aadd9指型 (1/3)</div>
+      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Cadd9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">I</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="172" x2="122" y2="172" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="172" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="172" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="172" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="172" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="172" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="172" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><circle cx="77" cy="160" r="3" fill="#3d344f"></circle><text x="32" y="42" text-anchor="middle" fill="#e85d5d" font-size="13" font-weight="700">✕</text><rect x="42" y="105" width="88" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="50" cy="64" r="9" fill="#f0a830"></circle><text x="50" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="68" cy="112" r="9" fill="#5d9bd8"></circle><text x="68" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="86" cy="160" r="9" fill="#5d9bd8"></circle><text x="86" y="164" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text><circle cx="104" cy="112" r="9" fill="#5d9bd8"></circle><text x="104" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="122" cy="64" r="9" fill="#5d9bd8"></circle><text x="122" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text></svg>
+      <div class="notes">🎵 C · E · G · D</div>
+      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(5)">🔄 换按法</button>
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(5)">🎨 换和弦</button>
+    </div><div class="chord-card" id="chordCard6" onclick="selectChord(6)">
+      
+      <div class="degree">IV</div>
+      <div class="chord-name">Fadd9</div>
+      <div class="shape-label">Eadd9指型 (1/3)</div>
+      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">Fadd9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">IV</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="172" x2="122" y2="172" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="172" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="172" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="172" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="172" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="172" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="172" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><circle cx="77" cy="160" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="68" cy="160" r="9" fill="#5d9bd8"></circle><text x="68" y="164" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text><circle cx="86" cy="88" r="9" fill="#5d9bd8"></circle><text x="86" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text></svg>
+      <div class="notes">🎵 F · A · C · G</div>
+      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(6)">🔄 换按法</button>
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(6)">🎨 换和弦</button>
+    </div><div class="chord-card" id="chordCard7" onclick="selectChord(7)">
+      
+      <div class="degree">V</div>
+      <div class="chord-name">G9</div>
+      <div class="shape-label">E9指型 (1/3)</div>
+      <svg viewBox="0 0 130 150" width="130" height="150" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="126" height="146" rx="6" fill="#2a2440" stroke="#3d344f" stroke-width="1.5"></rect><text x="65" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">G9</text><text x="65" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">V</text><text x="12" y="64" fill="#a99bb5" font-size="13" font-weight="600">3品</text><line x1="32" y1="52" x2="122" y2="52" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="76" x2="122" y2="76" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="100" x2="122" y2="100" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="124" x2="122" y2="124" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="148" x2="122" y2="148" stroke="#3d344f" stroke-width="1"></line><line x1="32" y1="52" x2="32" y2="148" stroke="#a99bb5" stroke-width="2.5"></line><line x1="50" y1="52" x2="50" y2="148" stroke="#a99bb5" stroke-width="2.2"></line><line x1="68" y1="52" x2="68" y2="148" stroke="#a99bb5" stroke-width="1.8"></line><line x1="86" y1="52" x2="86" y2="148" stroke="#a99bb5" stroke-width="1.5"></line><line x1="104" y1="52" x2="104" y2="148" stroke="#a99bb5" stroke-width="1.2"></line><line x1="122" y1="52" x2="122" y2="148" stroke="#a99bb5" stroke-width="1"></line><circle cx="77" cy="64" r="3" fill="#3d344f"></circle><circle cx="77" cy="112" r="3" fill="#3d344f"></circle><rect x="24" y="105" width="106" height="14" rx="7" fill="#f0a830" opacity="0.5"></rect><circle cx="32" cy="64" r="9" fill="#f0a830"></circle><text x="32" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="50" cy="112" r="9" fill="#5d9bd8"></circle><text x="50" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">3</text><circle cx="68" cy="64" r="9" fill="#5d9bd8"></circle><text x="68" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="86" cy="88" r="9" fill="#5d9bd8"></circle><text x="86" y="92" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">2</text><circle cx="104" cy="64" r="9" fill="#5d9bd8"></circle><text x="104" y="68" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">1</text><circle cx="122" cy="112" r="9" fill="#5d9bd8"></circle><text x="122" y="116" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">4</text></svg>
+      <div class="notes">🎵 G · B · D · F · A</div>
+      <button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(7)">🔄 换按法</button>
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(7)">🎨 换和弦</button>
+    </div></div>
+
+<div class="fretboard-section" id="fretboardSection">
+  <h3>📐 指板俯视图 — 当前走向所有和弦在指板上的位置</h3>
+  <div id="fretboardView"><svg viewBox="0 0 266 80" width="100%" height="80" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="14" x2="560" y2="14" stroke="#e8e0f0" stroke-width="3" opacity="0.3"></line><line x1="20" y1="27" x2="560" y2="27" stroke="#e8e0f0" stroke-width="2.5" opacity="0.3"></line><line x1="20" y1="40" x2="560" y2="40" stroke="#e8e0f0" stroke-width="2" opacity="0.3"></line><line x1="20" y1="53" x2="560" y2="53" stroke="#e8e0f0" stroke-width="1.5" opacity="0.3"></line><line x1="20" y1="66" x2="560" y2="66" stroke="#e8e0f0" stroke-width="1.2" opacity="0.3"></line><line x1="20" y1="79" x2="560" y2="79" stroke="#e8e0f0" stroke-width="1" opacity="0.3"></line><line x1="20" y1="14" x2="20" y2="70" stroke="#3d344f" stroke-width="0.8"></line><line x1="56" y1="14" x2="56" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="38" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">1</text><line x1="92" y1="14" x2="92" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="74" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">2</text><line x1="128" y1="14" x2="128" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="110" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">3</text><line x1="164" y1="14" x2="164" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="146" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">4</text><line x1="200" y1="14" x2="200" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="182" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">5</text><line x1="236" y1="14" x2="236" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="218" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">6</text><line x1="272" y1="14" x2="272" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="254" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">7</text><line x1="308" y1="14" x2="308" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="290" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">8</text><line x1="344" y1="14" x2="344" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="326" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">9</text><line x1="380" y1="14" x2="380" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="362" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">10</text><line x1="416" y1="14" x2="416" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="398" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">11</text><line x1="452" y1="14" x2="452" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="434" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">12</text><line x1="488" y1="14" x2="488" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="470" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">13</text><line x1="524" y1="14" x2="524" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="506" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">14</text><line x1="560" y1="14" x2="560" y2="70" stroke="#3d344f" stroke-width="0.8"></line><text x="542" y="78" text-anchor="middle" fill="#7a6d8a" font-size="9">15</text><circle cx="110" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="182" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="254" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="326" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="434" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="542" cy="46.5" r="3" fill="#3d344f"></circle><circle cx="218" cy="40" r="7" fill="#f0a830" opacity="0.9"></circle><circle cx="290" cy="53" r="5.5" fill="#f0a830" opacity="0.65"></circle><circle cx="326" cy="66" r="5.5" fill="#f0a830" opacity="0.65"></circle><circle cx="326" cy="79" r="5.5" fill="#f0a830" opacity="0.65"></circle><circle cx="574" cy="18" r="4" fill="#f0a830"></circle><text x="582" y="21" fill="#a99bb5" font-size="9">I C#sus4</text><circle cx="110" cy="14" r="7" fill="#e85d5d" opacity="0.9"></circle><circle cx="182" cy="27" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="110" cy="40" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="146" cy="53" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="110" cy="66" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="182" cy="79" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="574" cy="29" r="4" fill="#e85d5d"></circle><text x="582" y="32" fill="#a99bb5" font-size="9">V G9</text><circle cx="182" cy="14" r="7" fill="#5d9bd8" opacity="0.9"></circle><circle cx="254" cy="27" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="182" cy="40" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="182" cy="53" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="182" cy="66" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="254" cy="79" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="574" cy="40" r="4" fill="#5d9bd8"></circle><text x="582" y="43" fill="#a99bb5" font-size="9">vi Am9</text><circle cx="2" cy="14" r="7" fill="#5dba6a" opacity="0.9"></circle><circle cx="74" cy="27" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="2" cy="40" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="2" cy="53" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="2" cy="66" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="74" cy="79" r="5.5" fill="#5dba6a" opacity="0.65"></circle><circle cx="574" cy="51" r="4" fill="#5dba6a"></circle><text x="582" y="54" fill="#a99bb5" font-size="9">iii Em9</text><circle cx="38" cy="14" r="7" fill="#e8854a" opacity="0.9"></circle><circle cx="110" cy="27" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="182" cy="40" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="74" cy="53" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="38" cy="66" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="110" cy="79" r="5.5" fill="#e8854a" opacity="0.65"></circle><circle cx="574" cy="62" r="4" fill="#e8854a"></circle><text x="582" y="65" fill="#a99bb5" font-size="9">IV Fadd9</text><circle cx="38" cy="27" r="7" fill="#a99bb5" opacity="0.9"></circle><circle cx="110" cy="40" r="5.5" fill="#a99bb5" opacity="0.65"></circle><circle cx="182" cy="53" r="5.5" fill="#a99bb5" opacity="0.65"></circle><circle cx="110" cy="66" r="5.5" fill="#a99bb5" opacity="0.65"></circle><circle cx="38" cy="79" r="5.5" fill="#a99bb5" opacity="0.65"></circle><circle cx="574" cy="73" r="4" fill="#a99bb5"></circle><text x="582" y="76" fill="#a99bb5" font-size="9">I Cadd9</text><circle cx="38" cy="14" r="7" fill="#5d9bd8" opacity="0.9"></circle><circle cx="110" cy="27" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="182" cy="40" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="74" cy="53" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="38" cy="66" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="110" cy="79" r="5.5" fill="#5d9bd8" opacity="0.65"></circle><circle cx="574" cy="84" r="4" fill="#5d9bd8"></circle><text x="582" y="87" fill="#a99bb5" font-size="9">IV Fadd9</text><circle cx="110" cy="14" r="7" fill="#e85d5d" opacity="0.9"></circle><circle cx="182" cy="27" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="110" cy="40" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="146" cy="53" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="110" cy="66" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="182" cy="79" r="5.5" fill="#e85d5d" opacity="0.65"></circle><circle cx="574" cy="95" r="4" fill="#e85d5d"></circle><text x="582" y="98" fill="#a99bb5" font-size="9">V G9</text></svg></div>
+</div>
+
+<div class="play-controls">
+  <button class="play-btn" id="playBtn">▶ 播放练习</button>
+  <button class="play-btn" id="prevBtn" style="background:var(--card2);color:var(--text);">⏮</button>
+  <button class="play-btn" id="nextBtn" style="background:var(--card2);color:var(--text);">⏭</button>
+  <div class="tempo-group">
+    <label>速度 BPM</label>
+    <input type="range" id="tempoSlider" min="40" max="160" value="80" step="5">
+    <span id="tempoLabel">80</span>
+  </div>
+</div>
+
+<div class="extra-controls">
+  <div class="ctrl-inline">
+    <label>拍号</label>
+    <select id="timeSigSelect">
+      <option value="4/4" selected="">4/4</option>
+      <option value="3/4">3/4</option>
+      <option value="6/8">6/8</option>
+    </select>
+  </div>
+  <div class="ctrl-inline">
+    <label>每和弦拍数</label>
+    <select id="beatsPerChordSelect">
+      <option value="1">1拍</option>
+      <option value="2">2拍</option>
+      <option value="4" selected="">4拍(1小节)</option>
+    </select>
+  </div>
+  <div class="ctrl-inline">
+    <label>分解模式</label>
+    <select id="arpeggioSelect">
+      <option value="block">同时(柱式)</option>
+      <option value="up">上行</option>
+      <option value="down">下行</option>
+      <option value="alt">交替(上下)</option>
+      <option value="rand">随机</option>
+    </select>
+  </div>
+  <div class="ctrl-inline">
+    <label>节拍器</label>
+    <select id="metronomeSelect">
+      <option value="on" selected="">开启</option>
+      <option value="off">关闭</option>
+    </select>
+  </div>
+</div>
+
+<!-- Chord Picker Modal -->
+<div class="modal-overlay" id="chordPickerModal">
+  <div class="modal-content">
+    <h3>🎨 自定义和弦</h3>
+    <div class="picker-degree-label" id="pickerDegreeLabel">位置 1/8 — 音级 I</div>
+    <div class="picker-row">
+      <label>根音</label>
+      <select id="pickerRoot"><option value="0">C</option><option value="1">C#</option><option value="2">D</option><option value="3">D#</option><option value="4">E</option><option value="5">F</option><option value="6">F#</option><option value="7">G</option><option value="8">G#</option><option value="9">A</option><option value="10">A#</option><option value="11">B</option></select>
+    </div>
+    <div class="picker-row">
+      <label>和弦色彩</label>
+      <select id="pickerQuality">
+        <option value="M">大三和弦 (Major)</option>
+        <option value="m">小三和弦 (minor)</option>
+        <option value="7">属七 (7)</option>
+        <option value="M7">大七 (maj7)</option>
+        <option value="m7">小七 (m7)</option>
+        <option value="sus4">挂四 (sus4)</option>
+        <option value="sus2">挂二 (sus2)</option>
+        <option value="add9">加九 (add9)</option>
+        <option value="9">属九 (9)</option>
+        <option value="m9">小九 (m9)</option>
+        <option value="11">属十一 (11)</option>
+      </select>
+    </div>
+    <div class="picker-preview" id="pickerPreview"><div class="voicing-info"><b>C#sus4</b><br><span style="font-size:12px;">组成音: C# · F# · G#</span><br><span style="font-size:12px;">可用指型: 4 个</span><br><span style="font-size:11px;color:var(--text3);">最佳: Asus4指型 (第2品)</span></div></div>
+    <div class="picker-actions">
+      <button class="danger" id="pickerResetBtn" style="">恢复默认</button>
+      <button id="pickerCancelBtn">取消</button>
+      <button class="primary" id="pickerApplyBtn">应用</button>
+    </div>
+  </div>
+</div>
+
+<!-- Save Song Modal -->
+<div class="modal-overlay" id="saveSongModal">
+  <div class="modal-content">
+    <h3>💾 保存歌曲</h3>
+    <div class="picker-row">
+      <label>歌曲名</label>
+      <input type="text" id="songNameInput" placeholder="如：突然好想你" maxlength="50">
+    </div>
+    <div class="picker-row">
+      <label>歌手/乐队</label>
+      <input type="text" id="songArtistInput" placeholder="如：五月天" maxlength="30">
+    </div>
+    <div class="picker-row">
+      <label>备注</label>
+      <input type="text" id="songNotesInput" placeholder="如：副歌4536251走向" maxlength="100">
+    </div>
+    <div class="picker-preview" id="songSettingsPreview" style="flex-direction:column;gap:4px;align-items:flex-start;text-align:left;"><div style="font-size:13px;line-height:1.8;"><div>调性: <b style="color:var(--accent)">C大调</b></div><div>走向: <b style="color:var(--accent)">I-V-vi-iii-IV-I-IV-V 卡农走向</b></div><div>把位: <b style="color:var(--accent)">第1把位</b></div><div>和弦类型: <b style="color:var(--accent)">扩展和弦</b></div><div>拍速: <b style="color:var(--accent)">80 BPM</b> | 拍号: <b style="color:var(--accent)">4/4</b></div><div>每和弦: <b style="color:var(--accent)">4拍</b> | 分解: <b style="color:var(--accent)">柱式</b></div><div style="margin-top:6px;color:var(--text2);font-size:12px;">Cadd9 → G9 → Am9 → Em9 → Fadd9 → Cadd9 → Fadd9 → G9</div></div></div>
+    <div class="picker-actions">
+      <button id="saveCancelBtn">取消</button>
+      <button class="primary" id="saveConfirmBtn">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Song Library Modal -->
+<div class="modal-overlay" id="songLibraryModal">
+  <div class="modal-content modal-large">
+    <h3>📚 我的曲库</h3>
+    <div id="songList"><div class="song-empty">还没有保存的歌曲<br>练习时点击「💾 保存」来收藏和弦走向</div></div>
+    <div class="picker-actions" style="margin-top:16px;">
+      <button id="libraryCloseBtn">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==== DATA LAYER ====
+const NOTES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const SEMI = {C:0,'C#':1,Db:1,D:2,'D#':3,Eb:3,E:4,F:5,'F#':6,Gb:6,G:7,'G#':8,Ab:8,A:9,'A#':10,Bb:10,B:11};
+const ENH = {'Db':'C#','Eb':'D#','Gb':'F#','Ab':'G#','Bb':'A#'};
+const STR_OPEN = [4,9,2,7,11,4]; // E,A,D,G,B,E (semitone, C=0)
+
+function noteName(i) { return NOTES[((i%12)+12)%12]; }
+function fretOf(noteSemi, strIdx) {
+  let d = noteSemi - STR_OPEN[strIdx];
+  return ((d % 12) + 12) % 12;
+}
+
+// Major scale intervals: W-W-H-W-W-W-H
+const MAJ_INTERVALS = [0,2,4,5,7,9,11];
+const DEGREE_NAMES = ['I','ii','iii','IV','V','vi','vii°'];
+const DEGREE_QUALITY = ['M','m','m','M','M','m','dim'];
+const NUMERALS = {'I':1,'ii':2,'iii':3,'IV':4,'V':5,'vi':6,'vii°':7};
+
+// Build a major scale
+function majorScale(key) {
+  const root = SEMI[key];
+  return MAJ_INTERVALS.map(i => (root + i) % 12);
+}
+
+// Chord qualities available for each scale degree
+function degreeChord(root, quality, chordType) {
+  if (quality === 'dim') return { root, quality: 'dim', name: noteName(root)+'°' };
+  const name = noteName(root);
+  if (chordType === 'seventh') {
+    if (quality === 'M') return { root, quality: 'M7', name: name+'maj7' };
+    if (quality === 'm') return { root, quality: 'm7', name: name+'m7' };
+    // V chord in 7th context gets dominant 7
+    return { root, quality: 'M7', name: name+'maj7' };
+  }
+  return { root, quality, name: quality==='m' ? name+'m' : name };
+}
+
+// Override for V chord in 7th mode
+function getChordInfo(degreeIdx, chordType) {
+  const quality = CHORD_MODE_QUALITIES[chordType][degreeIdx];
+  if (quality === 'dim') {
+    return { root: null, quality: 'dim', name: '(vii° 省略)' };
+  }
+  const rootSemi = majorScale(currentKey)[degreeIdx];
+  const name = noteName(rootSemi) + (QUAL_SUFFIX[quality] || '');
+  return { root: rootSemi, quality, name };
+}
+
+// Movable chord shapes. frets relative to barre/root position (-1=muted, 0=root/barre)
+// rootStr: string #1-6 where root is
+// fingers: 1-4 for fretting fingers, -1=muted, 0=open
+const SHAPES = {
+  'M_E':  {frets:[0,2,2,1,0,0], fingers:[1,3,4,2,1,1], barre:[6,1], rootStr:6, label:'E指型'},
+  'M_A':  {frets:[-1,0,2,2,2,0], fingers:[-1,1,3,4,4,1], barre:[5,1], rootStr:5, label:'A指型'},
+  'M_C':  {frets:[-1,3,2,0,1,0], fingers:[-1,4,3,1,2,1], barre:[5,1], rootStr:5, label:'C指型'},
+  'M_G':  {frets:[3,2,0,0,0,3], fingers:[2,1,1,1,1,3], barre:[3,1], rootStr:6, label:'G指型'},
+  'M_D':  {frets:[-1,-1,0,2,3,2], fingers:[-1,-1,1,3,4,2], barre:null, rootStr:4, label:'D指型'},
+  'm_E':  {frets:[0,2,2,0,0,0], fingers:[1,3,4,1,1,1], barre:[6,1], rootStr:6, label:'Em指型'},
+  'm_A':  {frets:[-1,0,2,2,1,0], fingers:[-1,1,3,4,2,1], barre:[5,1], rootStr:5, label:'Am指型'},
+  'm_D':  {frets:[-1,-1,0,2,3,1], fingers:[-1,-1,1,3,4,1], barre:null, rootStr:4, label:'Dm指型'},
+  '7_E':  {frets:[0,2,0,1,0,0], fingers:[1,3,1,2,1,1], barre:[6,1], rootStr:6, label:'E7指型'},
+  '7_A':  {frets:[-1,0,2,0,2,0], fingers:[-1,1,3,1,4,1], barre:[5,1], rootStr:5, label:'A7指型'},
+  '7_D':  {frets:[-1,-1,0,2,1,2], fingers:[-1,-1,1,3,2,4], barre:null, rootStr:4, label:'D7指型'},
+  'M7_E': {frets:[0,2,1,1,0,0], fingers:[1,3,2,2,1,1], barre:[6,1], rootStr:6, label:'Emaj7指型'},
+  'M7_A': {frets:[-1,0,2,1,2,0], fingers:[-1,1,3,2,4,1], barre:[5,1], rootStr:5, label:'Amaj7指型'},
+  'm7_E': {frets:[0,2,0,0,0,0], fingers:[1,3,1,1,1,1], barre:[6,1], rootStr:6, label:'Em7指型'},
+  'm7_A': {frets:[-1,0,2,0,1,0], fingers:[-1,1,3,1,2,1], barre:[5,1], rootStr:5, label:'Am7指型'},
+  // sus4
+  'sus4_E': {frets:[0,2,2,2,0,0], fingers:[1,3,4,4,1,1], barre:[6,1], rootStr:6, label:'Esus4指型'},
+  'sus4_A': {frets:[-1,0,2,2,3,0], fingers:[-1,1,3,4,4,1], barre:[5,1], rootStr:5, label:'Asus4指型'},
+  'sus4_D': {frets:[-1,-1,0,2,3,3], fingers:[-1,-1,1,3,4,4], barre:null, rootStr:4, label:'Dsus4指型'},
+  // sus2
+  'sus2_E': {frets:[0,2,4,4,0,0], fingers:[1,3,4,4,1,1], barre:[6,1], rootStr:6, label:'Esus2指型'},
+  'sus2_A': {frets:[-1,0,2,2,0,0], fingers:[-1,1,3,4,1,1], barre:[5,1], rootStr:5, label:'Asus2指型'},
+  'sus2_D': {frets:[-1,-1,0,2,3,0], fingers:[-1,-1,1,3,4,1], barre:null, rootStr:4, label:'Dsus2指型'},
+  // add9 (major triad + 9th, no 7th)
+  'add9_E': {frets:[0,2,4,1,0,2], fingers:[1,2,4,1,1,3], barre:[6,1], rootStr:6, label:'Eadd9指型'},
+  'add9_A': {frets:[-1,0,2,4,2,0], fingers:[-1,1,2,4,3,1], barre:[5,1], rootStr:5, label:'Aadd9指型'},
+  // dom9
+  '9_E': {frets:[0,2,0,1,0,2], fingers:[1,3,1,2,1,4], barre:[6,1], rootStr:6, label:'E9指型'},
+  '9_A': {frets:[-1,0,2,0,2,0], fingers:[-1,1,3,1,4,1], barre:[5,1], rootStr:5, label:'A9指型'},
+  // m9
+  'm9_E': {frets:[0,2,0,0,0,2], fingers:[1,3,1,1,1,4], barre:[6,1], rootStr:6, label:'Em9指型'},
+  'm9_A': {frets:[-1,0,2,4,1,3], fingers:[-1,1,2,4,1,3], barre:null, rootStr:5, label:'Am9指型'},
+  // 11 (dom11, root on 5th, simplified voicing)
+  '11_A': {frets:[-1,0,0,0,2,3], fingers:[-1,1,1,1,3,4], barre:null, rootStr:5, label:'A11指型'},
+  '11_E': {frets:[0,0,0,1,0,0], fingers:[1,1,1,2,1,1], barre:[6,1], rootStr:6, label:'E11指型'},
+};
+
+// Quality -> available shape prefixes
+const QUAL_SHAPES = {
+  'M': ['M_E','M_A','M_C','M_G','M_D'],
+  'm': ['m_E','m_A','m_D'],
+  '7': ['7_E','7_A','7_D'],
+  'M7': ['M7_E','M7_A'],
+  'm7': ['m7_E','m7_A'],
+  'sus4': ['sus4_E','sus4_A','sus4_D'],
+  'sus2': ['sus2_E','sus2_A','sus2_D'],
+  'add9': ['add9_E','add9_A'],
+  '9': ['9_E','9_A'],
+  'm9': ['m9_E','m9_A'],
+  '11': ['11_E','11_A'],
+  'dim': []
+};
+
+// Chord mode -> quality for each scale degree [I,ii,iii,IV,V,vi,vii°]
+const CHORD_MODE_QUALITIES = {
+  triad:    ['M','m','m','M','M','m','dim'],
+  seventh:  ['M7','m7','m7','M7','7','m7','dim'],
+  sus:      ['sus4','sus2','sus2','sus4','sus4','sus4','dim'],
+  extended: ['add9','m9','m9','add9','9','m9','dim'],
+};
+
+// Display names for chord modes
+const CHORD_MODE_LABELS = {
+  triad: '三和弦', seventh: '七和弦', sus: 'Sus和弦', extended: '扩展和弦'
+};
+
+// Note intervals for each chord quality
+const QUAL_INTERVALS = {
+  'M':[0,4,7], 'm':[0,3,7], '7':[0,4,7,10],
+  'M7':[0,4,7,11], 'm7':[0,3,7,10], 'dim':[0,3,6],
+  'sus4':[0,5,7], 'sus2':[0,2,7],
+  'add9':[0,4,7,14], '9':[0,4,7,10,14],
+  'm9':[0,3,7,10,14], '11':[0,4,7,10,14,17],
+};
+
+// Chord name suffixes
+const QUAL_SUFFIX = {
+  'M':'', 'm':'m', '7':'7', 'M7':'maj7', 'm7':'m7',
+  'sus4':'sus4', 'sus2':'sus2',
+  'add9':'add9', '9':'9', 'm9':'m9', '11':'11', 'dim':'°'
+};
+
+// Progressions
+const PROGRESSIONS = [
+  { id:'canon_full', name:'I-V-vi-iii-IV-I-IV-V 卡农走向', degrees:[0,4,5,2,3,0,3,4], desc:'帕赫贝尔卡农完整8和弦，华语流行最常见走向'},
+  { id:'pop4536251', name:'IV-V-iii-vi-ii-V-I 4536251', degrees:[3,4,2,5,1,4,0], desc:'华语抒情歌万能走向，《突然好想你》《那些年》等'},
+  { id:'pop1564', name:'I-V-vi-IV 流行万能走向', degrees:[0,4,5,3], desc:'最常见流行走向，适用数百首歌曲'},
+  { id:'pop6415', name:'vi-IV-I-V 流行变体', degrees:[5,3,0,4], desc:'小调起始的热门走向，《倔强》《飞得更高》'},
+  { id:'pop1645', name:'I-vi-IV-V 1645', degrees:[0,5,3,4], desc:'华语经典走向，《朋友》《光辉岁月》'},
+  { id:'pop156341', name:'I-V-vi-iii-IV-I 卡农前6', degrees:[0,4,5,2,3,0], desc:'卡农走向前6和弦，《童话》《今天你要嫁给我》'},
+  { id:'pop1436', name:'I-IV-iii-vi 流行变体', degrees:[0,3,2,5], desc:'iii代替V的变体，《丁香花》'},
+  { id:'pop1364', name:'I-iii-vi-IV 流行变体2', degrees:[0,2,5,3], desc:'iii代替V的另一变体'},
+  { id:'descending', name:'IV-iii-ii-I 下行走向', degrees:[3,2,1,0], desc:'四度下行，忧伤感'},
+  { id:'jazz1625', name:'I-vi-ii-V 爵士1625', degrees:[0,5,1,4], desc:'爵士标准曲常用，支持七和弦'},
+  { id:'jazz251',  name:'ii-V-I 爵士251',   degrees:[1,4,0], desc:'爵士乐最基础的和声进行'},
+  { id:'blues145', name:'I-IV-V 布鲁斯三和弦', degrees:[0,3,4], desc:'摇滚/布鲁斯基石，简洁有力'},
+  { id:'50s1645', name:'I-vi-IV-V 50年代', degrees:[0,5,3,4], desc:'经典走向，也称"蓝月亮"走向'},
+  { id:'pop6251', name:'vi-ii-V-I 6251', degrees:[5,1,4,0], desc:'小调起手的爵士流行走向'},
+  { id:'pop4536', name:'IV-V-iii-vi 4536', degrees:[3,4,2,5], desc:'4536251前半段，《说谎》《可惜不是你》'},
+  { id:'pop2516', name:'ii-V-I-vi 2516', degrees:[1,4,0,5], desc:'251接6，常见副歌走向'},
+];
+
+// Position presets
+const POSITIONS = [
+  { id:0, name:'开放把位', fret:0, desc:'多用空弦音' },
+  { id:1, name:'第1把位', fret:2, desc:'低把位，食指在第1-2品' },
+  { id:2, name:'第3把位', fret:4, desc:'中低把位' },
+  { id:3, name:'第5把位', fret:6, desc:'最常用中把位' },
+  { id:4, name:'第7把位', fret:8, desc:'中高把位' },
+  { id:5, name:'第9把位', fret:10, desc:'高把位' },
+];
+
+// State
+let currentKey = 'C';
+let currentProg = PROGRESSIONS[0];
+let currentPos = POSITIONS[1]; // 1st position default
+let currentChordType = 'triad';
+let activeChordIdx = 0;
+let voicingOffsets = {}; // chord index -> selected voicing index
+let isPlaying = false;
+let playbackTimer = null;
+let currentBeat = 0;
+let beatTimer = null;
+let arpeggioTimer = null;
+let currentBeatInMeasure = 0;
+let currentMeasure = 0;
+
+// Metronome settings
+let timeSigBeats = 4; // beats per measure (4 for 4/4, 3 for 3/4, 6 for 6/8)
+let timeSigUnit = 4; // note value (4 = quarter, 8 = eighth)
+let metronomeOn = true;
+
+// Arpeggiation settings
+let arpeggioMode = 'block'; // 'block','up','down','alt','rand'
+let beatsPerChord = 4; // how many beats each chord lasts
+
+// Custom chord overrides: chord index -> { root, quality, name }
+let chordOverrides = {};
+let pickerChordIdx = -1;
+
+// Saved songs (localStorage)
+const STORAGE_KEY = 'guitarChordTrainer_songs';
+// ==== APP LOGIC ====
+let audioCtx = null;
+
+function getCurrentChordData() {
+  const scale = majorScale(currentKey);
+  const progDegrees = currentProg.degrees;
+  const chords = [];
+  for (let i = 0; i < progDegrees.length; i++) {
+    const di = progDegrees[i];
+    
+    // Check for per-chord custom override
+    if (chordOverrides[i]) {
+      const ov = chordOverrides[i];
+      const voicings = findVoicings(ov.root, ov.quality, currentPos.fret);
+      const offset = voicingOffsets[i] || 0;
+      chords.push({
+        degree: DEGREE_NAMES[di],
+        info: { root: ov.root, quality: ov.quality, name: ov.name },
+        voicings,
+        voicing: voicings.length > 0 ? voicings[Math.min(offset, voicings.length - 1)] : null,
+        isOverride: true
+      });
+      continue;
+    }
+    
+    const quality = CHORD_MODE_QUALITIES[currentChordType][di];
+    if (quality === 'dim') {
+      chords.push({ degree: DEGREE_NAMES[di], info: {root:null,quality:'dim',name:'略'}, voicings:[], voicing:null });
+      continue;
+    }
+    const ci = getChordInfo(di, currentChordType);
+    const voicings = findVoicings(ci.root, ci.quality, currentPos.fret);
+    const offset = voicingOffsets[i] || 0;
+    chords.push({
+      degree: DEGREE_NAMES[di],
+      info: ci,
+      voicings,
+      voicing: voicings.length > 0 ? voicings[Math.min(offset, voicings.length - 1)] : null
+    });
+  }
+  return chords;
+}
+
+function renderAll() {
+  const chords = getCurrentChordData();
+  const area = document.getElementById('chordsArea');
+  let html = '';
+  chords.forEach((ch, i) => {
+    const active = (i === activeChordIdx) ? ' active' : '';
+    const v = ch.voicing;
+    const shapeName = v ? v.shape.label : '';
+    const altCount = ch.voicings.length;
+    const overrideBadge = ch.isOverride ? '<span class="override-badge">自定义</span>' : '';
+    html += `<div class="chord-card${active}" id="chordCard${i}" onclick="selectChord(${i})">
+      ${overrideBadge}
+      <div class="degree">${ch.degree}</div>
+      <div class="chord-name">${ch.info.name}</div>
+      <div class="shape-label">${shapeName}${altCount>1 ? ' ('+((voicingOffsets[i]||0)+1)+'/'+altCount+')' : ''}</div>
+      ${renderChordDiagram(v, ch.info.name, ch.degree, i===activeChordIdx)}
+      <div class="notes">${getChordNotes(ch.info.root, ch.info.quality)}</div>
+      ${altCount > 1 ? `<button class="voicing-btn" onclick="event.stopPropagation();cycleVoicing(${i})">🔄 换按法</button>` : ''}
+      <button class="chord-picker-btn" onclick="event.stopPropagation();openChordPicker(${i})">🎨 换和弦</button>
+    </div>`;
+  });
+  area.innerHTML = html;
+
+  // Fretboard overview
+  document.getElementById('fretboardView').innerHTML = renderFretboard(chords.map((ch,i) => {
+    if (!ch.voicing) return null;
+    return {
+      ...ch.voicing,
+      degree: ch.degree,
+      name: ch.info.name
+    };
+  }).filter(Boolean));
+
+  // Info bar
+  document.getElementById('infoBar').textContent =
+    `调性: ${currentKey}大调 | 走向: ${currentProg.name} | 把位: ${currentPos.name} | 和弦: ${CHORD_MODE_LABELS[currentChordType]||currentChordType} | 拍号: ${timeSigBeats}/${timeSigUnit} | 分解: ${{'block':'柱式','up':'上行','down':'下行','alt':'交替','rand':'随机'}[arpeggioMode]}`;
+}
+
+function getChordNotes(root, quality) {
+  if (root === null || root === undefined) return '';
+  const iv = QUAL_INTERVALS[quality] || [0,4,7];
+  return '🎵 ' + iv.map(iv => noteName((root + iv) % 12)).join(' · ');
+}
+
+function selectChord(idx) {
+  if (idx === activeChordIdx) return;
+  activeChordIdx = idx;
+  initAudio();
+  const ch = getCurrentChordData()[idx];
+  if (ch && ch.voicing) {
+    if (arpeggioMode === 'block') {
+      playChord(ch.voicing, 1.5);
+    } else {
+      // Quick arpeggio preview
+      for (let b = 0; b < Math.min(beatsPerChord, 8); b++) {
+        const note = getArpNote(ch.voicing, arpeggioMode, b);
+        if (note) setTimeout(() => playNote(note.freq, null, 0.35), b * 90);
+      }
+    }
+  }
+  renderAll();
+}
+
+function cycleVoicing(idx) {
+  const chords = getCurrentChordData();
+  const ch = chords[idx];
+  if (ch.voicings.length <= 1) return;
+  voicingOffsets[idx] = ((voicingOffsets[idx] || 0) + 1) % ch.voicings.length;
+  const v = ch.voicings[voicingOffsets[idx]];
+  initAudio();
+  if (arpeggioMode === 'block') {
+    playChord(v, 1.2);
+  } else {
+    for (let b = 0; b < Math.min(beatsPerChord, 8); b++) {
+      const note = getArpNote(v, arpeggioMode, b);
+      if (note) setTimeout(() => playNote(note.freq, null, 0.3), b * 90);
+    }
+  }
+  renderAll();
+}
+
+// ==== CHORD PICKER (custom chord replacement) ====
+function openChordPicker(idx) {
+  pickerChordIdx = idx;
+  const chords = getCurrentChordData();
+  const ch = chords[idx];
+  const di = currentProg.degrees[idx];
+  
+  document.getElementById('pickerDegreeLabel').textContent = 
+    `位置 ${idx+1}/${currentProg.degrees.length} — 音级 ${DEGREE_NAMES[di]}`;
+  
+  // Populate root notes
+  const rootSel = document.getElementById('pickerRoot');
+  rootSel.innerHTML = '';
+  NOTES.forEach(n => {
+    const opt = document.createElement('option');
+    opt.value = SEMI[n]; opt.textContent = n;
+    rootSel.appendChild(opt);
+  });
+  
+  // Set current root
+  const curRoot = ch.info.root !== null ? ch.info.root : majorScale(currentKey)[di];
+  rootSel.value = curRoot;
+  
+  // Set current quality
+  const qualSel = document.getElementById('pickerQuality');
+  qualSel.value = ch.info.quality || 'M';
+  
+  // Show/hide reset button
+  document.getElementById('pickerResetBtn').style.display = 
+    chordOverrides[idx] ? '' : 'none';
+  
+  updatePickerPreview();
+  document.getElementById('chordPickerModal').classList.add('show');
+  
+  // Listeners (remove old, add new)
+  rootSel.onchange = updatePickerPreview;
+  qualSel.onchange = updatePickerPreview;
+}
+
+function updatePickerPreview() {
+  const rootSel = document.getElementById('pickerRoot');
+  const qualSel = document.getElementById('pickerQuality');
+  const root = parseInt(rootSel.value);
+  const quality = qualSel.value;
+  const name = noteName(root) + (QUAL_SUFFIX[quality] || '');
+  const voicings = findVoicings(root, quality, currentPos.fret);
+  const notes = QUAL_INTERVALS[quality] || [0,4,7];
+  const noteStr = notes.map(iv => noteName((root + iv) % 12)).join(' · ');
+  
+  let html = `<div class="voicing-info"><b>${name}</b><br>` +
+    `<span style="font-size:12px;">组成音: ${noteStr}</span><br>` +
+    `<span style="font-size:12px;">可用指型: ${voicings.length} 个</span>`;
+  if (voicings.length > 0) {
+    html += `<br><span style="font-size:11px;color:var(--text3);">最佳: ${voicings[0].shape.label} (${voicings[0].isOpen?'开放':'第'+voicings[0].minF+'品'})</span>`;
+  }
+  html += `</div>`;
+  document.getElementById('pickerPreview').innerHTML = html;
+}
+
+function applyChordOverride() {
+  if (pickerChordIdx < 0) return;
+  const root = parseInt(document.getElementById('pickerRoot').value);
+  const quality = document.getElementById('pickerQuality').value;
+  const name = noteName(root) + (QUAL_SUFFIX[quality] || '');
+  chordOverrides[pickerChordIdx] = { root, quality, name };
+  voicingOffsets[pickerChordIdx] = 0;
+  closeChordPicker();
+  initAudio();
+  const ch = getCurrentChordData()[pickerChordIdx];
+  if (ch && ch.voicing) playChord(ch.voicing, 1.0);
+  renderAll();
+}
+
+function resetChordOverride() {
+  if (pickerChordIdx < 0) return;
+  delete chordOverrides[pickerChordIdx];
+  delete voicingOffsets[pickerChordIdx];
+  closeChordPicker();
+  renderAll();
+}
+
+function closeChordPicker() {
+  document.getElementById('chordPickerModal').classList.remove('show');
+  pickerChordIdx = -1;
+}
+
+function stopPlayback() {
+  if (beatTimer) { clearInterval(beatTimer); beatTimer = null; }
+  if (arpeggioTimer) { clearTimeout(arpeggioTimer); arpeggioTimer = null; }
+  isPlaying = false;
+  currentBeatInMeasure = 0;
+  document.getElementById('playBtn').textContent = '▶ 播放练习';
+  document.getElementById('playBtn').classList.remove('playing');
+  updateBeatIndicator(-1);
+}
+
+function getBpm() { return parseInt(document.getElementById('tempoSlider').value); }
+
+function getBeatDuration() {
+  const bpm = getBpm();
+  let dur = (60 / bpm) * 1000; // ms per beat
+  if (timeSigBeats === 6) dur /= 2; // 6/8: eighth note = half a quarter
+  return dur;
+}
+
+// Get arpeggio note for a given beat index within the chord
+function getArpNote(voicing, pattern, beatIdx) {
+  const notes = [];
+  voicing.frets.forEach((fret, si) => {
+    if (fret < 0) return;
+    const noteIdx = STR_OPEN[si] + fret;
+    const freq = 440 * Math.pow(2, (noteIdx - 9) / 12);
+    notes.push({ freq, string: si });
+  });
+  notes.sort((a, b) => b.string - a.string); // low to high (string 6 = lowest)
+  if (!notes.length) return null;
+
+  let idx;
+  switch (pattern) {
+    case 'up':
+      return notes[beatIdx % notes.length];
+    case 'down':
+      return notes[(notes.length - 1 - (beatIdx % notes.length))];
+    case 'alt': {
+      const cycleLen = notes.length * 2 - 2;
+      const pos = beatIdx % (cycleLen || 1);
+      idx = pos < notes.length ? pos : cycleLen - pos;
+      return notes[idx];
+    }
+    case 'rand':
+      return notes[Math.floor(Math.random() * notes.length)];
+    default:
+      return null;
+  }
+}
+
+function playMetronomeClick(isDownbeat) {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(isDownbeat ? 1200 : 800, t);
+  gain.gain.setValueAtTime(isDownbeat ? 0.2 : 0.12, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(t);
+  osc.stop(t + 0.05);
+}
+
+function updateBeatIndicator(activeBeat) {
+  const bar = document.getElementById('metronomeBar');
+  let html = '';
+  for (let i = 0; i < timeSigBeats; i++) {
+    const isBeat1 = i === 0;
+    const isActive = i === activeBeat;
+    html += `<div class="beat-dot ${isBeat1?'beat-1':''} ${isActive?'active':''}">${i+1}</div>`;
+  }
+  bar.innerHTML = html;
+}
+
+function playBeat() {
+  const beatInMeasure = currentBeatInMeasure % timeSigBeats;
+  const isDownbeat = beatInMeasure === 0;
+  const beatInChord = currentBeatInMeasure % beatsPerChord;
+
+  // Metronome
+  if (metronomeOn) playMetronomeClick(isDownbeat);
+
+  // Chord / arpeggio
+  const chords = getCurrentChordData();
+  const ch = chords[activeChordIdx];
+  if (ch && ch.voicing) {
+    if (arpeggioMode === 'block') {
+      if (beatInChord === 0) {
+        const dur = (getBeatDuration() / 1000) * beatsPerChord * 0.9;
+        playChord(ch.voicing, dur);
+      }
+    } else {
+      const note = getArpNote(ch.voicing, arpeggioMode, beatInChord);
+      if (note) {
+        const dur = (getBeatDuration() / 1000) * 0.9;
+        playNote(note.freq, null, dur);
+      }
+    }
+  }
+
+  // Visual
+  updateBeatIndicator(beatInMeasure);
+}
+
+function togglePlay() {
+  initAudio();
+  if (isPlaying) { stopPlayback(); return; }
+  isPlaying = true;
+  document.getElementById('playBtn').textContent = '⏸ 停止';
+  document.getElementById('playBtn').classList.add('playing');
+  activeChordIdx = 0;
+  currentBeatInMeasure = 0;
+  renderAll();
+  playBeat();
+
+  const beatDur = getBeatDuration();
+  beatTimer = setInterval(() => {
+    currentBeatInMeasure++;
+    const beatInChord = currentBeatInMeasure % beatsPerChord;
+    if (beatInChord === 0) {
+      activeChordIdx = (activeChordIdx + 1) % currentProg.degrees.length;
+      renderAll();
+    }
+    playBeat();
+  }, beatDur);
+}
+
+function selectPrev() {
+  stopPlayback();
+  const len = currentProg.degrees.length;
+  activeChordIdx = ((activeChordIdx - 1) % len + len) % len;
+  selectChord(activeChordIdx);
+}
+
+function selectNext() {
+  stopPlayback();
+  activeChordIdx = (activeChordIdx + 1) % currentProg.degrees.length;
+  selectChord(activeChordIdx);
+}
+
+// ==== SONG SAVE / LOAD ====
+function getSavedSongs() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  } catch(e) { return []; }
+}
+
+function saveSongs(songs) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
+}
+
+function openSaveModal() {
+  stopPlayback();
+  // Show current settings preview
+  const chords = getCurrentChordData();
+  const chordSummary = chords.map(c => c.info.name).join(' → ');
+  const overrideCount = Object.keys(chordOverrides).length;
+  let html = `<div style="font-size:13px;line-height:1.8;">`;
+  html += `<div>调性: <b style="color:var(--accent)">${currentKey}大调</b></div>`;
+  html += `<div>走向: <b style="color:var(--accent)">${currentProg.name}</b></div>`;
+  html += `<div>把位: <b style="color:var(--accent)">${currentPos.name}</b></div>`;
+  html += `<div>和弦类型: <b style="color:var(--accent)">${CHORD_MODE_LABELS[currentChordType]||currentChordType}</b>${overrideCount ? ` <span style="color:var(--accent2)">(${overrideCount}个自定义)</span>` : ''}</div>`;
+  html += `<div>拍速: <b style="color:var(--accent)">${getBpm()} BPM</b> | 拍号: <b style="color:var(--accent)">${timeSigBeats}/${timeSigUnit}</b></div>`;
+  html += `<div>每和弦: <b style="color:var(--accent)">${beatsPerChord}拍</b> | 分解: <b style="color:var(--accent)">${{block:'柱式',up:'上行',down:'下行',alt:'交替',rand:'随机'}[arpeggioMode]}</b></div>`;
+  html += `<div style="margin-top:6px;color:var(--text2);font-size:12px;">${chordSummary}</div>`;
+  html += `</div>`;
+  document.getElementById('songSettingsPreview').innerHTML = html;
+  document.getElementById('saveSongModal').classList.add('show');
+  document.getElementById('songNameInput').focus();
+}
+
+function closeSaveModal() {
+  document.getElementById('saveSongModal').classList.remove('show');
+  document.getElementById('songNameInput').value = '';
+  document.getElementById('songArtistInput').value = '';
+  document.getElementById('songNotesInput').value = '';
+}
+
+function confirmSaveSong() {
+  const name = document.getElementById('songNameInput').value.trim();
+  if (!name) { document.getElementById('songNameInput').focus(); return; }
+  const artist = document.getElementById('songArtistInput').value.trim();
+  const notes = document.getElementById('songNotesInput').value.trim();
+  
+  // Capture voicing offsets for each chord
+  const chords = getCurrentChordData();
+  const voicingData = {};
+  for (let i = 0; i < chords.length; i++) {
+    if (chords[i].voicings.length > 0) {
+      voicingData[i] = voicingOffsets[i] || 0;
+    }
+  }
+  
+  const song = {
+    id: Date.now().toString(),
+    name, artist, notes,
+    savedAt: new Date().toISOString(),
+    key: currentKey,
+    progressionId: currentProg.id,
+    positionId: currentPos.id,
+    chordType: currentChordType,
+    chordOverrides: { ...chordOverrides },
+    voicingOffsets: voicingData,
+    bpm: getBpm(),
+    timeSigBeats, timeSigUnit,
+    beatsPerChord,
+    arpeggioMode,
+    metronomeOn
+  };
+  
+  const songs = getSavedSongs();
+  songs.unshift(song);
+  saveSongs(songs);
+  closeSaveModal();
+  
+  // Show confirmation
+  const btn = document.getElementById('saveSongBtn');
+  const orig = btn.textContent;
+  btn.textContent = '✅ 已保存';
+  btn.style.color = 'var(--green)';
+  setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
+}
+
+function openSongLibrary() {
+  stopPlayback();
+  renderSongList();
+  document.getElementById('songLibraryModal').classList.add('show');
+}
+
+function closeSongLibrary() {
+  document.getElementById('songLibraryModal').classList.remove('show');
+}
+
+function renderSongList() {
+  const songs = getSavedSongs();
+  const container = document.getElementById('songList');
+  if (!songs.length) {
+    container.innerHTML = '<div class="song-empty">还没有保存的歌曲<br>练习时点击「💾 保存」来收藏和弦走向</div>';
+    return;
+  }
+  container.innerHTML = songs.map(s => {
+    const prog = PROGRESSIONS.find(p => p.id === s.progressionId);
+    const progName = prog ? prog.name : s.progressionId;
+    const date = new Date(s.savedAt).toLocaleDateString('zh-CN', {month:'short',day:'numeric'});
+    const overrideStr = Object.keys(s.chordOverrides||{}).length ? ` · ${Object.keys(s.chordOverrides).length}个自定义` : '';
+    return `<div class="song-item">
+      <div class="song-info">
+        <div class="song-title">${escapeHtml(s.name)}</div>
+        <div class="song-meta">${escapeHtml(s.artist||'未知')} · ${s.key}大调 · ${s.bpm}BPM · ${s.timeSigBeats}/${s.timeSigUnit}${overrideStr}</div>
+        <div class="song-prog">${escapeHtml(progName)}${s.notes ? ' · ' + escapeHtml(s.notes) : ''} · ${date}</div>
+      </div>
+      <button class="load-btn" onclick="loadSong('${s.id}')">▶ 加载</button>
+      <button class="del-btn" onclick="deleteSong('${s.id}')">🗑</button>
+    </div>`;
+  }).join('');
+}
+
+function loadSong(songId) {
+  const songs = getSavedSongs();
+  const song = songs.find(s => s.id === songId);
+  if (!song) return;
+  
+  stopPlayback();
+  
+  // Restore all settings
+  currentKey = song.key;
+  currentProg = PROGRESSIONS.find(p => p.id === song.progressionId) || PROGRESSIONS[0];
+  currentPos = POSITIONS.find(p => p.id === song.positionId) || POSITIONS[1];
+  currentChordType = song.chordType || 'triad';
+  chordOverrides = { ...(song.chordOverrides || {}) };
+  voicingOffsets = { ...(song.voicingOffsets || {}) };
+  timeSigBeats = song.timeSigBeats || 4;
+  timeSigUnit = song.timeSigUnit || 4;
+  beatsPerChord = song.beatsPerChord || 4;
+  arpeggioMode = song.arpeggioMode || 'block';
+  metronomeOn = song.metronomeOn !== undefined ? song.metronomeOn : true;
+  activeChordIdx = 0;
+  currentBeatInMeasure = 0;
+  
+  // Update UI controls
+  document.getElementById('keySelect').value = song.key;
+  document.getElementById('progressionSelect').value = song.progressionId;
+  document.getElementById('positionSelect').value = song.positionId;
+  document.getElementById('tempoSlider').value = song.bpm;
+  document.getElementById('tempoLabel').textContent = song.bpm;
+  document.getElementById('timeSigSelect').value = `${song.timeSigBeats}/${song.timeSigUnit}`;
+  document.getElementById('beatsPerChordSelect').value = song.beatsPerChord;
+  document.getElementById('arpeggioSelect').value = song.arpeggioMode;
+  document.getElementById('metronomeSelect').value = song.metronomeOn ? 'on' : 'off';
+  
+  // Update chord type toggle
+  document.querySelectorAll('#chordTypeToggle button').forEach(b => {
+    b.classList.toggle('active', b.dataset.type === currentChordType);
+  });
+  
+  closeSongLibrary();
+  updateBeatIndicator(-1);
+  renderAll();
+  
+  // Show confirmation
+  const btn = document.getElementById('libraryBtn');
+  const orig = btn.textContent;
+  btn.textContent = '✅ 已加载';
+  btn.style.color = 'var(--green)';
+  setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
+}
+
+function deleteSong(songId) {
+  if (!confirm('确定删除这首歌曲？')) return;
+  const songs = getSavedSongs().filter(s => s.id !== songId);
+  saveSongs(songs);
+  renderSongList();
+}
+
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ==== INIT ====
+function initUI() {
+  // Key select
+  const keySel = document.getElementById('keySelect');
+  NOTES.forEach(n => {
+    const opt = document.createElement('option');
+    opt.value = n; opt.textContent = n + ' 大调';
+    if (n === 'C') opt.selected = true;
+    keySel.appendChild(opt);
+  });
+  keySel.addEventListener('change', () => {
+    stopPlayback();
+    currentKey = keySel.value;
+    voicingOffsets = {};
+    chordOverrides = {};
+    activeChordIdx = 0;
+    renderAll();
+  });
+
+  // Progression select
+  const progSel = document.getElementById('progressionSelect');
+  PROGRESSIONS.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id; opt.textContent = p.name;
+    progSel.appendChild(opt);
+  });
+  progSel.addEventListener('change', () => {
+    stopPlayback();
+    currentProg = PROGRESSIONS.find(p => p.id === progSel.value);
+    voicingOffsets = {};
+    chordOverrides = {};
+    activeChordIdx = 0;
+    renderAll();
+  });
+
+  // Position select
+  const posSel = document.getElementById('positionSelect');
+  POSITIONS.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.id; opt.textContent = p.name;
+    if (p.id === 1) opt.selected = true;
+    posSel.appendChild(opt);
+  });
+  posSel.addEventListener('change', () => {
+    stopPlayback();
+    currentPos = POSITIONS.find(p => p.id === parseInt(posSel.value));
+    voicingOffsets = {};
+    activeChordIdx = 0;
+    renderAll();
+  });
+
+  // Chord type toggle
+  document.getElementById('chordTypeToggle').addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') {
+      document.querySelectorAll('#chordTypeToggle button').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      stopPlayback();
+      currentChordType = e.target.dataset.type;
+      voicingOffsets = {};
+      activeChordIdx = 0;
+      renderAll();
+    }
+  });
+
+  // Play controls
+  document.getElementById('playBtn').addEventListener('click', togglePlay);
+  document.getElementById('prevBtn').addEventListener('click', selectPrev);
+  document.getElementById('nextBtn').addEventListener('click', selectNext);
+
+  // Tempo
+  const tempoSlider = document.getElementById('tempoSlider');
+  const tempoLabel = document.getElementById('tempoLabel');
+  tempoSlider.addEventListener('input', () => {
+    tempoLabel.textContent = tempoSlider.value;
+    if (isPlaying) {
+      stopPlayback();
+      togglePlay(); // restart with new tempo
+    }
+  });
+
+  // Time signature
+  const timeSigSel = document.getElementById('timeSigSelect');
+  timeSigSel.addEventListener('change', () => {
+    const [beats, unit] = timeSigSel.value.split('/').map(Number);
+    timeSigBeats = beats; timeSigUnit = unit;
+    if (isPlaying) { stopPlayback(); togglePlay(); }
+    updateBeatIndicator(-1);
+    renderAll();
+  });
+
+  // Beats per chord
+  const bpcSel = document.getElementById('beatsPerChordSelect');
+  bpcSel.addEventListener('change', () => {
+    beatsPerChord = parseInt(bpcSel.value);
+    if (isPlaying) { stopPlayback(); togglePlay(); }
+    renderAll();
+  });
+
+  // Arpeggio mode
+  const arpSel = document.getElementById('arpeggioSelect');
+  arpSel.addEventListener('change', () => {
+    arpeggioMode = arpSel.value;
+    renderAll();
+  });
+
+  // Metronome toggle
+  const metroSel = document.getElementById('metronomeSelect');
+  metroSel.addEventListener('change', () => {
+    metronomeOn = metroSel.value === 'on';
+  });
+
+  // Save / Library buttons
+  document.getElementById('saveSongBtn').addEventListener('click', openSaveModal);
+  document.getElementById('libraryBtn').addEventListener('click', openSongLibrary);
+  
+  // Chord picker modal buttons
+  document.getElementById('pickerApplyBtn').addEventListener('click', applyChordOverride);
+  document.getElementById('pickerCancelBtn').addEventListener('click', closeChordPicker);
+  document.getElementById('pickerResetBtn').addEventListener('click', resetChordOverride);
+  
+  // Save song modal buttons
+  document.getElementById('saveConfirmBtn').addEventListener('click', confirmSaveSong);
+  document.getElementById('saveCancelBtn').addEventListener('click', closeSaveModal);
+  document.getElementById('songNameInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') confirmSaveSong();
+  });
+  
+  // Library close button
+  document.getElementById('libraryCloseBtn').addEventListener('click', closeSongLibrary);
+  
+  // Close modals on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.classList.remove('show');
+    });
+  });
+
+  // Initialize metronome bar
+  updateBeatIndicator(-1);
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
+    switch(e.key) {
+      case ' ': e.preventDefault(); togglePlay(); break;
+      case 'Escape':
+        document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+        break;
+      case 'ArrowLeft': selectPrev(); break;
+      case 'ArrowRight': selectNext(); break;
+      case 'm': case 'M':
+        metronomeOn = !metronomeOn;
+        metroSel.value = metronomeOn ? 'on' : 'off';
+        break;
+      case 'a': case 'A': {
+        const modes = ['block','up','down','alt','rand'];
+        arpeggioMode = modes[(modes.indexOf(arpeggioMode)+1) % modes.length];
+        arpSel.value = arpeggioMode;
+        renderAll();
+        break;
+      }
+      case 'ArrowUp':
+        // next position
+        stopPlayback();
+        currentPos = POSITIONS[Math.min(POSITIONS.length-1, POSITIONS.findIndex(p=>p.id===currentPos.id)+1)];
+        posSel.value = currentPos.id;
+        voicingOffsets = {};
+        activeChordIdx = 0;
+        renderAll();
+        break;
+      case 'ArrowDown':
+        // prev position
+        stopPlayback();
+        currentPos = POSITIONS[Math.max(0, POSITIONS.findIndex(p=>p.id===currentPos.id)-1)];
+        posSel.value = currentPos.id;
+        voicingOffsets = {};
+        activeChordIdx = 0;
+        renderAll();
+        break;
+    }
+  });
+
+  renderAll();
+}
+
+// Opener: init AudioContext on first user interaction for browser policy
+document.addEventListener('click', () => { if (!audioCtx) initAudio(); }, {once: true});
+document.addEventListener('keydown', () => { if (!audioCtx) initAudio(); }, {once: true});
+
+window.addEventListener('DOMContentLoaded', initUI);
+
+// ==== VOICING ENGINE ====
+function findVoicings(rootSemi, quality, targetFret) {
+  const shapeKeys = QUAL_SHAPES[quality] || [];
+  const results = [];
+  if (!shapeKeys.length) return results;
+
+  for (const sk of shapeKeys) {
+    const shape = SHAPES[sk];
+    const rf = fretOf(rootSemi, shape.rootStr - 1);
+    for (const rootFret of [rf, rf + 12]) {
+      if (rootFret < 0 || rootFret > 15) continue;
+      const frets = shape.frets.map(f => f === -1 ? -1 : f + rootFret);
+      const played = frets.filter(f => f >= 0);
+      if (!played.length) continue;
+      const minF = Math.min(...played), maxF = Math.max(...played);
+      const center = (minF + maxF) / 2;
+      const span = maxF - minF;
+      // Open position preference
+      const isOpen = rootFret === 0;
+      const isBarre = rootFret > 0 && shape.barre !== null;
+      // Score: distance to target (lower better), prefer open at pos 0
+      let score = Math.abs(center - targetFret);
+      if (targetFret === 0 && isOpen) score -= 3;
+      if (isBarre && span > 4) score += 2;
+      results.push({ sk, shape, rootFret, frets, fingers: shape.fingers, minF, maxF, center, score, isOpen });
+    }
+  }
+  results.sort((a,b) => a.score - b.score);
+  return results;
+}
+
+// ==== SVG CHORD DIAGRAM ====
+function renderChordDiagram(voicing, chordName, degree, isActive) {
+  if (!voicing) {
+    return `<svg viewBox="0 0 130 150" width="130" height="150"><text x="65" y="75" text-anchor="middle" fill="#7a6d8a" font-size="13">不可用</text></svg>`;
+  }
+  const { frets, fingers, rootFret, minF, maxF, isOpen, shape } = voicing;
+  const W = 130, fretW = 22, y0 = 52, dx = 18, dy = 24;
+  const baseFret = isOpen ? 1 : (minF > 0 ? minF : 1);
+  const relFrets = frets.map(f => f < 0 ? -1 : f - baseFret + 1);
+  const showFrets = Math.min(5, Math.max(maxF - baseFret + 2, 4));
+
+  let svg = `<svg viewBox="0 0 ${W} 150" width="${W}" height="150" xmlns="http://www.w3.org/2000/svg">`;
+  // Background
+  svg += `<rect x="2" y="2" width="${W-4}" height="146" rx="6" fill="#2a2440" stroke="${isActive?'#f0a830':'#3d344f'}" stroke-width="1.5"/>`;
+  // Chord name
+  svg += `<text x="${W/2}" y="18" text-anchor="middle" fill="#f0a830" font-size="13" font-weight="600">${chordName}</text>`;
+  // Degree
+  svg += `<text x="${W/2}" y="34" text-anchor="middle" fill="#7a6d8a" font-size="11">${degree}</text>`;
+
+  // Fret position label
+  if (!isOpen && baseFret > 1) {
+    svg += `<text x="12" y="${y0+dy/2}" fill="#a99bb5" font-size="13" font-weight="600">${baseFret}品</text>`;
+  }
+
+  const sx = 32; // string start x
+  // Nut / fret lines
+  if (isOpen) {
+    svg += `<line x1="${sx-4}" y1="${y0}" x2="${sx+dx*5+4}" y2="${y0}" stroke="#e8e0f0" stroke-width="3"/>`;
+  }
+  for (let f = 0; f <= showFrets; f++) {
+    const y = y0 + f * dy;
+    svg += `<line x1="${sx}" y1="${y}" x2="${sx+dx*5}" y2="${y}" stroke="#3d344f" stroke-width="1"/>`;
+  }
+  // String lines
+  const strWidths = [2.5,2.2,1.8,1.5,1.2,1];
+  for (let s = 0; s < 6; s++) {
+    const x = sx + s * dx;
+    svg += `<line x1="${x}" y1="${y0}" x2="${x}" y2="${y0+showFrets*dy}" stroke="#a99bb5" stroke-width="${strWidths[s]}"/>`;
+  }
+  // Fret markers
+  for (const mf of [3,5,7,9,12,15]) {
+    if (mf >= baseFret && mf <= baseFret + showFrets - 1) {
+      const y = y0 + (mf - baseFret + 0.5) * dy;
+      svg += `<circle cx="${sx+dx*2.5}" cy="${y}" r="3" fill="#3d344f"/>`;
+    }
+  }
+
+  // String open/muted markers
+  for (let s = 0; s < 6; s++) {
+    const x = sx + s * dx;
+    if (frets[s] < 0) {
+      svg += `<text x="${x}" y="42" text-anchor="middle" fill="#e85d5d" font-size="13" font-weight="700">✕</text>`;
+    } else if (frets[s] === 0 && isOpen) {
+      svg += `<circle cx="${x}" cy="42" r="4" fill="none" stroke="#5dba6a" stroke-width="1.5"/>`;
+    }
+  }
+
+  // Barre
+  if (voicing.shape.barre && rootFret > 0) {
+    const [fromStr, toStr] = voicing.shape.barre;
+    const bf = relFrets[fromStr - 1];
+    if (bf >= 1 && bf <= showFrets) {
+      const x1 = sx + (6 - fromStr) * dx;
+      const x2 = sx + (6 - toStr) * dx;
+      const y = y0 + (bf - 0.5) * dy;
+      svg += `<rect x="${Math.min(x1,x2)-8}" y="${y-7}" width="${Math.abs(x2-x1)+16}" height="14" rx="7" fill="#f0a830" opacity="0.5"/>`;
+    }
+  }
+
+  // Finger dots
+  for (let s = 0; s < 6; s++) {
+    if (frets[s] < 0) continue;
+    const f = relFrets[s];
+    if (f > 0 && f <= showFrets) {
+      const x = sx + s * dx;
+      const y = y0 + (f - 0.5) * dy;
+      const isRoot = (f + baseFret - 1) === voicing.rootFret && s === 6 - voicing.shape.rootStr;
+      const fill = isRoot ? '#f0a830' : '#5d9bd8';
+      svg += `<circle cx="${x}" cy="${y}" r="9" fill="${fill}"/>`;
+      if (fingers[s] > 0) {
+        svg += `<text x="${x}" y="${y+4}" text-anchor="middle" fill="#1a1625" font-size="10" font-weight="700">${fingers[s]}</text>`;
+      }
+    }
+  }
+
+  svg += `</svg>`;
+  return svg;
+}
+
+// ==== FRETBOARD OVERVIEW SVG ====
+function renderFretboard(allChords) {
+  const numFrets = 15, fw = 36, sw = 20, h = 28;
+  const W = sw + 6 * fw + 30, H = 80;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" xmlns="http://www.w3.org/2000/svg">`;
+  // Strings
+  const strW = [3,2.5,2,1.5,1.2,1];
+  for (let s = 0; s < 6; s++) {
+    svg += `<line x1="${sw}" y1="${14+s*13}" x2="${sw+numFrets*fw}" y2="${14+s*13}" stroke="#e8e0f0" stroke-width="${strW[s]}" opacity="0.3"/>`;
+  }
+  // Frets
+  for (let f = 0; f <= numFrets; f++) {
+    const x = sw + f * fw;
+    svg += `<line x1="${x}" y1="14" x2="${x}" y2="${H-10}" stroke="#3d344f" stroke-width="0.8"/>`;
+    if (f > 0) svg += `<text x="${x-fw/2}" y="${H-2}" text-anchor="middle" fill="#7a6d8a" font-size="9">${f}</text>`;
+  }
+  // Fret markers
+  [3,5,7,9,12,15].forEach(mf => {
+    const mx = sw + (mf - 0.5) * fw;
+    svg += `<circle cx="${mx}" cy="${14+2.5*13}" r="3" fill="#3d344f"/>`;
+  });
+
+  // Chord dots
+  const colors = ['#f0a830','#e85d5d','#5d9bd8','#5dba6a','#e8854a','#a99bb5','#5d9bd8','#e85d5d'];
+  if (allChords) allChords.forEach((ch, ci) => {
+    if (!ch || !ch.frets) return;
+    const color = colors[ci % colors.length];
+    ch.frets.forEach((fret, si) => {
+      if (fret < 0 || fret > numFrets) return;
+      const cx = sw + (fret - 0.5) * fw;
+      const cy = 14 + si * 13;
+      const isRoot = fret === ch.rootFret && si === 6 - ch.shape.rootStr;
+      svg += `<circle cx="${cx}" cy="${cy}" r="${isRoot?7:5.5}" fill="${color}" opacity="${isRoot?0.9:0.65}"/>`;
+    });
+    // Legend dot
+    svg += `<circle cx="${sw+numFrets*fw+14}" cy="${18+ci*11}" r="4" fill="${color}"/>`;
+    svg += `<text x="${sw+numFrets*fw+22}" y="${21+ci*11}" fill="#a99bb5" font-size="9">${ch.degree} ${ch.name}</text>`;
+  });
+
+  svg += `</svg>`;
+  return svg;
+}
+
+// ==== AUDIO ENGINE ====
+function initAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+}
+
+function playNote(freq, startTime, duration) {
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  const t = startTime || audioCtx.currentTime;
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, t);
+  // Simple ADSR for guitar-like tone
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(0.3, t + 0.01);
+  gain.gain.setValueAtTime(0.3, t + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(t);
+  osc.stop(t + duration);
+}
+
+function playChord(voicing, duration = 1.2) {
+  if (!audioCtx || !voicing) return;
+  const now = audioCtx.currentTime;
+  voicing.frets.forEach((fret, si) => {
+    if (fret < 0) return;
+    const noteIdx = STR_OPEN[si] + fret;
+    const freq = 440 * Math.pow(2, (noteIdx - 9) / 12); // A4=440
+    playNote(freq, now + Math.random() * 0.02, duration);
+  });
+}
+
+function playClick() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(800, t);
+  gain.gain.setValueAtTime(0.15, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(t);
+  osc.stop(t + 0.06);
+}
+</script>
+
+
+
+</body></html>
