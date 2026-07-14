@@ -1,0 +1,5908 @@
+[
+  {
+    "name": "C",
+    "root": "C",
+    "type": "Major",
+    "notes": [
+      "C",
+      "E",
+      "G"
+    ],
+    "positions": [
+      {
+        "frets": "x32010",
+        "base_fret": 1,
+        "caged_shape": "C",
+        "intervals": [
+          null,
+          0,
+          4,
+          7,
+          0,
+          4
+        ]
+      },
+      {
+        "frets": "x13331",
+        "base_fret": 3,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "133211",
+        "base_fret": 8,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cm",
+    "root": "C",
+    "type": "Minor",
+    "notes": [
+      "C",
+      "D#",
+      "G"
+    ],
+    "positions": [
+      {
+        "frets": "x13321",
+        "base_fret": 3,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "frets": "133111",
+        "base_fret": 8,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 10,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cdim",
+    "root": "C",
+    "type": "Diminished",
+    "notes": [
+      "C",
+      "D#",
+      "F#"
+    ],
+    "positions": [
+      {
+        "frets": "x23431",
+        "base_fret": 2,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      },
+      {
+        "frets": "23421x",
+        "base_fret": 7,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cmaj7",
+    "root": "C",
+    "type": "maj7",
+    "notes": [
+      "C",
+      "E",
+      "G",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x21000",
+        "base_fret": 2,
+        "caged_shape": "C",
+        "intervals": [
+          null,
+          0,
+          4,
+          7,
+          11,
+          4
+        ]
+      },
+      {
+        "frets": "x13231",
+        "base_fret": 3,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "132211",
+        "base_fret": 8,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cm7",
+    "root": "C",
+    "type": "m7",
+    "notes": [
+      "C",
+      "D#",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13324",
+        "base_fret": 3,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      },
+      {
+        "frets": "133141",
+        "base_fret": 8,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 9,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C7",
+    "root": "C",
+    "type": "7",
+    "notes": [
+      "C",
+      "E",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x32016",
+        "base_fret": 1,
+        "caged_shape": "C",
+        "intervals": [
+          null,
+          0,
+          4,
+          7,
+          0,
+          10
+        ]
+      },
+      {
+        "frets": "x13334",
+        "base_fret": 3,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      },
+      {
+        "frets": "133241",
+        "base_fret": 8,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Cadd9",
+    "root": "C",
+    "type": "add9",
+    "notes": [
+      "C",
+      "D",
+      "E",
+      "G"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 8,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C9",
+    "root": "C",
+    "type": "9",
+    "notes": [
+      "C",
+      "D",
+      "E",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 8,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Csus2",
+    "root": "C",
+    "type": "sus2",
+    "notes": [
+      "C",
+      "D",
+      "G"
+    ],
+    "positions": [
+      {
+        "frets": "x13311",
+        "base_fret": 3,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "frets": "244122",
+        "base_fret": 7,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 10,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Csus4",
+    "root": "C",
+    "type": "sus4",
+    "notes": [
+      "C",
+      "F",
+      "G"
+    ],
+    "positions": [
+      {
+        "frets": "x13341",
+        "base_fret": 3,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "frets": "133311",
+        "base_fret": 8,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 10,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C6",
+    "root": "C",
+    "type": "6",
+    "notes": [
+      "C",
+      "E",
+      "G",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x13333",
+        "base_fret": 3,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      },
+      {
+        "frets": "133231",
+        "base_fret": 8,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#",
+    "root": "C#",
+    "type": "Major",
+    "notes": [
+      "C#",
+      "F",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "x13331",
+        "base_fret": 4,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "133211",
+        "base_fret": 9,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 9,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#m",
+    "root": "C#",
+    "type": "Minor",
+    "notes": [
+      "C#",
+      "E",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "x13321",
+        "base_fret": 4,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "frets": "133111",
+        "base_fret": 9,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 11,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#dim",
+    "root": "C#",
+    "type": "Diminished",
+    "notes": [
+      "C#",
+      "E",
+      "G"
+    ],
+    "positions": [
+      {
+        "frets": "x23431",
+        "base_fret": 3,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      },
+      {
+        "frets": "23421x",
+        "base_fret": 8,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#maj7",
+    "root": "C#",
+    "type": "maj7",
+    "notes": [
+      "C",
+      "C#",
+      "F",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "x13231",
+        "base_fret": 4,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "132211",
+        "base_fret": 9,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 11,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#m7",
+    "root": "C#",
+    "type": "m7",
+    "notes": [
+      "C#",
+      "E",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13324",
+        "base_fret": 4,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      },
+      {
+        "frets": "133141",
+        "base_fret": 9,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 10,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#7",
+    "root": "C#",
+    "type": "7",
+    "notes": [
+      "C#",
+      "F",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13334",
+        "base_fret": 4,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      },
+      {
+        "frets": "133241",
+        "base_fret": 9,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 9,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#add9",
+    "root": "C#",
+    "type": "add9",
+    "notes": [
+      "C#",
+      "D#",
+      "F",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 9,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#9",
+    "root": "C#",
+    "type": "9",
+    "notes": [
+      "C#",
+      "D#",
+      "F",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 9,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#sus2",
+    "root": "C#",
+    "type": "sus2",
+    "notes": [
+      "C#",
+      "D#",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "x13311",
+        "base_fret": 4,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "frets": "244122",
+        "base_fret": 8,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 11,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#sus4",
+    "root": "C#",
+    "type": "sus4",
+    "notes": [
+      "C#",
+      "F#",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "x13341",
+        "base_fret": 4,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "frets": "133311",
+        "base_fret": 9,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 11,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "name": "C#6",
+    "root": "C#",
+    "type": "6",
+    "notes": [
+      "C#",
+      "F",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13333",
+        "base_fret": 4,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      },
+      {
+        "frets": "133231",
+        "base_fret": 9,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D",
+    "root": "D",
+    "type": "Major",
+    "notes": [
+      "D",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x13331",
+        "base_fret": 5,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "133211",
+        "base_fret": 10,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 10,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dm",
+    "root": "D",
+    "type": "Minor",
+    "notes": [
+      "D",
+      "F",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x13321",
+        "base_fret": 5,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "frets": "133111",
+        "base_fret": 10,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 12,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ddim",
+    "root": "D",
+    "type": "Diminished",
+    "notes": [
+      "D",
+      "F",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "x23431",
+        "base_fret": 4,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      },
+      {
+        "frets": "23421x",
+        "base_fret": 9,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dmaj7",
+    "root": "D",
+    "type": "maj7",
+    "notes": [
+      "C#",
+      "D",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x13231",
+        "base_fret": 5,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "132211",
+        "base_fret": 10,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 12,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dm7",
+    "root": "D",
+    "type": "m7",
+    "notes": [
+      "C",
+      "D",
+      "F",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x13324",
+        "base_fret": 5,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      },
+      {
+        "frets": "133141",
+        "base_fret": 10,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx0211",
+        "base_fret": 13,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D7",
+    "root": "D",
+    "type": "7",
+    "notes": [
+      "C",
+      "D",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x13334",
+        "base_fret": 5,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      },
+      {
+        "frets": "133241",
+        "base_fret": 10,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 10,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dadd9",
+    "root": "D",
+    "type": "add9",
+    "notes": [
+      "D",
+      "E",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 10,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      },
+      {
+        "frets": "x13330",
+        "base_fret": 5,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D9",
+    "root": "D",
+    "type": "9",
+    "notes": [
+      "C",
+      "D",
+      "E",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 10,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dsus2",
+    "root": "D",
+    "type": "sus2",
+    "notes": [
+      "D",
+      "E",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x13311",
+        "base_fret": 5,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "frets": "244122",
+        "base_fret": 9,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 12,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Dsus4",
+    "root": "D",
+    "type": "sus4",
+    "notes": [
+      "D",
+      "G",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x13341",
+        "base_fret": 5,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "frets": "133311",
+        "base_fret": 10,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 12,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D6",
+    "root": "D",
+    "type": "6",
+    "notes": [
+      "D",
+      "F#",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13333",
+        "base_fret": 5,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      },
+      {
+        "frets": "133231",
+        "base_fret": 10,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#",
+    "root": "D#",
+    "type": "Major",
+    "notes": [
+      "D#",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "xx1343",
+        "base_fret": 1,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          4
+        ]
+      },
+      {
+        "frets": "x13331",
+        "base_fret": 6,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "133211",
+        "base_fret": 11,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#m",
+    "root": "D#",
+    "type": "Minor",
+    "notes": [
+      "D#",
+      "F#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "xx1342",
+        "base_fret": 1,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      },
+      {
+        "frets": "x13321",
+        "base_fret": 6,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "frets": "133111",
+        "base_fret": 11,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#dim",
+    "root": "D#",
+    "type": "Diminished",
+    "notes": [
+      "D#",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "x23431",
+        "base_fret": 5,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      },
+      {
+        "frets": "23421x",
+        "base_fret": 10,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#maj7",
+    "root": "D#",
+    "type": "maj7",
+    "notes": [
+      "D",
+      "D#",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "xx1333",
+        "base_fret": 1,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      },
+      {
+        "frets": "x13231",
+        "base_fret": 6,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "132211",
+        "base_fret": 11,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#m7",
+    "root": "D#",
+    "type": "m7",
+    "notes": [
+      "C#",
+      "D#",
+      "F#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "xx1322",
+        "base_fret": 1,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      },
+      {
+        "frets": "x13324",
+        "base_fret": 6,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      },
+      {
+        "frets": "133141",
+        "base_fret": 11,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#7",
+    "root": "D#",
+    "type": "7",
+    "notes": [
+      "C#",
+      "D#",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13334",
+        "base_fret": 6,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      },
+      {
+        "frets": "133241",
+        "base_fret": 11,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 11,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#add9",
+    "root": "D#",
+    "type": "add9",
+    "notes": [
+      "D#",
+      "F",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 11,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#9",
+    "root": "D#",
+    "type": "9",
+    "notes": [
+      "C#",
+      "D#",
+      "F",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 11,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#sus2",
+    "root": "D#",
+    "type": "sus2",
+    "notes": [
+      "D#",
+      "F",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "xx1341",
+        "base_fret": 1,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      },
+      {
+        "frets": "x13311",
+        "base_fret": 6,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "frets": "244122",
+        "base_fret": 10,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#sus4",
+    "root": "D#",
+    "type": "sus4",
+    "notes": [
+      "D#",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "xx1344",
+        "base_fret": 1,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      },
+      {
+        "frets": "x13341",
+        "base_fret": 6,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "frets": "133311",
+        "base_fret": 11,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "D#6",
+    "root": "D#",
+    "type": "6",
+    "notes": [
+      "C",
+      "D#",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13333",
+        "base_fret": 6,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      },
+      {
+        "frets": "133231",
+        "base_fret": 11,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "E",
+    "root": "E",
+    "type": "Major",
+    "notes": [
+      "E",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "xx1343",
+        "base_fret": 2,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          4
+        ]
+      },
+      {
+        "frets": "x13331",
+        "base_fret": 7,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "133211",
+        "base_fret": 12,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Em",
+    "root": "E",
+    "type": "Minor",
+    "notes": [
+      "E",
+      "G",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "xx1342",
+        "base_fret": 2,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      },
+      {
+        "frets": "x13321",
+        "base_fret": 7,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "frets": "133111",
+        "base_fret": 12,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Edim",
+    "root": "E",
+    "type": "Diminished",
+    "notes": [
+      "E",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x23431",
+        "base_fret": 6,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      },
+      {
+        "frets": "23421x",
+        "base_fret": 11,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Emaj7",
+    "root": "E",
+    "type": "maj7",
+    "notes": [
+      "D#",
+      "E",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "xx1333",
+        "base_fret": 2,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      },
+      {
+        "frets": "x13231",
+        "base_fret": 7,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "132211",
+        "base_fret": 12,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Em7",
+    "root": "E",
+    "type": "m7",
+    "notes": [
+      "D",
+      "E",
+      "G",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "xx2433",
+        "base_fret": 1,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      },
+      {
+        "frets": "x13324",
+        "base_fret": 7,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      },
+      {
+        "frets": "133141",
+        "base_fret": 12,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "E7",
+    "root": "E",
+    "type": "7",
+    "notes": [
+      "D",
+      "E",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13334",
+        "base_fret": 7,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      },
+      {
+        "frets": "133241",
+        "base_fret": 12,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 12,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Eadd9",
+    "root": "E",
+    "type": "add9",
+    "notes": [
+      "E",
+      "F#",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 12,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "E9",
+    "root": "E",
+    "type": "9",
+    "notes": [
+      "D",
+      "E",
+      "F#",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 12,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Esus2",
+    "root": "E",
+    "type": "sus2",
+    "notes": [
+      "E",
+      "F#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "xx1341",
+        "base_fret": 2,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      },
+      {
+        "frets": "x13311",
+        "base_fret": 7,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "frets": "244122",
+        "base_fret": 11,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Esus4",
+    "root": "E",
+    "type": "sus4",
+    "notes": [
+      "E",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "xx1344",
+        "base_fret": 2,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      },
+      {
+        "frets": "x13341",
+        "base_fret": 7,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "frets": "133311",
+        "base_fret": 12,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "E6",
+    "root": "E",
+    "type": "6",
+    "notes": [
+      "C#",
+      "E",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13333",
+        "base_fret": 7,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      },
+      {
+        "frets": "133231",
+        "base_fret": 12,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F",
+    "root": "F",
+    "type": "Major",
+    "notes": [
+      "C",
+      "F",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133211",
+        "base_fret": 1,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 1,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      },
+      {
+        "frets": "xx1343",
+        "base_fret": 3,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fm",
+    "root": "F",
+    "type": "Minor",
+    "notes": [
+      "C",
+      "F",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "133111",
+        "base_fret": 1,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 3,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      },
+      {
+        "frets": "x13321",
+        "base_fret": 8,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fdim",
+    "root": "F",
+    "type": "Diminished",
+    "notes": [
+      "F",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "12310x",
+        "base_fret": 1,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      },
+      {
+        "frets": "x23431",
+        "base_fret": 7,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fmaj7",
+    "root": "F",
+    "type": "maj7",
+    "notes": [
+      "C",
+      "E",
+      "F",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "132211",
+        "base_fret": 1,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 3,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      },
+      {
+        "frets": "x13231",
+        "base_fret": 8,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fm7",
+    "root": "F",
+    "type": "m7",
+    "notes": [
+      "C",
+      "D#",
+      "F",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "133141",
+        "base_fret": 1,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 2,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      },
+      {
+        "frets": "x13324",
+        "base_fret": 8,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F7",
+    "root": "F",
+    "type": "7",
+    "notes": [
+      "C",
+      "D#",
+      "F",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133241",
+        "base_fret": 1,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 1,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      },
+      {
+        "frets": "x13334",
+        "base_fret": 8,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fadd9",
+    "root": "F",
+    "type": "add9",
+    "notes": [
+      "C",
+      "F",
+      "G",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 1,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F9",
+    "root": "F",
+    "type": "9",
+    "notes": [
+      "C",
+      "D#",
+      "F",
+      "G",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 1,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fsus2",
+    "root": "F",
+    "type": "sus2",
+    "notes": [
+      "C",
+      "F",
+      "G"
+    ],
+    "positions": [
+      {
+        "frets": "133011",
+        "base_fret": 1,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 3,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      },
+      {
+        "frets": "x13311",
+        "base_fret": 8,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fsus4",
+    "root": "F",
+    "type": "sus4",
+    "notes": [
+      "C",
+      "F",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133311",
+        "base_fret": 1,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 3,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      },
+      {
+        "frets": "x13341",
+        "base_fret": 8,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F6",
+    "root": "F",
+    "type": "6",
+    "notes": [
+      "C",
+      "D",
+      "F",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133231",
+        "base_fret": 1,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      },
+      {
+        "frets": "x13333",
+        "base_fret": 8,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#",
+    "root": "F#",
+    "type": "Major",
+    "notes": [
+      "C#",
+      "F#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133211",
+        "base_fret": 2,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 2,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      },
+      {
+        "frets": "xx1343",
+        "base_fret": 4,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#m",
+    "root": "F#",
+    "type": "Minor",
+    "notes": [
+      "C#",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133111",
+        "base_fret": 2,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 4,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      },
+      {
+        "frets": "x13321",
+        "base_fret": 9,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#dim",
+    "root": "F#",
+    "type": "Diminished",
+    "notes": [
+      "C",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "23421x",
+        "base_fret": 1,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      },
+      {
+        "frets": "x23431",
+        "base_fret": 8,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#maj7",
+    "root": "F#",
+    "type": "maj7",
+    "notes": [
+      "C#",
+      "F",
+      "F#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "132211",
+        "base_fret": 2,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 4,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      },
+      {
+        "frets": "x13231",
+        "base_fret": 9,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#m7",
+    "root": "F#",
+    "type": "m7",
+    "notes": [
+      "C#",
+      "E",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133141",
+        "base_fret": 2,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 3,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      },
+      {
+        "frets": "x13324",
+        "base_fret": 9,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#7",
+    "root": "F#",
+    "type": "7",
+    "notes": [
+      "C#",
+      "E",
+      "F#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133241",
+        "base_fret": 2,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 2,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      },
+      {
+        "frets": "x13334",
+        "base_fret": 9,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#add9",
+    "root": "F#",
+    "type": "add9",
+    "notes": [
+      "C#",
+      "F#",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 2,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#9",
+    "root": "F#",
+    "type": "9",
+    "notes": [
+      "C#",
+      "E",
+      "F#",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 2,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#sus2",
+    "root": "F#",
+    "type": "sus2",
+    "notes": [
+      "C#",
+      "F#",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "244122",
+        "base_fret": 1,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 4,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      },
+      {
+        "frets": "x13311",
+        "base_fret": 9,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#sus4",
+    "root": "F#",
+    "type": "sus4",
+    "notes": [
+      "C#",
+      "F#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133311",
+        "base_fret": 2,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 4,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      },
+      {
+        "frets": "x13341",
+        "base_fret": 9,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "F#6",
+    "root": "F#",
+    "type": "6",
+    "notes": [
+      "C#",
+      "D#",
+      "F#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133231",
+        "base_fret": 2,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      },
+      {
+        "frets": "x13333",
+        "base_fret": 9,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G",
+    "root": "G",
+    "type": "Major",
+    "notes": [
+      "D",
+      "G",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133211",
+        "base_fret": 3,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 3,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      },
+      {
+        "frets": "xx1343",
+        "base_fret": 5,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gm",
+    "root": "G",
+    "type": "Minor",
+    "notes": [
+      "D",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133111",
+        "base_fret": 3,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 5,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      },
+      {
+        "frets": "x13321",
+        "base_fret": 10,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gdim",
+    "root": "G",
+    "type": "Diminished",
+    "notes": [
+      "C#",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "23421x",
+        "base_fret": 2,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      },
+      {
+        "frets": "x23431",
+        "base_fret": 9,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gmaj7",
+    "root": "G",
+    "type": "maj7",
+    "notes": [
+      "D",
+      "F#",
+      "G",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "132211",
+        "base_fret": 3,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 5,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      },
+      {
+        "frets": "x13231",
+        "base_fret": 10,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gm7",
+    "root": "G",
+    "type": "m7",
+    "notes": [
+      "D",
+      "F",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133141",
+        "base_fret": 3,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 4,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      },
+      {
+        "frets": "x13324",
+        "base_fret": 10,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G7",
+    "root": "G",
+    "type": "7",
+    "notes": [
+      "D",
+      "F",
+      "G",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133241",
+        "base_fret": 3,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 3,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      },
+      {
+        "frets": "x13334",
+        "base_fret": 10,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gadd9",
+    "root": "G",
+    "type": "add9",
+    "notes": [
+      "D",
+      "G",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 3,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G9",
+    "root": "G",
+    "type": "9",
+    "notes": [
+      "D",
+      "F",
+      "G",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 3,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gsus2",
+    "root": "G",
+    "type": "sus2",
+    "notes": [
+      "D",
+      "G",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "244122",
+        "base_fret": 2,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 5,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      },
+      {
+        "frets": "x13311",
+        "base_fret": 10,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Gsus4",
+    "root": "G",
+    "type": "sus4",
+    "notes": [
+      "C",
+      "D",
+      "G"
+    ],
+    "positions": [
+      {
+        "frets": "133311",
+        "base_fret": 3,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 5,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      },
+      {
+        "frets": "x13341",
+        "base_fret": 10,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G6",
+    "root": "G",
+    "type": "6",
+    "notes": [
+      "D",
+      "E",
+      "G",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133231",
+        "base_fret": 3,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      },
+      {
+        "frets": "x13333",
+        "base_fret": 10,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#",
+    "root": "G#",
+    "type": "Major",
+    "notes": [
+      "C",
+      "D#",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "133211",
+        "base_fret": 4,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 4,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      },
+      {
+        "frets": "xx1343",
+        "base_fret": 6,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#m",
+    "root": "G#",
+    "type": "Minor",
+    "notes": [
+      "D#",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133111",
+        "base_fret": 4,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 6,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      },
+      {
+        "frets": "x13321",
+        "base_fret": 11,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#dim",
+    "root": "G#",
+    "type": "Diminished",
+    "notes": [
+      "D",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "23421x",
+        "base_fret": 3,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      },
+      {
+        "frets": "x23431",
+        "base_fret": 10,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#maj7",
+    "root": "G#",
+    "type": "maj7",
+    "notes": [
+      "C",
+      "D#",
+      "G",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "132211",
+        "base_fret": 4,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 6,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      },
+      {
+        "frets": "x13231",
+        "base_fret": 11,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#m7",
+    "root": "G#",
+    "type": "m7",
+    "notes": [
+      "D#",
+      "F#",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133141",
+        "base_fret": 4,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 5,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      },
+      {
+        "frets": "x13324",
+        "base_fret": 11,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#7",
+    "root": "G#",
+    "type": "7",
+    "notes": [
+      "C",
+      "D#",
+      "F#",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "133241",
+        "base_fret": 4,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 4,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      },
+      {
+        "frets": "x13334",
+        "base_fret": 11,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#add9",
+    "root": "G#",
+    "type": "add9",
+    "notes": [
+      "C",
+      "D#",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 4,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#9",
+    "root": "G#",
+    "type": "9",
+    "notes": [
+      "C",
+      "D#",
+      "F#",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 4,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#sus2",
+    "root": "G#",
+    "type": "sus2",
+    "notes": [
+      "D#",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "244122",
+        "base_fret": 3,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 6,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      },
+      {
+        "frets": "x13311",
+        "base_fret": 11,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#sus4",
+    "root": "G#",
+    "type": "sus4",
+    "notes": [
+      "C#",
+      "D#",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "133311",
+        "base_fret": 4,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 6,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      },
+      {
+        "frets": "x13341",
+        "base_fret": 11,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "G#6",
+    "root": "G#",
+    "type": "6",
+    "notes": [
+      "C",
+      "D#",
+      "F",
+      "G#"
+    ],
+    "positions": [
+      {
+        "frets": "133231",
+        "base_fret": 4,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      },
+      {
+        "frets": "x13333",
+        "base_fret": 11,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A",
+    "root": "A",
+    "type": "Major",
+    "notes": [
+      "C#",
+      "E",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133211",
+        "base_fret": 5,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 5,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      },
+      {
+        "frets": "xx1343",
+        "base_fret": 7,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Am",
+    "root": "A",
+    "type": "Minor",
+    "notes": [
+      "C",
+      "E",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133111",
+        "base_fret": 5,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 7,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      },
+      {
+        "frets": "x13321",
+        "base_fret": 12,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Adim",
+    "root": "A",
+    "type": "Diminished",
+    "notes": [
+      "C",
+      "D#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "23421x",
+        "base_fret": 4,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      },
+      {
+        "frets": "x23431",
+        "base_fret": 11,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Amaj7",
+    "root": "A",
+    "type": "maj7",
+    "notes": [
+      "C#",
+      "E",
+      "G#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "132211",
+        "base_fret": 5,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 7,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      },
+      {
+        "frets": "x13231",
+        "base_fret": 12,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Am7",
+    "root": "A",
+    "type": "m7",
+    "notes": [
+      "C",
+      "E",
+      "G",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133141",
+        "base_fret": 5,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 6,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      },
+      {
+        "frets": "x13324",
+        "base_fret": 12,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A7",
+    "root": "A",
+    "type": "7",
+    "notes": [
+      "C#",
+      "E",
+      "G",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133241",
+        "base_fret": 5,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 5,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      },
+      {
+        "frets": "x13334",
+        "base_fret": 12,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Aadd9",
+    "root": "A",
+    "type": "add9",
+    "notes": [
+      "C#",
+      "E",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 5,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      },
+      {
+        "frets": "133201",
+        "base_fret": 5,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          2,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A9",
+    "root": "A",
+    "type": "9",
+    "notes": [
+      "C#",
+      "E",
+      "G",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 5,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Asus2",
+    "root": "A",
+    "type": "sus2",
+    "notes": [
+      "E",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "244122",
+        "base_fret": 4,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 7,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      },
+      {
+        "frets": "x13311",
+        "base_fret": 12,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Asus4",
+    "root": "A",
+    "type": "sus4",
+    "notes": [
+      "D",
+      "E",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133311",
+        "base_fret": 5,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 7,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      },
+      {
+        "frets": "x13341",
+        "base_fret": 12,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A6",
+    "root": "A",
+    "type": "6",
+    "notes": [
+      "C#",
+      "E",
+      "F#",
+      "A"
+    ],
+    "positions": [
+      {
+        "frets": "133231",
+        "base_fret": 5,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      },
+      {
+        "frets": "x13333",
+        "base_fret": 12,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#",
+    "root": "A#",
+    "type": "Major",
+    "notes": [
+      "D",
+      "F",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13331",
+        "base_fret": 1,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "133211",
+        "base_fret": 6,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 6,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#m",
+    "root": "A#",
+    "type": "Minor",
+    "notes": [
+      "C#",
+      "F",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13321",
+        "base_fret": 1,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "frets": "133111",
+        "base_fret": 6,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 8,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#dim",
+    "root": "A#",
+    "type": "Diminished",
+    "notes": [
+      "C#",
+      "E",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x12320",
+        "base_fret": 1,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      },
+      {
+        "frets": "23421x",
+        "base_fret": 5,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#maj7",
+    "root": "A#",
+    "type": "maj7",
+    "notes": [
+      "D",
+      "F",
+      "A",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13231",
+        "base_fret": 1,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "132211",
+        "base_fret": 6,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 8,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#m7",
+    "root": "A#",
+    "type": "m7",
+    "notes": [
+      "C#",
+      "F",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13324",
+        "base_fret": 1,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      },
+      {
+        "frets": "133141",
+        "base_fret": 6,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 7,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#7",
+    "root": "A#",
+    "type": "7",
+    "notes": [
+      "D",
+      "F",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13334",
+        "base_fret": 1,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      },
+      {
+        "frets": "133241",
+        "base_fret": 6,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 6,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#add9",
+    "root": "A#",
+    "type": "add9",
+    "notes": [
+      "C",
+      "D",
+      "F",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 6,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#9",
+    "root": "A#",
+    "type": "9",
+    "notes": [
+      "C",
+      "D",
+      "F",
+      "G#",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 6,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#sus2",
+    "root": "A#",
+    "type": "sus2",
+    "notes": [
+      "C",
+      "F",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13311",
+        "base_fret": 1,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "frets": "244122",
+        "base_fret": 5,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 8,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#sus4",
+    "root": "A#",
+    "type": "sus4",
+    "notes": [
+      "D#",
+      "F",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13341",
+        "base_fret": 1,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "frets": "133311",
+        "base_fret": 6,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 8,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "name": "A#6",
+    "root": "A#",
+    "type": "6",
+    "notes": [
+      "D",
+      "F",
+      "G",
+      "A#"
+    ],
+    "positions": [
+      {
+        "frets": "x13333",
+        "base_fret": 1,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      },
+      {
+        "frets": "133231",
+        "base_fret": 6,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "B",
+    "root": "B",
+    "type": "Major",
+    "notes": [
+      "D#",
+      "F#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13331",
+        "base_fret": 2,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "133211",
+        "base_fret": 7,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "1332x1",
+        "base_fret": 7,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          null,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bm",
+    "root": "B",
+    "type": "Minor",
+    "notes": [
+      "D",
+      "F#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13321",
+        "base_fret": 2,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "frets": "133111",
+        "base_fret": 7,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1342",
+        "base_fret": 9,
+        "caged_shape": "Dm",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bdim",
+    "root": "B",
+    "type": "Diminished",
+    "notes": [
+      "D",
+      "F",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x23431",
+        "base_fret": 1,
+        "caged_shape": "dim-A",
+        "intervals": [
+          null,
+          0,
+          6,
+          0,
+          3,
+          6
+        ]
+      },
+      {
+        "frets": "23421x",
+        "base_fret": 6,
+        "caged_shape": "dim-E",
+        "intervals": [
+          0,
+          6,
+          0,
+          3,
+          6,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bmaj7",
+    "root": "B",
+    "type": "maj7",
+    "notes": [
+      "D#",
+      "F#",
+      "A#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13231",
+        "base_fret": 2,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          11,
+          4,
+          7
+        ]
+      },
+      {
+        "frets": "132211",
+        "base_fret": 7,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          11,
+          4,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1333",
+        "base_fret": 9,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          11,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bm7",
+    "root": "B",
+    "type": "m7",
+    "notes": [
+      "D",
+      "F#",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13324",
+        "base_fret": 2,
+        "caged_shape": "Am",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          3,
+          10
+        ]
+      },
+      {
+        "frets": "133141",
+        "base_fret": 7,
+        "caged_shape": "Em",
+        "intervals": [
+          0,
+          7,
+          0,
+          3,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "xx2433",
+        "base_fret": 8,
+        "caged_shape": "Dm7",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          10,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "name": "B7",
+    "root": "B",
+    "type": "7",
+    "notes": [
+      "D#",
+      "F#",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13334",
+        "base_fret": 2,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          10
+        ]
+      },
+      {
+        "frets": "133241",
+        "base_fret": 7,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          0
+        ]
+      },
+      {
+        "frets": "13324x",
+        "base_fret": 7,
+        "caged_shape": "G",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          null
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Badd9",
+    "root": "B",
+    "type": "add9",
+    "notes": [
+      "C#",
+      "D#",
+      "F#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 7,
+        "caged_shape": "E9",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "B9",
+    "root": "B",
+    "type": "9",
+    "notes": [
+      "C#",
+      "D#",
+      "F#",
+      "A",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "133243",
+        "base_fret": 7,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          10,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bsus2",
+    "root": "B",
+    "type": "sus2",
+    "notes": [
+      "C#",
+      "F#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13311",
+        "base_fret": 2,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "frets": "244122",
+        "base_fret": 6,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          2,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1341",
+        "base_fret": 9,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Bsus4",
+    "root": "B",
+    "type": "sus4",
+    "notes": [
+      "E",
+      "F#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13341",
+        "base_fret": 2,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "frets": "133311",
+        "base_fret": 7,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          5,
+          7,
+          0
+        ]
+      },
+      {
+        "frets": "xx1344",
+        "base_fret": 9,
+        "caged_shape": "D",
+        "intervals": [
+          null,
+          null,
+          0,
+          7,
+          0,
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "name": "B6",
+    "root": "B",
+    "type": "6",
+    "notes": [
+      "D#",
+      "F#",
+      "G#",
+      "B"
+    ],
+    "positions": [
+      {
+        "frets": "x13333",
+        "base_fret": 2,
+        "caged_shape": "A",
+        "intervals": [
+          null,
+          0,
+          7,
+          0,
+          4,
+          9
+        ]
+      },
+      {
+        "frets": "133231",
+        "base_fret": 7,
+        "caged_shape": "E",
+        "intervals": [
+          0,
+          7,
+          0,
+          4,
+          9,
+          0
+        ]
+      }
+    ]
+  }
+]
