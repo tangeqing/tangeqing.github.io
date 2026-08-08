@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4f1e9">
+  <title>FRETLOGIC · 吉他核心和弦指法图生成器</title>
+  <style>
+    :root {
+      --paper: #f4f1e9;
+      --paper-deep: #e9e4d9;
+      --ink: #171815;
+      --muted: #74746c;
+      --line: #d7d2c7;
+      --card: rgba(255,255,255,.62);
+      --blue: #3157d5;
+      --blue-soft: #e8edff;
+      --root: #dc5b3e;
+      --root-soft: #ffe9e2;
+      --green: #28765a;
+      --shadow: 0 16px 40px rgba(39,34,24,.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 4%, rgba(49,87,213,.10), transparent 27rem),
+        linear-gradient(180deg, #f8f6f0 0, var(--paper) 28rem);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, select { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, select:focus-visible, [tabindex]:focus-visible { outline: 3px solid rgba(49,87,213,.28); outline-offset: 3px; }
+    .shell { width: min(1480px, calc(100% - 40px)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(248,246,240,.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(215,210,199,.78);
+    }
+    .topbar-inner { min-height: 66px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark { width: 31px; height: 31px; border: 2px solid var(--ink); border-radius: 50%; position: relative; flex: none; }
+    .brand-mark::before { content: ""; position: absolute; width: 16px; height: 2px; background: var(--root); transform: rotate(-38deg); left: 6px; top: 13px; }
+    .brand strong { font-size: 14px; letter-spacing: .18em; }
+    .brand span { font-size: 12px; color: var(--muted); padding-left: 12px; border-left: 1px solid var(--line); }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+    .nav a { color: var(--muted); text-decoration: none; white-space: nowrap; font-size: 13px; padding: 9px 10px; border-radius: 8px; }
+    .nav a:hover { color: var(--ink); background: rgba(0,0,0,.04); }
+
+    .hero { padding: 76px 0 54px; display: grid; grid-template-columns: 1.12fr .88fr; gap: 52px; align-items: end; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--blue); font-size: 12px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 25px; height: 2px; background: currentColor; }
+    h1 { margin: 18px 0 20px; font-size: clamp(48px, 6.5vw, 92px); line-height: .93; letter-spacing: -.065em; font-weight: 770; max-width: 900px; }
+    .hero-copy { font-size: 17px; color: #555650; line-height: 1.8; max-width: 680px; }
+    .hero-copy strong { color: var(--ink); }
+    .logic-card { background: #1c1e1d; color: #fff; border-radius: 24px; padding: 26px; box-shadow: var(--shadow); overflow: hidden; position: relative; }
+    .logic-card::after { content: ""; position: absolute; width: 180px; height: 180px; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; right: -70px; bottom: -85px; }
+    .logic-title { font-size: 11px; letter-spacing: .14em; color: #aeb0aa; text-transform: uppercase; }
+    .logic-flow { display: grid; grid-template-columns: auto 28px 1fr; gap: 13px; align-items: center; margin-top: 20px; }
+    .logic-name { font-family: Georgia, serif; font-size: 52px; line-height: 1; }
+    .logic-arrow { color: #747874; font-size: 23px; }
+    .formula { display: flex; gap: 6px; flex-wrap: wrap; }
+    .formula b { display: grid; place-items: center; min-width: 34px; height: 34px; padding: 0 8px; border-radius: 8px; background: #303332; font-size: 13px; }
+    .formula b.root { background: var(--root); }
+    .logic-caption { margin: 19px 0 0; color: #bfc1bc; line-height: 1.6; font-size: 13px; max-width: 390px; }
+
+    .principles { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .principle { padding: 20px 24px; border-right: 1px solid var(--line); }
+    .principle:last-child { border: 0; }
+    .principle small { display: block; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .12em; margin-bottom: 6px; }
+    .principle strong { font-size: 14px; }
+
+    main { padding-bottom: 80px; }
+    section { scroll-margin-top: 88px; padding-top: 82px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 26px; }
+    .section-kicker { margin: 0 0 8px; color: var(--root); font-size: 11px; font-weight: 750; letter-spacing: .14em; }
+    .section-title { margin: 0; font-size: clamp(30px, 4vw, 52px); line-height: 1.05; letter-spacing: -.04em; }
+    .section-desc { margin: 0; max-width: 590px; color: var(--muted); line-height: 1.65; font-size: 14px; }
+    .tag { display: inline-flex; padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 11px; background: rgba(255,255,255,.48); }
+
+    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 18px 0; flex-wrap: wrap; }
+    .toolbar-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .btn { border: 1px solid var(--line); background: rgba(255,255,255,.65); border-radius: 10px; padding: 9px 13px; cursor: pointer; font-size: 12px; font-weight: 650; transition: .18s ease; }
+    .btn:hover { border-color: #aaa69d; transform: translateY(-1px); background: white; }
+    .btn.primary { background: var(--ink); color: white; border-color: var(--ink); }
+    .btn.blue { background: var(--blue); color: white; border-color: var(--blue); }
+    .btn.ghost { background: transparent; }
+    .select { border: 1px solid var(--line); background: rgba(255,255,255,.75); border-radius: 10px; padding: 9px 34px 9px 12px; color: var(--ink); }
+    .segmented { display: inline-flex; background: var(--paper-deep); padding: 3px; border-radius: 11px; }
+    .segmented button { border: 0; background: transparent; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; color: var(--muted); }
+    .segmented button.active { color: var(--ink); background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+
+    .chord-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 13px; }
+    .chord-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; min-width: 0; }
+    .chord-card:hover { transform: translateY(-3px); border-color: #b8b3a8; box-shadow: var(--shadow); }
+    .chord-card.expanded { grid-column: span 2; background: rgba(255,255,255,.86); border-color: #a9a49a; }
+    .card-main { padding: 13px 13px 8px; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; min-height: 22px; }
+    .card-type { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    .mini-hint { font-size: 10px; color: #9a9992; }
+    .diagram-wrap { width: 100%; display: grid; place-items: center; }
+    .diagram-wrap svg { width: min(100%, 224px); height: auto; display: block; }
+    .card-actions { display: flex; justify-content: center; gap: 6px; padding: 0 12px 14px; }
+    .icon-btn { border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 10px; padding: 6px 8px; border-radius: 7px; }
+    .icon-btn:hover { background: var(--paper-deep); color: var(--ink); }
+    .card-detail { display: none; border-top: 1px solid var(--line); padding: 18px; cursor: default; }
+    .expanded .card-detail { display: block; }
+    .detail-top { display: flex; justify-content: space-between; gap: 20px; align-items: start; margin-bottom: 16px; }
+    .detail-block small { display: block; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .12em; margin-bottom: 6px; }
+    .detail-value { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+    .string-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .string-table th, .string-table td { text-align: left; border-top: 1px solid #e7e3db; padding: 8px 6px; }
+    .string-table th { color: var(--muted); font-weight: 600; }
+    .function-root { color: var(--root); font-weight: 800; }
+
+    .template-note { display: flex; align-items: center; gap: 13px; padding: 15px 18px; border-left: 3px solid var(--blue); background: var(--blue-soft); color: #34406e; border-radius: 0 12px 12px 0; line-height: 1.6; font-size: 13px; margin-bottom: 18px; }
+    .template-note b { color: #1f327d; }
+    .transition-strip { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 20px; }
+    .transition { display: flex; align-items: center; gap: 7px; background: rgba(255,255,255,.6); border: 1px solid var(--line); border-radius: 999px; padding: 7px 11px; font-size: 11px; }
+    .transition .change { color: var(--root); font-weight: 800; }
+
+    .family-panel { background: #202220; color: #f7f5ef; border-radius: 26px; padding: 24px; box-shadow: var(--shadow); }
+    .family-controls { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+    .family-controls label { color: #adafa9; font-size: 12px; margin-right: 9px; }
+    .family-controls .select { background: #303330; border-color: #454844; color: #fff; }
+    .family-legend { display: flex; align-items: center; gap: 16px; color: #adafa9; font-size: 11px; }
+    .legend-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+    .legend-root { background: var(--root); }
+    .legend-change { background: #ffcf61; }
+    .family-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .family-card { background: #292c29; border: 1px solid #3c3f3b; border-radius: 15px; padding: 11px; min-width: 0; }
+    .family-card.base { border-color: #747872; }
+    .family-card .diagram-wrap svg { width: min(100%, 215px); }
+    .delta { min-height: 29px; display: flex; justify-content: center; align-items: center; gap: 5px; color: #aeb0ac; font-size: 10px; text-align: center; }
+    .delta b { color: #ffcf61; background: rgba(255,207,97,.1); border-radius: 6px; padding: 4px 6px; }
+
+    .training-panel { display: grid; grid-template-columns: minmax(300px, .8fr) 1.2fr; background: rgba(255,255,255,.62); border: 1px solid var(--line); border-radius: 26px; overflow: hidden; }
+    .training-stage { min-height: 500px; padding: 28px; display: grid; place-items: center; border-right: 1px solid var(--line); position: relative; }
+    .training-card { width: min(100%, 330px); text-align: center; }
+    .training-name { font-family: Georgia, "Times New Roman", serif; font-size: 66px; line-height: 1; margin: 8px 0 19px; }
+    .training-prompt { color: var(--muted); font-size: 12px; margin-bottom: 20px; }
+    .training-answer { min-height: 290px; display: grid; place-items: center; }
+    .training-answer.concealed { border: 1px dashed #c8c3b8; border-radius: 18px; color: var(--muted); font-size: 13px; }
+    .rating-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+    .rate { border: 1px solid var(--line); background: white; padding: 10px 6px; border-radius: 9px; cursor: pointer; font-size: 12px; }
+    .rate.good:hover { border-color: var(--green); color: var(--green); }
+    .rate.fuzzy:hover { border-color: #bd831c; color: #9d6810; }
+    .rate.bad:hover { border-color: var(--root); color: var(--root); }
+    .rate:disabled { opacity: .35; cursor: not-allowed; }
+    .training-side { padding: 30px; }
+    .training-side h3 { margin: 0 0 8px; font-size: 24px; letter-spacing: -.03em; }
+    .training-side > p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 24px 0; }
+    .stat { background: var(--paper); border-radius: 12px; padding: 14px; }
+    .stat b { display: block; font-size: 25px; }
+    .stat small { color: var(--muted); font-size: 10px; }
+    .recent-list { border-top: 1px solid var(--line); margin-top: 20px; padding-top: 16px; }
+    .recent-item { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; padding: 9px 0; border-bottom: 1px solid #e6e2da; font-size: 12px; }
+    .recent-item span { color: var(--muted); }
+
+    .special-grid .chord-card { border-style: dashed; }
+    footer { border-top: 1px solid var(--line); padding: 32px 0 55px; color: var(--muted); font-size: 12px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .toast { position: fixed; left: 50%; bottom: 26px; z-index: 60; transform: translate(-50%, 20px); padding: 11px 16px; background: #171815; color: white; border-radius: 10px; font-size: 12px; opacity: 0; pointer-events: none; transition: .22s ease; box-shadow: var(--shadow); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 1050px) {
+      .hero { grid-template-columns: 1fr; }
+      .logic-card { max-width: 650px; }
+      .family-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav { display: none; }
+    }
+    @media (max-width: 760px) {
+      .shell { width: min(100% - 24px, 1480px); }
+      .brand span { display: none; }
+      .hero { padding-top: 50px; gap: 34px; }
+      .principles { grid-template-columns: repeat(2, 1fr); }
+      .principle:nth-child(2) { border-right: 0; }
+      .principle:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      section { padding-top: 62px; }
+      .section-head { display: block; }
+      .section-desc { margin-top: 15px; }
+      .chord-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+      .chord-card.expanded { grid-column: 1 / -1; }
+      .card-main { padding: 8px; }
+      .card-type, .mini-hint { font-size: 8px; }
+      .family-panel { padding: 12px; border-radius: 18px; }
+      .family-controls { align-items: flex-start; }
+      .family-legend { display: none; }
+      .training-panel { grid-template-columns: 1fr; }
+      .training-stage { border-right: 0; border-bottom: 1px solid var(--line); min-height: 450px; }
+      .training-side { padding: 22px; }
+      .footer-inner { display: block; }
+    }
+    @media (max-width: 420px) {
+      h1 { font-size: 46px; }
+      .chord-grid { grid-template-columns: 1fr; }
+      .family-grid { grid-template-columns: 1fr; }
+      .principles { grid-template-columns: 1fr; }
+      .principle { border-right: 0; border-bottom: 1px solid var(--line); }
+      .logic-flow { grid-template-columns: 1fr; }
+      .logic-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <div class="brand"><i class="brand-mark" aria-hidden="true"></i><strong>FRETLOGIC</strong><span>结构化和弦记忆</span></div>
+      <div class="top-actions">
+        <nav class="nav" aria-label="页面导航">
+          <a href="#open">开放和弦</a><a href="#root6">6弦模板</a><a href="#root5">5弦模板</a><a href="#family">家族对比</a><a href="#training">随机训练</a>
+        </nav>
+        <button class="btn primary" data-action="jump-training">开始训练</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <div class="hero">
+      <div>
+        <span class="eyebrow">Chord shape system / E A D G B E</span>
+        <h1>理解和弦</h1>
+        <p class="hero-copy">把手型、公式和指板上的功能音同时连起来。先让核心形状形成<strong>条件反射</strong>，再理解同一家族中到底是哪一个音发生了变化。</p>
+      </div>
+      <aside class="logic-card">
+        <div class="logic-title">看到 C7 时，大脑里的三层信息</div>
+        <div class="logic-flow">
+          <div class="logic-name">C7</div><div class="logic-arrow">→</div>
+          <div class="formula"><b class="root">R</b><b>3</b><b>5</b><b>♭7</b></div>
+        </div>
+        <p class="logic-caption">手知道大概按哪里；同时知道 1–3–5–♭7；再进一步知道当前把位里 R、3、5、♭7 分别在哪里。</p>
+      </aside>
+    </div>
+    <div class="principles">
+      <div class="principle"><small>01 / NAME</small><strong>和弦名</strong></div>
+      <div class="principle"><small>02 / FORMULA</small><strong>和弦公式</strong></div>
+      <div class="principle"><small>03 / FUNCTION</small><strong>根音与功能音</strong></div>
+      <div class="principle"><small>04 / SHAPE</small><strong>手型与肌肉记忆</strong></div>
+    </div>
+  </div>
+
+  <main class="shell">
+    <section id="open">
+      <div class="section-head">
+        <div><p class="section-kicker">【必须形成条件反射】</p><h2 class="section-title">开放和弦</h2></div>
+        <p class="section-desc">点击任意和弦展开公式、实际音名和逐弦功能。红色 R 是根音；圆点内标出其余音程；弦上方的 O / X 分别表示开放弦 / 不弹弦。</p>
+      </div>
+      <div class="toolbar">
+        <span class="tag">标准调弦 · E A D G B E</span>
+        <div class="toolbar-group"><button class="btn" data-action="export-all-svg">一键导出全部 · SVG</button><button class="btn" data-action="export-all-png">一键导出全部 · PNG</button></div>
+      </div>
+      <div id="open-grid" class="chord-grid"></div>
+    </section>
+
+    <section id="root6">
+      <div class="section-head">
+        <div><p class="section-kicker">【必须形成条件反射】</p><h2 class="section-title">6弦根音移动家族</h2></div>
+        <p class="section-desc">以下不是 6 个孤立和弦，而是以 6 弦根音 R 为坐标的同一套关系。图中用 G（6弦3品）作为落地示例。</p>
+      </div>
+      <div class="template-note"><span>↔</span><span>把<strong>整个形状沿指板平移</strong>，并让 6 弦根音落在目标音上，即可得到 F、F#、G、A♭、A、B♭、B、C、C#、D、E♭、E 的同类型和弦。</span></div>
+      <div class="transition-strip"><span class="transition">Major → minor <b class="change">3 → ♭3</b></span><span class="transition">Major → M7 <b class="change">加入 7</b></span><span class="transition">Major → 7 <b class="change">加入 ♭7</b></span><span class="transition">minor → m7 <b class="change">加入 ♭7</b></span></div>
+      <div id="root6-grid" class="chord-grid"></div>
+    </section>
+
+    <section id="root5">
+      <div class="section-head">
+        <div><p class="section-kicker">【必须形成条件反射】</p><h2 class="section-title">5弦根音移动家族</h2></div>
+        <p class="section-desc">以 C（5弦3品）为例。根音永远在 5 弦；记住相对结构，换根音只是在指板上整体平移。</p>
+      </div>
+      <div class="template-note"><span>↔</span><span>这些不是独立和弦图，而是一套<strong>沿 5 弦根音移动的模板</strong>。先找 5 弦目标根音，再覆盖对应的 Major / minor / 7 / M7 / m7 结构。</span></div>
+      <div class="transition-strip"><span class="transition">Major → minor <b class="change">3 → ♭3</b></span><span class="transition">Major → M7 <b class="change">加入 7</b></span><span class="transition">Major → 7 <b class="change">加入 ♭7</b></span><span class="transition">minor → m7 <b class="change">加入 ♭7</b></span></div>
+      <div id="root5-grid" class="chord-grid"></div>
+    </section>
+
+    <section id="family">
+      <div class="section-head">
+        <div><p class="section-kicker">核心功能 / FAMILY COMPARISON</p><h2 class="section-title">家族对比模式</h2></div>
+        <p class="section-desc">所有变化都以同根音 Major 为参照。黄色功能音就是需要注意的变化，不再把八个和弦当作八张互不相关的照片。</p>
+      </div>
+      <div class="family-panel">
+        <div class="family-controls">
+          <div><label for="family-root">选择根音</label><select id="family-root" class="select" aria-label="选择家族根音"></select></div>
+          <div class="family-legend"><span><i class="legend-dot legend-root"></i>根音 R</span><span><i class="legend-dot legend-change"></i>相对 Major 的变化</span></div>
+        </div>
+        <div id="family-grid" class="family-grid"></div>
+      </div>
+    </section>
+
+    <section id="special">
+      <div class="section-head">
+        <div><p class="section-kicker">【理解结构后逐渐熟悉】</p><h2 class="section-title">特殊结构</h2></div>
+        <p class="section-desc">先认出公式和功能音，再逐步让手型变熟。这里以 G 根音附近的实用按法为示例，不列成需要全部死背的清单。</p>
+      </div>
+      <div id="special-grid" class="chord-grid special-grid"></div>
+    </section>
+
+    <section id="training">
+      <div class="section-head">
+        <div><p class="section-kicker">SPACED RECALL / 本机记录</p><h2 class="section-title">隐藏答案训练</h2></div>
+        <p class="section-desc">“不会”和“模糊”的项目会获得更高的再次出现概率。训练数据仅保存在当前浏览器的 localStorage 中。</p>
+      </div>
+      <div class="training-panel">
+        <div class="training-stage">
+          <div class="training-card">
+            <div class="segmented" aria-label="训练显示模式"><button data-mode="show">显示指法</button><button data-mode="hide" class="active">隐藏指法</button></div>
+            <div id="training-name" class="training-name">Bb7</div>
+            <div id="training-prompt" class="training-prompt">先在脑中回忆公式、根音位置和手型</div>
+            <div id="training-answer" class="training-answer concealed"><button class="btn blue" data-action="reveal">显示答案</button></div>
+            <div class="rating-row"><button class="rate good" data-rating="good" disabled>正确</button><button class="rate fuzzy" data-rating="fuzzy" disabled>模糊</button><button class="rate bad" data-rating="bad" disabled>不会</button></div>
+          </div>
+        </div>
+        <aside class="training-side">
+          <h3>记忆不是平均用力</h3>
+          <p>随机池包含开放和弦、两套移动家族及特殊结构。评分后自动进入下一题；薄弱项目会更常出现。</p>
+          <div class="stat-grid"><div class="stat"><b id="stat-reviews">0</b><small>复习次数</small></div><div class="stat"><b id="stat-fuzzy">0</b><small>模糊次数</small></div><div class="stat"><b id="stat-wrong">0</b><small>不会次数</small></div></div>
+          <button class="btn ghost" data-action="next">换一题</button>
+          <button class="btn ghost" data-action="reset-stats">清空训练记录</button>
+          <div class="recent-list"><span class="tag">最近练习</span><div id="recent-items"></div></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell footer-inner"><span>FRETLOGIC · 单文件本地应用</span><span>数据驱动 SVG · 无外部图片 · 无需联网</span></div></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (() => {
+    'use strict';
+
+    const TUNING = ['E', 'A', 'D', 'G', 'B', 'E'];
+    const NOTE_TO_PC = { C:0, 'C#':1, Db:1, D:2, 'D#':3, Eb:3, E:4, F:5, 'F#':6, Gb:6, G:7, 'G#':8, Ab:8, A:9, 'A#':10, Bb:10, B:11 };
+    const PC_SHARP = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+    const PC_FLAT = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+    const ROOTS = ['C','C#','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+    const FORMULAS = {
+      major: ['R','3','5'], minor: ['R','♭3','5'], dom7: ['R','3','5','♭7'], maj7: ['R','3','5','7'],
+      m7: ['R','♭3','5','♭7'], sus4: ['R','4','5'], add9: ['R','3','5','9'], dim7: ['R','♭3','♭5','𝄫7'],
+      m7b5: ['R','♭3','♭5','♭7'], aug: ['R','3','#5'], nine: ['R','3','5','♭7','9'],
+      sevenb9: ['R','3','5','♭7','♭9'], sevens9: ['R','3','5','♭7','#9'], sevenSus4: ['R','4','5','♭7']
+    };
+    const QUALITY_LABEL = { major:'Major', minor:'minor', dom7:'7', maj7:'M7', m7:'m7', sus4:'sus4', add9:'add9', dim7:'dim7', m7b5:'m7♭5', aug:'aug', nine:'9', sevenb9:'7♭9', sevens9:'7#9', sevenSus4:'7sus4' };
+
+    // 所有和弦数据集中于此；HTML 中没有硬编码任何一张和弦图。
+    const CHORD_DATA = {
+      open: [
+        ['C','x32010','major'], ['CM7','x32000','maj7'], ['C7','x32310','dom7'], ['Cadd9','x32033','add9'],
+        ['A','x02220','major'], ['Am','x02210','minor'], ['A7','x02020','dom7'], ['AM7','x02120','maj7'], ['Asus4','x02230','sus4'],
+        ['D','xx0232','major'], ['Dm','xx0231','minor'], ['D7','xx0212','dom7'], ['DM7','xx0222','maj7'], ['Dsus4','xx0233','sus4'],
+        ['E','022100','major'], ['Em','022000','minor'], ['E7','020100','dom7'], ['EM7','021100','maj7'], ['Esus4','022200','sus4'],
+        ['G','320003','major'], ['GM7','320002','maj7'], ['G7','320001','dom7'], ['B7','x21202','dom7'],
+        ['F','133211','major'], ['Fm','133111','minor'], ['F7','131211','dom7'], ['FM7','xx3210','maj7']
+      ],
+      root6: [
+        ['G','355433','major'], ['Gm','355333','minor'], ['G7','353433','dom7'], ['GM7','354433','maj7'], ['Gm7','353333','m7'], ['Gsus4','355533','sus4']
+      ],
+      root5: [
+        ['C','x35553','major'], ['Cm','x35543','minor'], ['C7','x35353','dom7'], ['CM7','x35453','maj7'], ['Cm7','x35343','m7']
+      ],
+      special: [
+        ['Gdim7',[3,'x',2,3,2,'x'],'dim7'], ['Gm7♭5',[3,'x',3,3,2,'x'],'m7b5'], ['Gaug',[3,2,1,0,0,3],'aug'],
+        ['G9',[3,'x',3,2,0,'x'],'nine'], ['G7♭9',[3,'x',3,1,0,'x'],'sevenb9'], ['G7#9',[3,'x',3,4,3,6],'sevens9'], ['G7sus4',[3,'x',3,0,1,'x'],'sevenSus4']
+      ],
+      templates: {
+        root6: { rootString: 0, baseRoot: 'G', baseFret: 3, shapes: { major:[0,2,2,1,0,0], minor:[0,2,2,0,0,0], dom7:[0,2,0,1,0,0], maj7:[0,2,1,1,0,0], m7:[0,2,0,0,0,0], sus4:[0,2,2,2,0,0] } },
+        root5: { rootString: 1, baseRoot: 'C', baseFret: 3, shapes: { major:['x',0,2,2,2,0], minor:['x',0,2,2,1,0], dom7:['x',0,2,0,2,0], maj7:['x',0,2,1,2,0], m7:['x',0,2,0,1,0], sus4:['x',0,2,2,3,0], aug:['x',0,-1,-2,-2,'x'], m7b5:['x',0,1,0,1,'x'] } }
+      }
+    };
+
+    function parseFingering(value) {
+      if (Array.isArray(value)) return value.slice();
+      return value.split('').map(v => v.toLowerCase() === 'x' ? 'x' : Number(v));
+    }
+    function rootFromName(name) { return (name.match(/^[A-G](?:#|b)?/) || ['C'])[0]; }
+    function noteAt(stringIndex, fret) { return (NOTE_TO_PC[TUNING[stringIndex]] + fret) % 12; }
+    function displayNote(pc, root) {
+      const flats = root.includes('b') || ['F','Bb','Eb','Ab'].includes(root);
+      return (flats ? PC_FLAT : PC_SHARP)[pc];
+    }
+    function intervalFor(pc, root, quality) {
+      const d = (pc - NOTE_TO_PC[root] + 12) % 12;
+      const base = ['R','♭2','2','♭3','3','4','♭5','5','#5','6','♭7','7'][d];
+      if (d === 2 && ['add9','nine'].includes(quality)) return '9';
+      if (d === 1 && quality === 'sevenb9') return '♭9';
+      if (d === 3 && quality === 'sevens9') return '#9';
+      if (d === 9 && quality === 'dim7') return '𝄫7';
+      return base;
+    }
+    function chord(name, fingering, quality, group, extra={}) {
+      return { id: `${group}-${name}-${String(fingering)}`.replace(/[^a-zA-Z0-9#♭]+/g,'_'), name, fingering: parseFingering(fingering), quality, group, ...extra };
+    }
+    const OPEN = CHORD_DATA.open.map(d => chord(d[0],d[1],d[2],'open'));
+    const ROOT6 = CHORD_DATA.root6.map(d => chord(d[0],d[1],d[2],'root6',{template:true}));
+    const ROOT5 = CHORD_DATA.root5.map(d => chord(d[0],d[1],d[2],'root5',{template:true}));
+    const SPECIAL = CHORD_DATA.special.map(d => chord(d[0],d[1],d[2],'special'));
+
+    function notesFor(c) {
+      const root = rootFromName(c.name);
+      return c.fingering.map((fret, i) => {
+        if (fret === 'x') return { string: 6-i, tuning:TUNING[i], fret:'X', note:'—', interval:'X' };
+        const pc = noteAt(i, fret);
+        return { string: 6-i, tuning:TUNING[i], fret, note:displayNote(pc, root), interval:intervalFor(pc, root, c.quality) };
+      });
+    }
+    function formulaText(c) { return FORMULAS[c.quality].join(' · '); }
+
+    function svgEl(tag, attrs={}, text='') {
+      const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+      Object.entries(attrs).forEach(([k,v]) => el.setAttribute(k, v));
+      if (text) el.textContent = text;
+      return el;
+    }
+    function renderDiagram(c, options={}) {
+      const dark = !!options.dark;
+      const changed = new Set(options.changed || []);
+      const svg = svgEl('svg', { viewBox:'0 0 220 300', role:'img', 'aria-label':`${c.name} 和弦图`, xmlns:'http://www.w3.org/2000/svg' });
+      svg.dataset.chordId = c.id;
+      const ink = dark ? '#f5f3ed' : '#171815', line = dark ? '#747873' : '#77776f', muted = dark ? '#aeb0aa' : '#7a7a72';
+      svg.append(svgEl('rect',{x:0,y:0,width:220,height:300,fill:dark?'#292c29':'#fff','fill-opacity':dark?1:.01,rx:10}));
+      svg.append(svgEl('text',{x:110,y:36,'text-anchor':'middle','font-family':'Georgia, serif','font-size':31,'font-weight':700,fill:ink},c.name));
+      svg.append(svgEl('text',{x:110,y:55,'text-anchor':'middle','font-family':'system-ui, sans-serif','font-size':9,'letter-spacing':1.2,fill:muted},formulaText(c)));
+      const fretted = c.fingering.filter(v => typeof v === 'number' && v > 0);
+      const min = fretted.length ? Math.min(...fretted) : 1, max = fretted.length ? Math.max(...fretted) : 4;
+      let start = max <= 5 ? 1 : min;
+      if (max - start > 4) start = Math.max(1, max-4);
+      const x0=42, xGap=27.2, y0=93, yGap=34, strings=6, frets=5;
+      if (start > 1) svg.append(svgEl('text',{x:30,y:y0+21,'text-anchor':'end','font-family':'system-ui','font-size':9,'font-weight':700,fill:muted},`${start}fr`));
+      for(let s=0;s<strings;s++) svg.append(svgEl('line',{x1:x0+s*xGap,y1:y0,x2:x0+s*xGap,y2:y0+frets*yGap,stroke:line,'stroke-width':s===0||s===5?1.5:1}));
+      for(let f=0;f<=frets;f++) svg.append(svgEl('line',{x1:x0,y1:y0+f*yGap,x2:x0+5*xGap,y2:y0+f*yGap,stroke:line,'stroke-width':f===0&&start===1?5:1.25}));
+      const noteData = notesFor(c);
+      c.fingering.forEach((fret,s) => {
+        const x=x0+s*xGap, nd=noteData[s];
+        if (fret === 'x') {
+          svg.append(svgEl('text',{x,y:78,'text-anchor':'middle','font-family':'system-ui','font-size':14,'font-weight':650,fill:muted},'×'));
+        } else if (fret === 0) {
+          svg.append(svgEl('circle',{cx:x,cy:74,r:5.5,fill:'none',stroke:muted,'stroke-width':1.5}));
+          svg.append(svgEl('text',{x,y:88,'text-anchor':'middle','font-family':'system-ui','font-size':7,'font-weight':800,fill:nd.interval==='R'?'#dc5b3e':muted},nd.interval));
+        } else {
+          const row=fret-start, cy=y0+(row+.5)*yGap;
+          const isRoot=nd.interval==='R', isChanged=changed.has(nd.interval);
+          const fill=isRoot?'#dc5b3e':isChanged?'#ffcf61':(dark?'#f1efe9':'#20211f');
+          const txt=isRoot||(!isChanged&&dark)?'#fff':'#171815';
+          svg.append(svgEl('circle',{cx:x,cy,r:12.2,fill,stroke:isChanged?'#ffdc87':fill,'stroke-width':isChanged?2:0}));
+          svg.append(svgEl('text',{x,y:cy+3.2,'text-anchor':'middle','font-family':'system-ui','font-size':nd.interval.length>2?8:9,'font-weight':800,fill:txt},nd.interval));
+        }
+        svg.append(svgEl('text',{x,y:280,'text-anchor':'middle','font-family':'system-ui','font-size':8,'font-weight':650,fill:muted},TUNING[s]));
+      });
+      svg.append(svgEl('text',{x:110,y:295,'text-anchor':'middle','font-family':'system-ui','font-size':7,'letter-spacing':1.1,fill:muted},'E  ·  A  ·  D  ·  G  ·  B  ·  E'));
+      return svg;
+    }
+
+    function detailHtml(c) {
+      const rows = notesFor(c).map(n => `<tr><td>${n.string}弦</td><td>${n.tuning}</td><td>${n.fret}</td><td>${n.note}</td><td class="${n.interval==='R'?'function-root':''}">${n.interval}</td></tr>`).join('');
+      const actual = [...new Set(notesFor(c).filter(n=>n.note!=='—').map(n=>n.note))].join(' · ');
+      return `<div class="detail-top"><div class="detail-block"><small>和弦公式</small><div class="detail-value">${formulaText(c)}</div></div><div class="detail-block"><small>实际音名</small><div class="detail-value">${actual}</div></div></div><table class="string-table"><thead><tr><th>弦</th><th>空弦音</th><th>品位</th><th>实际音</th><th>功能</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    function makeCard(c, options={}) {
+      const card=document.createElement('article'); card.className='chord-card'; card.dataset.id=c.id; card.tabIndex=0;
+      const type=options.type || QUALITY_LABEL[c.quality];
+      card.innerHTML=`<div class="card-main"><div class="card-meta"><span class="card-type">${type}</span><span class="mini-hint">点击展开</span></div><div class="diagram-wrap"></div></div><div class="card-actions"><button class="icon-btn" data-export="svg">↓ SVG</button><button class="icon-btn" data-export="png">↓ PNG</button></div><div class="card-detail">${detailHtml(c)}</div>`;
+      card.querySelector('.diagram-wrap').append(renderDiagram(c));
+      const toggle=()=>card.classList.toggle('expanded');
+      card.addEventListener('click',e=>{ if(!e.target.closest('button')&&!e.target.closest('.card-detail')) toggle(); });
+      card.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&!e.target.closest('button')){e.preventDefault();toggle();} });
+      card.querySelectorAll('[data-export]').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation(); exportSingle(c,btn.dataset.export);}));
+      return card;
+    }
+    function renderGrid(id, data, typeMaker) {
+      const grid=document.getElementById(id); grid.innerHTML=''; data.forEach(c=>grid.append(makeCard(c,{type:typeMaker?typeMaker(c):undefined})));
+    }
+
+    function absoluteShape(templateName, root, quality) {
+      const t=CHORD_DATA.templates[templateName];
+      let targetFret;
+      if(templateName==='root6') {
+        targetFret=(NOTE_TO_PC[root]-NOTE_TO_PC.E+12)%12;
+        if(targetFret===0) targetFret=12;
+      } else {
+        targetFret=(NOTE_TO_PC[root]-NOTE_TO_PC.A+12)%12;
+        // A 形的 aug 变体会向根音左侧延伸 2 品；低于 3 品时统一上移一个八度，
+        // 让整个家族始终保持可平移的同一结构，而不会出现“负品位”。
+        if(targetFret<3) targetFret+=12;
+      }
+      return t.shapes[quality].map(v=>v==='x'?'x':targetFret+v);
+    }
+    function qualityName(root, q) {
+      return root + ({major:'',minor:'m',dom7:'7',maj7:'M7',m7:'m7',sus4:'sus4',aug:'aug',m7b5:'m7♭5'}[q]||q);
+    }
+
+    const FAMILY_QUALITIES=[
+      ['major','基准：1 · 3 · 5',[]], ['minor','3 → ♭3',['♭3']], ['maj7','增加 7',['7']], ['dom7','增加 ♭7',['♭7']],
+      ['m7','3 → ♭3，并增加 ♭7',['♭3','♭7']], ['sus4','3 → 4',['4']], ['aug','5 → #5',['#5']], ['m7b5','3 → ♭3，5 → ♭5，增加 ♭7',['♭3','♭5','♭7']]
+    ];
+    function renderFamily(root='C') {
+      const grid=document.getElementById('family-grid'); grid.innerHTML='';
+      FAMILY_QUALITIES.forEach(([quality,delta,changed],index)=>{
+        const c=chord(qualityName(root,quality),absoluteShape('root5',root,quality),quality,'family',{root});
+        const el=document.createElement('div'); el.className=`family-card ${index===0?'base':''}`;
+        el.innerHTML=`<div class="diagram-wrap"></div><div class="delta">${index===0?delta:`Major → ${QUALITY_LABEL[quality]} <b>${delta}</b>`}</div>`;
+        el.querySelector('.diagram-wrap').append(renderDiagram(c,{dark:true,changed})); grid.append(el);
+      });
+    }
+
+    function serializeSvg(svg) {
+      const clone=svg.cloneNode(true); clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+      return `<?xml version="1.0" encoding="UTF-8"?>\n${new XMLSerializer().serializeToString(clone)}`;
+    }
+    function safeFile(name) { return name.replace('#','sharp').replace('♭','flat').replace(/[^a-zA-Z0-9_-]/g,''); }
+    function downloadBlob(blob,filename) {
+      const url=URL.createObjectURL(blob), a=document.createElement('a'); a.href=url; a.download=filename; document.body.append(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1200);
+    }
+    function exportSingle(c,type) {
+      const svg=renderDiagram(c), source=serializeSvg(svg);
+      if(type==='svg') { downloadBlob(new Blob([source],{type:'image/svg+xml;charset=utf-8'}),`${safeFile(c.name)}-chord.svg`); toast(`${c.name} SVG 已导出`); return; }
+      svgToPng(source,660,900,`${safeFile(c.name)}-chord.png`,()=>toast(`${c.name} PNG 已导出`));
+    }
+    function svgToPng(source,width,height,filename,done) {
+      const img=new Image(), url=URL.createObjectURL(new Blob([source],{type:'image/svg+xml'}));
+      img.onload=()=>{ const canvas=document.createElement('canvas'); canvas.width=width; canvas.height=height; const ctx=canvas.getContext('2d'); ctx.fillStyle='#f7f5ef';ctx.fillRect(0,0,width,height);ctx.drawImage(img,0,0,width,height);URL.revokeObjectURL(url);canvas.toBlob(blob=>{downloadBlob(blob,filename);done&&done();},'image/png'); };
+      img.src=url;
+    }
+    function contactSheet() {
+      const all=[...OPEN,...ROOT6,...ROOT5,...SPECIAL], cols=5, cellW=220, cellH=300, gap=18, pad=28;
+      const rows=Math.ceil(all.length/cols), width=pad*2+cols*cellW+(cols-1)*gap, height=80+rows*cellH+(rows-1)*gap+pad;
+      const sheet=svgEl('svg',{xmlns:'http://www.w3.org/2000/svg',viewBox:`0 0 ${width} ${height}`,width,height});
+      sheet.append(svgEl('rect',{width,height,fill:'#f4f1e9'}));
+      sheet.append(svgEl('text',{x:pad,y:39,'font-family':'system-ui','font-size':20,'font-weight':800,fill:'#171815'},'FRETLOGIC · 核心和弦总览'));
+      sheet.append(svgEl('text',{x:width-pad,y:39,'text-anchor':'end','font-family':'system-ui','font-size':10,fill:'#74746c'},'E · A · D · G · B · E'));
+      all.forEach((c,i)=>{const child=renderDiagram(c); child.setAttribute('x',pad+(i%cols)*(cellW+gap));child.setAttribute('y',62+Math.floor(i/cols)*(cellH+gap));child.setAttribute('width',cellW);child.setAttribute('height',cellH);sheet.append(child);});
+      return {sheet,width,height,count:all.length};
+    }
+    function exportAll(type) {
+      const {sheet,width,height,count}=contactSheet(), source=serializeSvg(sheet);
+      if(type==='svg') {downloadBlob(new Blob([source],{type:'image/svg+xml;charset=utf-8'}),'FRETLOGIC-core-chords.svg');toast(`已导出 ${count} 张核心图的 SVG 总览`);}
+      else svgToPng(source,width*1.5,height*1.5,'FRETLOGIC-core-chords.png',()=>toast(`已导出 ${count} 张核心图的 PNG 总览`));
+    }
+
+    function buildTrainingDeck() {
+      const deck=[...OPEN];
+      ROOTS.forEach(root=>{
+        ['major','minor','dom7','maj7','m7','sus4'].forEach(q=>deck.push(chord(qualityName(root,q),absoluteShape('root6',root,q),q,'training6')));
+        ['major','minor','dom7','maj7','m7'].forEach(q=>deck.push(chord(qualityName(root,q),absoluteShape('root5',root,q),q,'training5')));
+      });
+      deck.push(...SPECIAL); return deck;
+    }
+    const TRAINING_DECK=buildTrainingDeck();
+    let stats={}; try{stats=JSON.parse(localStorage.getItem('fretlogic-training-v1')||'{}')||{};}catch(e){stats={};}
+    let mode='hide', current=null, revealed=false;
+    function statKey(c){return `${c.group}|${c.name}`;}
+    function weight(c){const s=stats[statKey(c)]||{};return 1+(s.wrong||0)*3+(s.fuzzy||0)*1.6-Math.min((s.good||0)*.12,.6);}
+    function weightedPick(){const items=TRAINING_DECK.map(c=>[c,Math.max(.4,weight(c))]),total=items.reduce((n,x)=>n+x[1],0);let r=Math.random()*total;for(const [c,w] of items){r-=w;if(r<=0)return c;}return items[0][0];}
+    function nextTraining(){let next=weightedPick();if(current&&TRAINING_DECK.length>1){let guard=0;while(next.id===current.id&&guard++<8)next=weightedPick();}current=next;revealed=mode==='show';renderTraining();}
+    function renderTraining(){
+      document.getElementById('training-name').textContent=current.name;
+      const answer=document.getElementById('training-answer');answer.innerHTML='';answer.classList.toggle('concealed',!revealed);
+      if(revealed){answer.append(renderDiagram(current));document.getElementById('training-prompt').textContent=formulaText(current);}
+      else{answer.innerHTML='<button class="btn blue" data-action="reveal">显示答案</button>';answer.querySelector('button').addEventListener('click',reveal);document.getElementById('training-prompt').textContent='先在脑中回忆公式、根音位置和手型';}
+      document.querySelectorAll('[data-rating]').forEach(b=>b.disabled=!revealed); updateStatsUI();
+    }
+    function reveal(){revealed=true;renderTraining();}
+    function rate(kind){
+      const key=statKey(current), s=stats[key]||{reviews:0,good:0,fuzzy:0,wrong:0};s.reviews++;s[kind]=(s[kind]||0)+1;s.last=Date.now();s.name=current.name;stats[key]=s;localStorage.setItem('fretlogic-training-v1',JSON.stringify(stats));nextTraining();
+    }
+    function updateStatsUI(){
+      const vals=Object.values(stats), sum=k=>vals.reduce((n,s)=>n+(s[k]||0),0);
+      document.getElementById('stat-reviews').textContent=sum('reviews');document.getElementById('stat-fuzzy').textContent=sum('fuzzy');document.getElementById('stat-wrong').textContent=sum('wrong');
+      const recent=vals.filter(s=>s.last).sort((a,b)=>b.last-a.last).slice(0,5), holder=document.getElementById('recent-items');
+      holder.innerHTML=recent.length?recent.map(s=>`<div class="recent-item"><b>${s.name}</b><span>${s.reviews} 次</span><span>${relativeTime(s.last)}</span></div>`).join(''):'<p style="color:var(--muted);font-size:12px">还没有练习记录</p>';
+    }
+    function relativeTime(ts){const sec=Math.floor((Date.now()-ts)/1000);if(sec<60)return '刚刚';if(sec<3600)return `${Math.floor(sec/60)} 分钟前`;if(sec<86400)return `${Math.floor(sec/3600)} 小时前`;return `${Math.floor(sec/86400)} 天前`;}
+    function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2200);}
+
+    function init(){
+      renderGrid('open-grid',OPEN);
+      renderGrid('root6-grid',ROOT6,c=>`6弦根音模板 · ${QUALITY_LABEL[c.quality]}`);
+      renderGrid('root5-grid',ROOT5,c=>`5弦根音模板 · ${QUALITY_LABEL[c.quality]}`);
+      renderGrid('special-grid',SPECIAL,c=>`结构认识 · ${QUALITY_LABEL[c.quality]}`);
+      const select=document.getElementById('family-root');ROOTS.forEach(r=>{const o=document.createElement('option');o.value=r;o.textContent=r;o.selected=r==='C';select.append(o);});select.addEventListener('change',()=>renderFamily(select.value));renderFamily('C');
+      document.querySelector('[data-action="jump-training"]').addEventListener('click',()=>document.getElementById('training').scrollIntoView({behavior:'smooth'}));
+      document.querySelector('[data-action="export-all-svg"]').addEventListener('click',()=>exportAll('svg'));
+      document.querySelector('[data-action="export-all-png"]').addEventListener('click',()=>exportAll('png'));
+      document.querySelector('[data-action="next"]').addEventListener('click',nextTraining);
+      document.querySelector('[data-action="reset-stats"]').addEventListener('click',()=>{if(confirm('确定清空本机的全部训练记录吗？')){stats={};localStorage.removeItem('fretlogic-training-v1');updateStatsUI();toast('训练记录已清空');}});
+      document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>{mode=btn.dataset.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b===btn));revealed=mode==='show';renderTraining();}));
+      document.querySelectorAll('[data-rating]').forEach(btn=>btn.addEventListener('click',()=>rate(btn.dataset.rating)));
+      nextTraining();
+    }
+    init();
+  })();
+  </script>
+</body>
+</html>

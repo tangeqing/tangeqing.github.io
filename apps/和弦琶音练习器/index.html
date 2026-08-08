@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Guitar Arpeggio Trainer｜吉他和弦琶音练习器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><span class="brand-mark">♪</span><strong>Guitar Arpeggio Trainer</strong><small>吉他和弦琶音练习器</small></div>
+    <div class="top-meta"><span id="tuningLabel">标准调弦 · E A D G B E</span><span id="presetLabel">未命名方案</span></div>
+    <div class="top-actions">
+      <button id="panelToggle" class="icon-btn" aria-label="展开或收起控制面板">☰</button>
+      <button id="focusBtn" class="icon-btn" aria-label="专注模式">◐</button>
+      <button id="themeBtn" class="icon-btn" aria-label="切换主题">☼</button>
+      <button id="fullscreenBtn" class="icon-btn" aria-label="全屏">⛶</button>
+      <button id="helpBtn" class="icon-btn" aria-label="帮助">?</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside id="controls" class="controls" aria-label="练习设置">
+      <section>
+        <h2>和声设置</h2>
+        <label>调弦<select id="tuning"></select></label>
+        <div id="customTuning" class="custom-tuning hidden"></div>
+        <button id="saveTuningBtn" class="small hidden">保存自定义调弦</button>
+        <div class="two-col">
+          <label>根音<select id="root"></select></label>
+          <label>和弦分类<select id="category"></select></label>
+        </div>
+        <label>和弦类型<select id="chordType"></select></label>
+        <div id="customChordBox" class="hidden custom-chord-box">
+          <label>自定义和弦名称<input id="customChordName" placeholder="例如：Dream"></label>
+          <div id="customDegrees" class="degree-grid"></div>
+          <div class="chips"><button id="saveCustomChord" type="button">保存自定义和弦</button><button id="deleteCustomChord" class="danger" type="button">删除当前和弦</button></div>
+        </div>
+        <label>记谱<select id="accidental"><option value="auto">自动</option><option value="sharp">升号</option><option value="flat">降号</option></select></label>
+        <label>练习模式<select id="practiceMode"><option value="single">单和弦</option><option value="progression">和弦进行</option></select></label>
+        <div id="progressionBox" class="hidden">
+          <label>和弦进行<input id="progression" value="Cm7 | Fm7 | Bb7 | Ebmaj7" placeholder="Cm7 | Fm7 | Bb7"></label>
+          <label>常用模板<select id="progressionTemplate"><option value="">选择模板…</option><option value="1,4,5,1">I–IV–V–I</option><option value="1,5,6,4">I–V–vi–IV</option><option value="2m,5,1maj7">ii–V–I</option><option value="2dim,5,1m">minor ii–V–i</option><option value="1,6m,2m,5">I–vi–ii–V</option><option value="blues">十二小节布鲁斯</option><option value="cycle">循环五度</option></select></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>把位与音序</h2>
+        <label>把位方式<select id="positionMode"><option value="fixed">固定范围</option><option value="caged">CAGED</option><option value="auto">自动选择</option></select></label>
+        <div id="fixedPosition">
+          <div class="two-col"><label>最低品<input id="minFret" type="number" min="0" max="23" value="5"></label><label>最高品<input id="maxFret" type="number" min="1" max="24" value="9"></label></div>
+          <div id="rangeShortcuts" class="chips"></div>
+        </div>
+        <div id="cagedPosition" class="hidden"><div class="two-col"><label>形状<select id="cagedShape"><option>C</option><option>A</option><option>G</option><option>E</option><option>D</option></select></label><label>范围<select id="cagedStrict"><option value="strict">严格形状</option><option value="expand">附近扩展 2 品</option></select></label></div><small id="cagedRange"></small></div>
+        <div class="two-col"><label>方向<select id="direction"><option value="up">上行</option><option value="down">下行</option><option value="updown">上行后下行</option><option value="downup">下行后上行</option><option value="alternate">往返循环</option><option value="random">随机方向</option></select></label><label>起始音<select id="startDegree"><option value="root">根音</option><option value="lowest">最低可用音</option><option value="highest">最高可用音</option><option value="random">随机和弦音</option><option value="3">三音</option><option value="5">五音</option><option value="7">七音</option><option value="9">九音</option></select></label></div>
+        <div class="two-col"><label>转位<select id="inversion"><option value="0">原位</option><option value="1">第一转位</option><option value="2">第二转位</option><option value="3">第三转位</option><option value="smooth">自动平滑连接</option></select></label><label>音序<select id="pattern"><option>1-3-5-7</option><option>1-5-3-7</option><option>1-7-5-3</option><option>1-3-5-7-9</option><option>1-5-7-3</option><option>1-3-7-5</option><option>1-5-3-7-9</option><option value="custom">自定义</option></select></label></div>
+        <label id="customPatternLabel" class="hidden">自定义音序<input id="customPattern" value="1 3 5 7 9 7 5 3"></label>
+      </section>
+
+      <section>
+        <h2>节奏与声音</h2>
+        <div class="bpm-row"><button id="bpmDown" class="small">−5</button><label>BPM<input id="bpm" type="number" min="30" max="300" value="90"></label><button id="bpmUp" class="small">+5</button><button id="tapBtn" class="small">Tap</button></div>
+        <input id="bpmRange" aria-label="BPM 滑块" type="range" min="30" max="300" value="90">
+        <div class="two-col"><label>拍号<select id="timeSignature"><option>2/4</option><option>3/4</option><option selected>4/4</option><option>5/4</option><option>6/8</option><option>7/8</option><option>9/8</option><option>12/8</option></select></label><label>音符时值<select id="noteValue"><option value="1">四分音符</option><option value="2" selected>八分音符</option><option value="3">八分三连音</option><option value="4">十六分音符</option><option value="6">十六分三连音</option><option value="0.5">二分音符</option><option value="0.25">全音符</option></select></label></div>
+        <div class="two-col"><label>每和弦拍数<input id="chordBeats" type="number" min="1" max="32" value="4"></label><label>Swing<select id="swing"><option value="0.5">关闭</option><option value="0.56">轻微</option><option value="0.62">中等</option><option value="0.68">强</option></select></label></div>
+        <div class="toggle-row"><label><input id="metronome" type="checkbox" checked> 节拍器</label><label><input id="countIn" type="checkbox"> 预备 1 小节</label><label><input id="loop" type="checkbox" checked> 循环</label></div>
+        <label>总音量<input id="masterVolume" type="range" min="0" max="1" step="0.01" value="0.8"></label>
+        <div class="two-col"><label>琶音音量<input id="arpVolume" type="range" min="0" max="1" step="0.01" value="0.72"></label><label>节拍音量<input id="metroVolume" type="range" min="0" max="1" step="0.01" value="0.35"></label></div>
+        <label>延音<input id="sustain" type="range" min="0.08" max="1.5" step="0.02" value="0.65"></label>
+      </section>
+
+      <section>
+        <h2>显示与方案</h2>
+        <button id="randomizeBtn" type="button">⚄ 随机生成练习</button>
+        <div class="two-col"><label>显示内容<select id="displayMode"><option value="both">音名 + 级数</option><option value="note">音名</option><option value="degree">级数</option><option value="current">仅当前音</option></select></label><label>视图<select id="viewMode"><option value="all">TAB + 指板</option><option value="tab">TAB</option><option value="fretboard">指板</option></select></label></div>
+        <label>方案名称<input id="presetName" value="我的琶音练习"></label>
+        <div class="button-grid"><button id="newPreset" class="small">新建</button><button id="savePreset" class="small">保存</button><button id="saveAsPreset" class="small">另存为</button><button id="renamePreset" class="small">重命名</button><button id="deletePreset" class="small danger">删除</button><button id="exportPreset" class="small">导出 JSON</button><button id="importPreset" class="small">导入 JSON</button><button id="resetPreset" class="small">恢复默认</button></div>
+        <label>已保存方案<select id="presetList"><option value="">— 未选择 —</option></select></label>
+        <input id="importFile" class="hidden" type="file" accept="application/json">
+      </section>
+    </aside>
+
+    <main class="stage">
+      <div id="notice" class="notice" role="status">已生成默认练习。点击开始播放。</div>
+      <section class="hero-card">
+        <div><small>当前和弦</small><h1 id="currentChord">Cm7</h1><p id="chordNotes">C · E♭ · G · B♭</p></div>
+        <div class="hero-stats"><div><small>把位</small><strong id="positionStat">5–9</strong></div><div><small>序列</small><strong id="sequenceStat">0 音</strong></div><div><small>速度</small><strong id="tempoStat">90 BPM</strong></div></div>
+      </section>
+
+      <section id="tabSection" class="display-card tab-card">
+        <div class="card-head"><div><span class="eyebrow">DYNAMIC TAB</span><h2>动态六线谱</h2></div><div class="legend"><span><i class="dot current"></i>当前</span><span><i class="dot next"></i>下一音</span></div></div>
+        <canvas id="tabCanvas" height="300" aria-label="动态吉他六线谱"></canvas>
+        <div class="timeline-strip"><span id="barInfo">小节 1 / 1</span><div class="progress"><i id="progressBar"></i></div><span id="beatInfo">拍 1 / 4</span></div>
+        <div id="noteEditor" class="note-editor hidden"><strong>编辑选中音</strong><label>弦<select id="editString"></select></label><label>品<input id="editFret" type="number" min="0" max="24"></label><button id="applyEdit" class="small">应用</button><button id="insertBefore" class="small">前插入</button><button id="insertAfter" class="small">后插入</button><button id="deleteNote" class="small danger">删除</button><button id="lockNote" class="small">锁定</button><button id="regenBar" class="small">重生成本小节</button><button id="closeEditor" class="small">关闭</button></div>
+      </section>
+
+      <section class="now-grid">
+        <article class="now-card accent"><small>当前音</small><strong id="nowNote">C3</strong><span id="nowDegree">1 · 根音</span></article>
+        <article class="now-card"><small>位置</small><strong id="nowPosition">6 弦 · 8 品</strong><span id="nowFinger">建议 4 指</span></article>
+        <article class="now-card"><small>下一音</small><strong id="nextNote">E♭3</strong><span id="nextPosition">5 弦 · 6 品</span></article>
+        <article class="now-card beat-pulse" id="beatCard"><small>当前拍</small><strong id="nowBeat">1 / 4</strong><span id="nowBar">第 1 小节</span></article>
+      </section>
+
+      <section id="fretboardSection" class="display-card fretboard-card">
+        <div class="card-head"><div><span class="eyebrow">FRETBOARD</span><h2>指板视图</h2></div><span id="fretRangeLabel">5–9 品</span></div>
+        <div class="canvas-scroll"><canvas id="fretboardCanvas" height="280" aria-label="吉他指板"></canvas></div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="transport" aria-label="播放控制">
+    <button id="generateBtn" class="generate">↻ 生成练习</button>
+    <button id="rewindBtn" aria-label="回到开头">|◀</button><button id="prevBarBtn" aria-label="上一小节">◀</button>
+    <button id="playBtn" class="play">▶ 开始</button><button id="stopBtn">■ 停止</button>
+    <button id="nextBarBtn" aria-label="下一小节">▶</button>
+    <div class="transport-readout"><span id="transportChord">Cm7</span><small id="transportStatus">已停止 · 1 / 1</small></div>
+  </footer>
+
+  <dialog id="helpDialog"><button id="closeHelp" class="dialog-close" aria-label="关闭">×</button><h2>快速帮助</h2><p>先设置和弦、把位和节奏，再点击“生成练习”。点击开始后，TAB、指板、声音与拍数会沿同一时间轴推进。</p><dl><dt>Space</dt><dd>开始 / 暂停 / 继续</dd><dt>Esc</dt><dd>停止</dd><dt>R</dt><dd>回到开头</dd><dt>← / →</dt><dd>上一个 / 下一个音</dd><dt>↑ / ↓</dt><dd>BPM ±5</dd><dt>F / L / M</dt><dd>全屏 / 循环 / 节拍器</dd></dl></dialog>
+
+  <script src="js/constants.js" defer></script>
+  <script src="js/music-theory.js" defer></script>
+  <script src="js/fretboard-engine.js" defer></script>
+  <script src="js/fingering-engine.js" defer></script>
+  <script src="js/sequence-engine.js" defer></script>
+  <script src="js/audio-engine.js" defer></script>
+  <script src="js/renderers.js" defer></script>
+  <script src="js/preset-manager.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="从和弦符号、公式与音名，训练到可演奏的吉他指板 Voicing。">
+  <title>Chord Builder · 吉他和弦构造训练器</title>
+  <style>
+    :root {
+      --bg:#f3f1ea; --surface:#fffdf7; --surface-2:#ebe8de; --ink:#20231f;
+      --muted:#73766f; --line:#d7d3c7; --accent:#cb4f2b; --accent-2:#174f46;
+      --accent-soft:#f8e3d8; --green:#26775e; --red:#bd3e32; --amber:#a36a12;
+      --shadow:0 16px 44px rgba(44,40,31,.08); --fret:#b7aa92; --wood:#d6b483;
+    }
+    [data-theme="dark"] {
+      --bg:#151816; --surface:#20231f; --surface-2:#292d29; --ink:#f2eee4;
+      --muted:#a5aaa1; --line:#3a3e39; --accent:#ef7a52; --accent-2:#78c4b1;
+      --accent-soft:#3a2821; --green:#75c5a3; --red:#ff897d; --amber:#e2ad57;
+      --shadow:0 18px 48px rgba(0,0,0,.24); --fret:#746c5d; --wood:#765b3f;
+    }
+    * { box-sizing:border-box; }
+    html { color-scheme:light; }
+    html[data-theme="dark"] { color-scheme:dark; }
+    body { margin:0; min-width:320px; background:var(--bg); color:var(--ink); font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif; }
+    button,select,input { font:inherit; }
+    button,select { color:inherit; }
+    button { cursor:pointer; }
+    button:focus-visible,select:focus-visible,input:focus-visible { outline:3px solid color-mix(in srgb,var(--accent) 35%,transparent); outline-offset:2px; }
+    .app { min-height:100vh; }
+    .topbar { height:72px; padding:0 28px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); background:color-mix(in srgb,var(--surface) 82%,transparent); backdrop-filter:blur(16px); position:sticky; top:0; z-index:20; }
+    .brand { display:flex; align-items:center; gap:13px; }
+    .brand-mark { width:38px; height:38px; border-radius:11px; display:grid; place-items:center; color:#fff; background:var(--accent-2); font-weight:900; letter-spacing:-2px; transform:rotate(-3deg); }
+    .brand strong { display:block; font-size:15px; letter-spacing:.02em; }
+    .brand span { display:block; margin-top:2px; color:var(--muted); font-size:11px; }
+    .top-actions { display:flex; gap:8px; }
+    .icon-btn { width:40px; height:40px; border:1px solid var(--line); border-radius:12px; background:var(--surface); display:grid; place-items:center; }
+    .workspace { max-width:1760px; margin:0 auto; padding:20px 24px 28px; display:grid; grid-template-columns:260px minmax(0,1fr) 290px; gap:16px; align-items:start; }
+    .card { background:var(--surface); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); }
+    .left,.right { align-self:start; position:sticky; top:96px; }
+    .panel-pad { padding:20px; }
+    .eyebrow { color:var(--muted); font-size:11px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+    .question-line { display:flex; align-items:flex-start; justify-content:space-between; margin-top:10px; }
+    .chord-name { margin:0; font-size:50px; line-height:1; letter-spacing:-.055em; }
+    .level-pill { padding:5px 8px; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:11px; font-weight:800; }
+    .prompt { margin:12px 0 18px; color:var(--muted); font-size:13px; line-height:1.6; min-height:42px; }
+    .progress { height:5px; background:var(--surface-2); border-radius:999px; overflow:hidden; }
+    .progress > i { display:block; height:100%; width:0%; background:var(--accent); transition:width .25s; }
+    .meta-row { margin-top:9px; color:var(--muted); display:flex; justify-content:space-between; font-size:11px; }
+    .control-group { padding:18px 20px; border-top:1px solid var(--line); }
+    .label { display:block; margin-bottom:7px; color:var(--muted); font-size:11px; font-weight:750; }
+    .select { width:100%; height:39px; padding:0 32px 0 11px; border:1px solid var(--line); border-radius:10px; background:var(--surface); }
+    .segmented { display:grid; grid-template-columns:repeat(3,1fr); padding:3px; background:var(--surface-2); border-radius:11px; }
+    .segmented button { border:0; border-radius:8px; padding:8px 4px; background:transparent; color:var(--muted); font-size:11px; }
+    .segmented button.active { background:var(--surface); color:var(--ink); box-shadow:0 2px 8px rgba(0,0,0,.06); font-weight:750; }
+    .hint-stack { display:grid; gap:7px; margin-top:12px; }
+    .hint-line { display:flex; align-items:center; gap:8px; min-height:29px; padding:5px 8px; border-radius:8px; background:var(--surface-2); font-size:12px; }
+    .hint-line b { color:var(--accent); }
+    .hint-line.locked { color:var(--muted); background:transparent; border:1px dashed var(--line); }
+    .wide-btn { width:100%; min-height:40px; border-radius:11px; border:1px solid var(--line); background:var(--surface); font-weight:700; }
+    .wide-btn:hover { border-color:var(--accent); }
+    .center { min-width:0; display:grid; grid-template-rows:auto auto; gap:12px; align-self:start; }
+    .stage-card { overflow:hidden; }
+    .stage-head { padding:17px 20px 13px; display:flex; justify-content:space-between; align-items:center; gap:15px; border-bottom:1px solid var(--line); }
+    .stage-title { font-weight:800; font-size:14px; }
+    .stage-sub { color:var(--muted); font-size:12px; margin-top:3px; }
+    .legend { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:10px; color:var(--muted); font-size:11px; }
+    .legend span { display:flex; align-items:center; gap:5px; }
+    .dot { width:9px; height:9px; border-radius:50%; background:var(--accent); }
+    .dot.root { background:var(--accent-2); }
+    .quiz-zone { padding:18px 20px; border-bottom:1px solid var(--line); display:none; }
+    .quiz-zone.visible { display:block; }
+    .quiz-title { font-size:13px; font-weight:750; margin-bottom:10px; }
+    .chips { display:flex; flex-wrap:wrap; gap:8px; }
+    .chip { min-width:45px; padding:8px 11px; border:1px solid var(--line); border-radius:999px; background:var(--surface); }
+    .chip.selected { background:var(--accent-2); border-color:var(--accent-2); color:#fff; }
+    .chip.correct { box-shadow:0 0 0 2px var(--green) inset; }
+    .chip.wrong { box-shadow:0 0 0 2px var(--red) inset; }
+    .fret-scroll { overflow-x:hidden; padding:18px 18px 10px; }
+    .fretboard { width:100%; min-width:0; display:grid; grid-template-columns:52px repeat(var(--frets),minmax(0,1fr)); grid-template-rows:22px repeat(6,42px) 22px; position:relative; user-select:none; }
+    .fret-num { display:grid; place-items:center; color:var(--muted); font-size:10px; }
+    .string-label { display:flex; align-items:center; justify-content:center; gap:3px; font-size:10px; color:var(--muted); border-right:1px solid var(--line); }
+    .mute-toggle { border:0; padding:0; width:22px; height:22px; border-radius:6px; background:var(--surface-2); font-size:12px; font-weight:800; }
+    .mute-toggle.active { background:var(--ink); color:var(--surface); }
+    .fret-cell { min-width:0; position:relative; border:0; border-right:3px solid var(--fret); background:linear-gradient(180deg,transparent calc(50% - 1px),color-mix(in srgb,var(--ink) 52%,transparent) calc(50% - 1px),color-mix(in srgb,var(--ink) 52%,transparent) calc(50% + 1px),transparent calc(50% + 1px)),var(--wood); padding:0; }
+    .fret-cell.open { background:linear-gradient(180deg,transparent calc(50% - 1px),color-mix(in srgb,var(--ink) 52%,transparent) calc(50% - 1px),color-mix(in srgb,var(--ink) 52%,transparent) calc(50% + 1px),transparent calc(50% + 1px)),var(--surface-2); border-right:5px solid var(--ink); }
+    .fret-cell.disabled { opacity:.23; cursor:not-allowed; }
+    .fret-cell.string-disabled { opacity:.12; cursor:not-allowed; }
+    .note-marker { position:absolute; left:50%; top:50%; translate:-50% -50%; width:29px; height:29px; border-radius:50%; display:grid; place-items:center; background:var(--accent); color:#fff; font-size:10px; font-weight:850; box-shadow:0 3px 8px rgba(0,0,0,.18); z-index:2; }
+    .note-marker.root { background:var(--accent-2); }
+    .note-marker.wrong { background:var(--red); }
+    .candidate::after { content:""; position:absolute; left:50%; top:50%; translate:-50% -50%; width:14px; height:14px; border-radius:50%; background:color-mix(in srgb,var(--accent-2) 28%,transparent); border:1px solid color-mix(in srgb,var(--accent-2) 48%,transparent); }
+    .answer-position::after { width:18px; height:18px; background:color-mix(in srgb,var(--green) 22%,transparent); border:2px solid color-mix(in srgb,var(--green) 72%,transparent); }
+    .inlay { display:grid; place-items:center; color:var(--muted); font-size:12px; }
+    .inlay.double { letter-spacing:7px; padding-left:7px; }
+    .fretboard-foot { padding:0 20px 18px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .selection-summary { color:var(--muted); font-size:12px; }
+    .mini-actions { display:flex; gap:7px; }
+    .mini-btn { height:34px; padding:0 11px; border:1px solid var(--line); border-radius:9px; background:var(--surface); font-size:12px; }
+    .action-bar { padding:10px; display:grid; grid-template-columns:104px 120px minmax(180px,1fr) 148px; gap:8px; align-self:start; }
+    .action-btn { height:42px; min-height:42px; padding:0 14px; border-radius:10px; border:1px solid var(--line); background:var(--surface); font-weight:800; font-size:13px; }
+    .action-btn.primary { border-color:var(--accent); background:var(--accent); color:white; }
+    .action-btn.next { border-color:var(--accent-2); background:var(--accent-2); color:white; }
+    .action-btn:disabled { opacity:.42; cursor:not-allowed; }
+    .status-empty { color:var(--muted); padding:28px 20px; text-align:center; font-size:13px; line-height:1.7; }
+    .result { padding:20px; display:none; }
+    .result.visible { display:block; }
+    .result-banner { border-radius:13px; padding:14px; display:flex; gap:11px; align-items:flex-start; }
+    .result-banner.success { background:color-mix(in srgb,var(--green) 12%,var(--surface)); }
+    .result-banner.incomplete { background:color-mix(in srgb,var(--amber) 12%,var(--surface)); }
+    .result-banner.error { background:color-mix(in srgb,var(--red) 10%,var(--surface)); }
+    .result-icon { font-size:20px; font-weight:900; }
+    .result-banner.success .result-icon { color:var(--green); }
+    .result-banner.incomplete .result-icon { color:var(--amber); }
+    .result-banner.error .result-icon { color:var(--red); }
+    .result-title { font-size:14px; font-weight:850; }
+    .result-desc { margin-top:4px; color:var(--muted); font-size:12px; line-height:1.55; }
+    .analysis-grid { display:grid; gap:0; margin-top:14px; }
+    .analysis-row { display:grid; grid-template-columns:76px 1fr; gap:8px; padding:9px 0; border-bottom:1px solid var(--line); font-size:12px; line-height:1.55; }
+    .analysis-row:last-child { border-bottom:0; }
+    .analysis-row dt { color:var(--muted); }
+    .analysis-row dd { margin:0; font-weight:650; }
+    .stat-line { display:grid; grid-template-columns:1fr auto; align-items:center; gap:9px; margin-top:10px; font-size:12px; }
+    .stat-bar { grid-column:1/-1; height:5px; background:var(--surface-2); border-radius:9px; overflow:hidden; }
+    .stat-bar i { display:block; height:100%; background:var(--accent-2); }
+    .right h3 { margin:0; font-size:14px; }
+    .summary-number { margin-top:12px; font-size:34px; font-weight:850; letter-spacing:-.04em; }
+    .summary-number span { color:var(--muted); font-size:13px; font-weight:500; letter-spacing:0; }
+    .summary-meta { color:var(--muted); font-size:11px; margin-top:4px; }
+    .streak { display:flex; justify-content:space-between; margin-top:18px; padding-top:15px; border-top:1px solid var(--line); }
+    .streak div { text-align:center; }
+    .streak b { display:block; font-size:17px; }
+    .streak span { color:var(--muted); font-size:10px; }
+    .coach { margin-top:14px; padding:12px; border-radius:12px; background:var(--surface-2); color:var(--muted); font-size:11px; line-height:1.6; }
+    .stats-detail { margin-top:12px; border-top:1px solid var(--line); padding-top:11px; }
+    .stats-detail summary { cursor:pointer; color:var(--muted); font-size:11px; font-weight:750; }
+    .stats-columns { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
+    .stats-columns h4 { margin:0 0 6px; font-size:11px; }
+    .detail-row { display:flex; justify-content:space-between; gap:8px; padding:4px 0; color:var(--muted); font-size:10px; border-bottom:1px dotted var(--line); }
+    .settings-pop { position:fixed; inset:0; z-index:40; background:rgba(0,0,0,.32); display:none; place-items:center; padding:20px; }
+    .settings-pop.open { display:grid; }
+    .settings-card { width:min(480px,100%); max-height:85vh; overflow:auto; background:var(--surface); border:1px solid var(--line); border-radius:20px; box-shadow:var(--shadow); }
+    .settings-head { display:flex; justify-content:space-between; align-items:center; padding:19px 20px; border-bottom:1px solid var(--line); }
+    .settings-body { padding:20px; display:grid; gap:18px; }
+    .setting-row { display:grid; grid-template-columns:1fr 180px; align-items:center; gap:14px; }
+    .setting-row strong { font-size:13px; }
+    .setting-row p { margin:3px 0 0; color:var(--muted); font-size:11px; }
+    .toast { position:fixed; left:50%; bottom:24px; translate:-50% 20px; opacity:0; pointer-events:none; z-index:60; padding:10px 15px; border-radius:10px; background:var(--ink); color:var(--surface); font-size:12px; transition:.2s; }
+    .toast.show { opacity:1; translate:-50% 0; }
+    @media (max-width:1180px) {
+      .workspace { grid-template-columns:240px minmax(0,1fr); }
+      .right { grid-column:1/-1; position:static; display:grid; grid-template-columns:1fr 1fr; gap:14px; background:transparent; border:0; box-shadow:none; }
+      .right > * { background:var(--surface); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); }
+    }
+    @media (max-width:860px) {
+      .topbar { padding:0 16px; height:62px; }
+      .brand span { display:none; }
+      .workspace { padding:14px; grid-template-columns:1fr; }
+      .left { position:static; }
+      .question-line { align-items:center; }
+      .chord-name { font-size:44px; }
+      .left .control-group { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+      .left .control-group > * { min-width:0; }
+      .hint-stack { grid-column:1/-1; }
+      .right { grid-template-columns:1fr; }
+      .action-bar { position:sticky; bottom:8px; z-index:12; box-shadow:var(--shadow); }
+    }
+    @media (max-width:560px) {
+      .brand strong { font-size:13px; }
+      .left .control-group { grid-template-columns:1fr; }
+      .stage-head { align-items:flex-start; }
+      .legend { display:none; }
+      .action-bar { grid-template-columns:1fr 1fr; }
+      .action-btn.primary,.action-btn.next { grid-column:auto; }
+      .fret-scroll { padding-inline:8px; }
+      .fretboard { grid-template-columns:42px repeat(var(--frets),minmax(0,1fr)); grid-template-rows:20px repeat(6,38px) 20px; }
+      .note-marker { width:22px; height:22px; font-size:9px; }
+      .setting-row { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark">CB</div><div><strong>Chord Builder</strong><span>不背手型，从结构生成指板</span></div></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn" aria-label="切换深浅色">◐</button>
+        <button class="icon-btn" id="settingsBtn" aria-label="打开设置">⚙</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="left card">
+        <section class="panel-pad">
+          <div class="eyebrow" id="modeEyebrow">和弦构造</div>
+          <div class="question-line"><h1 class="chord-name" id="chordName">Bb7</h1><span class="level-pill" id="levelPill">LEVEL 2</span></div>
+          <p class="prompt" id="promptText">在当前把位中构造一个成立的 Voicing。</p>
+          <div class="progress"><i id="roundProgress"></i></div>
+          <div class="meta-row"><span id="roundCount">第 1 题</span><span id="timer">00:00.0</span></div>
+        </section>
+        <section class="control-group">
+          <div><label class="label" for="trainingMode">训练模式</label><select class="select" id="trainingMode"><option value="construct">和弦构造</option><option value="formula">公式 → 指板</option><option value="notes">音名 → 指板</option><option value="locate">寻找指定和弦音</option><option value="family">和弦家族变化</option><option value="mistakes">错题训练</option></select></div>
+          <div><label class="label" for="difficulty">难度</label><select class="select" id="difficulty"><option value="1">Level 1 · 大小三和弦</option><option value="2" selected>Level 2 · 七和弦 / sus</option><option value="3">Level 3 · 6 / add9 / ø</option><option value="4">Level 4 · 延伸和弦</option></select></div>
+        </section>
+        <section class="control-group">
+          <label class="label">判定方式</label>
+          <div class="segmented" id="judgeMode"><button data-value="strict">严格</button><button class="active" data-value="practical">实战</button><button data-value="open">开放</button></div>
+          <div style="margin-top:13px"><label class="label" for="fretRange">把位限制</label><select class="select" id="fretRange"><option value="0-15">开放 · 0–15 品</option><option value="0-5">开放把位 · 0–5 品</option><option value="1-5">1–5 品</option><option value="3-7">3–7 品</option><option value="5-9">5–9 品</option><option value="7-12">7–12 品</option><option value="random4">随机 4 品窗口</option></select></div>
+          <div style="margin-top:13px"><label class="label" for="stringGroup">限定弦组</label><select class="select" id="stringGroup"><option value="all">全部 6 弦</option><option value="0,1,2,3">低音四弦 · 6–3</option><option value="1,2,3,4">中间四弦 · 5–2</option><option value="2,3,4,5">高音四弦 · 4–1</option></select></div>
+        </section>
+        <section class="control-group">
+          <button class="wide-btn" id="hintBtn">显示提示 · 0/3</button>
+          <div class="hint-stack" id="hintStack">
+            <div class="hint-line locked">提示 1 · 和弦公式</div><div class="hint-line locked">提示 2 · 实际音名</div><div class="hint-line locked">提示 3 · 候选位置</div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="center">
+        <div class="stage-card card">
+          <div class="stage-head"><div><div class="stage-title" id="stageTitle">在指板上选择音符</div><div class="stage-sub" id="stageSub">每根弦只能有一个发声音；点 × 可静音</div></div><div class="legend"><span><i class="dot root"></i>根音</span><span><i class="dot"></i>和弦音</span><span>○ 开放弦</span><span>× 静音</span></div></div>
+          <div class="quiz-zone" id="quizZone"><div class="quiz-title" id="quizTitle"></div><div class="chips" id="quizChips"></div></div>
+          <div class="fret-scroll"><div class="fretboard" id="fretboard" aria-label="吉他指板"></div></div>
+          <div class="fretboard-foot"><div class="selection-summary" id="selectionSummary">尚未选择音符</div><div class="mini-actions"><button class="mini-btn" id="chordBtn">播放和弦</button><button class="mini-btn" id="viewToggle">提交后：度数</button><button class="mini-btn" id="audioToggle">音效：开</button></div></div>
+        </div>
+        <div class="action-bar card"><button class="action-btn" id="clearBtn">清空</button><button class="action-btn" id="arpBtn">播放琶音</button><button class="action-btn primary" id="submitBtn">提交答案</button><button class="action-btn next" id="nextBtn">下一题 →</button></div>
+      </section>
+
+      <aside class="right card">
+        <section class="panel-pad" id="analysisPanel"><h3>结果分析</h3><div class="status-empty" id="statusEmpty">提交后，这里会解释每个音在和弦中的功能，而不只是告诉你对或错。</div><div class="result" id="resultBox"><div class="result-banner" id="resultBanner"><div class="result-icon" id="resultIcon"></div><div><div class="result-title" id="resultTitle"></div><div class="result-desc" id="resultDesc"></div></div></div><dl class="analysis-grid" id="analysisGrid"></dl></div></section>
+        <section class="panel-pad" style="border-top:1px solid var(--line)"><div class="eyebrow">本机学习记录</div><div class="summary-number" id="accuracy">— <span>正确率</span></div><div class="summary-meta" id="totalMeta">还没有作答记录</div><div class="streak"><div><b id="streakNow">0</b><span>连续正确</span></div><div><b id="bestStreak">0</b><span>最佳连续</span></div><div><b id="avgTime">—</b><span>平均秒数</span></div></div><div class="coach" id="coachText">先完成几题，我会帮你判断薄弱的和弦类型。</div><details class="stats-detail"><summary>查看和弦类型 / 根音统计</summary><div class="stats-columns" id="detailStats"></div></details></section>
+      </aside>
+    </main>
+  </div>
+
+  <div class="settings-pop" id="settingsPop" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-card"><div class="settings-head"><strong id="settingsTitle">训练设置</strong><button class="icon-btn" id="closeSettings" aria-label="关闭">×</button></div><div class="settings-body">
+      <div class="setting-row"><div><strong>音名拼写</strong><p>智能模式会跟随题目根音自动选用升降号。</p></div><select class="select" id="spelling"><option value="smart">智能拼写</option><option value="flat">♭ 优先</option><option value="sharp">♯ 优先</option></select></div>
+      <div class="setting-row"><div><strong>品数</strong><p>改变指板可见的最远品位。</p></div><select class="select" id="fretCount"><option value="12">0–12 品</option><option value="15" selected>0–15 品</option><option value="22">0–22 品</option></select></div>
+      <div class="setting-row"><div><strong>答案圆点</strong><p>提交后显示度数、音名或二者。</p></div><select class="select" id="markerDisplay"><option value="degree">显示度数</option><option value="note">显示音名</option><option value="both">度数 + 音名</option></select></div>
+      <div class="setting-row"><div><strong>计时</strong><p>只影响显示，统计仍会记录用时。</p></div><select class="select" id="timerSetting"><option value="on">显示</option><option value="off">隐藏</option></select></div>
+      <div class="setting-row"><div><strong>本地数据</strong><p>清空正确率、连续记录与错题权重。</p></div><button class="wide-btn" id="resetStats">清空学习记录</button></div>
+    </div></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+  (() => {
+    'use strict';
+    const mod = (n,m=12) => ((n%m)+m)%m;
+    const NATURAL_PC = {C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+    const LETTERS = ['C','D','E','F','G','A','B'];
+    const SHARP_NAMES = ['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
+    const FLAT_NAMES = ['C','D♭','D','E♭','E','F','G♭','G','A♭','A','B♭','B'];
+    const ROOTS = [
+      {name:'C',pc:0},{name:'C♯',pc:1},{name:'D♭',pc:1},{name:'D',pc:2},{name:'E♭',pc:3},{name:'E',pc:4},
+      {name:'F',pc:5},{name:'F♯',pc:6},{name:'G♭',pc:6},{name:'G',pc:7},{name:'A♭',pc:8},{name:'A',pc:9},{name:'B♭',pc:10},{name:'B',pc:11}
+    ];
+    const DEGREE_SEMITONES = {'1':0,'2':2,'3':4,'4':5,'5':7,'6':9,'7':11,'8':12,'9':14,'11':17,'13':21};
+    const CHORD_TYPES = {
+      major:{suffix:'',spoken:'大三和弦',level:1,intervals:[0,4,7],degrees:['1','3','5'],required:['1','3','5'],openRequired:['3']},
+      minor:{suffix:'m',spoken:'小三和弦',level:1,intervals:[0,3,7],degrees:['1','♭3','5'],required:['1','♭3','5'],openRequired:['♭3']},
+      sus2:{suffix:'sus2',spoken:'挂二和弦',level:2,intervals:[0,2,7],degrees:['1','2','5'],required:['1','2','5'],openRequired:['2','5']},
+      sus4:{suffix:'sus4',spoken:'挂四和弦',level:2,intervals:[0,5,7],degrees:['1','4','5'],required:['1','4','5'],openRequired:['4','5']},
+      '6':{suffix:'6',spoken:'六和弦',level:3,intervals:[0,4,7,9],degrees:['1','3','5','6'],required:['1','3','6'],optional:['5'],openRequired:['3','6']},
+      m6:{suffix:'m6',spoken:'小六和弦',level:3,intervals:[0,3,7,9],degrees:['1','♭3','5','6'],required:['1','♭3','6'],optional:['5'],openRequired:['♭3','6']},
+      maj7:{suffix:'maj7',spoken:'大七和弦',level:2,intervals:[0,4,7,11],degrees:['1','3','5','7'],required:['1','3','7'],optional:['5'],character:['3','7'],openRequired:['3','7']},
+      '7':{suffix:'7',spoken:'属七和弦',level:2,intervals:[0,4,7,10],degrees:['1','3','5','♭7'],required:['1','3','♭7'],optional:['5'],character:['3','♭7'],openRequired:['3','♭7']},
+      m7:{suffix:'m7',spoken:'小七和弦',level:2,intervals:[0,3,7,10],degrees:['1','♭3','5','♭7'],required:['1','♭3','♭7'],optional:['5'],character:['♭3','♭7'],openRequired:['♭3','♭7']},
+      m7b5:{suffix:'m7♭5',spoken:'半减七和弦',level:3,intervals:[0,3,6,10],degrees:['1','♭3','♭5','♭7'],required:['1','♭3','♭5','♭7'],character:['♭3','♭5','♭7'],openRequired:['♭3','♭5','♭7']},
+      dim:{suffix:'dim',spoken:'减三和弦',level:3,intervals:[0,3,6],degrees:['1','♭3','♭5'],required:['1','♭3','♭5'],openRequired:['♭3','♭5']},
+      dim7:{suffix:'dim7',spoken:'减七和弦',level:4,intervals:[0,3,6,9],degrees:['1','♭3','♭5','♭♭7'],required:['1','♭3','♭5','♭♭7'],openRequired:['♭3','♭5','♭♭7']},
+      aug:{suffix:'aug',spoken:'增三和弦',level:3,intervals:[0,4,8],degrees:['1','3','♯5'],required:['1','3','♯5'],openRequired:['3','♯5']},
+      add9:{suffix:'add9',spoken:'加九和弦',level:3,intervals:[0,4,7,14],degrees:['1','3','5','9'],required:['1','3','5','9'],character:['3','9'],openRequired:['3','5','9']},
+      madd9:{suffix:'madd9',spoken:'小加九和弦',level:3,intervals:[0,3,7,14],degrees:['1','♭3','5','9'],required:['1','♭3','5','9'],openRequired:['♭3','5','9']},
+      '9':{suffix:'9',spoken:'属九和弦',level:4,intervals:[0,4,7,10,14],degrees:['1','3','5','♭7','9'],required:['1','3','♭7','9'],optional:['5'],character:['3','♭7','9'],openRequired:['3','♭7','9']},
+      maj9:{suffix:'maj9',spoken:'大九和弦',level:4,intervals:[0,4,7,11,14],degrees:['1','3','5','7','9'],required:['1','3','7','9'],optional:['5'],openRequired:['3','7','9']},
+      m9:{suffix:'m9',spoken:'小九和弦',level:4,intervals:[0,3,7,10,14],degrees:['1','♭3','5','♭7','9'],required:['1','♭3','♭7','9'],optional:['5'],openRequired:['♭3','♭7','9']},
+      '7b9':{suffix:'7♭9',spoken:'属七降九和弦',level:4,intervals:[0,4,7,10,13],degrees:['1','3','5','♭7','♭9'],required:['1','3','♭7','♭9'],optional:['5'],openRequired:['3','♭7','♭9']},
+      '7s9':{suffix:'7♯9',spoken:'属七升九和弦',level:4,intervals:[0,4,7,10,15],degrees:['1','3','5','♭7','♯9'],required:['1','3','♭7','♯9'],optional:['5'],openRequired:['3','♭7','♯9']},
+      '6/9':{suffix:'6/9',spoken:'六九和弦',level:4,intervals:[0,4,7,9,14],degrees:['1','3','5','6','9'],required:['1','3','6','9'],optional:['5'],openRequired:['3','6','9']},
+      'm6/9':{suffix:'m6/9',spoken:'小六九和弦',level:4,intervals:[0,3,7,9,14],degrees:['1','♭3','5','6','9'],required:['1','♭3','6','9'],optional:['5'],openRequired:['♭3','6','9']},
+      '7sus4':{suffix:'7sus4',spoken:'属七挂四和弦',level:3,intervals:[0,5,7,10],degrees:['1','4','5','♭7'],required:['1','4','♭7'],optional:['5'],openRequired:['4','♭7']}
+    };
+    const OPEN_MIDI = [40,45,50,55,59,64];
+    const STRING_NAMES = ['E6','A5','D4','G3','B2','E1'];
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+
+    class ChordEngine {
+      static accidentalValue(text){ return [...text].reduce((n,c)=>n+(c==='♯'||c==='#'?1:c==='♭'||c==='b'?-1:0),0); }
+      static degreeInfo(label){ const n = Number(label.match(/\d+/)[0]); const accidental = ChordEngine.accidentalValue(label.replace(/\d+/g,'')); return {n,accidental}; }
+      static spell(root,degree,pc,preference='smart'){
+        if(preference==='sharp') return SHARP_NAMES[pc];
+        if(preference==='flat') return FLAT_NAMES[pc];
+        const rootLetter = root.name[0];
+        const {n} = ChordEngine.degreeInfo(degree);
+        const letter = LETTERS[mod(LETTERS.indexOf(rootLetter)+((n-1)%7),7)];
+        const natural = NATURAL_PC[letter];
+        let delta = mod(pc-natural,12); if(delta>6) delta-=12;
+        const accidental = delta===0?'':delta===1?'♯':delta===2?'♯♯':delta===-1?'♭':delta===-2?'♭♭':(root.name.includes('♭')?FLAT_NAMES[pc]:SHARP_NAMES[pc]).slice(1);
+        return letter+accidental;
+      }
+      static build(root,typeKey,preference='smart'){
+        const type = CHORD_TYPES[typeKey];
+        const pcs = type.intervals.map(i=>mod(root.pc+i));
+        const notes = pcs.map((pc,i)=>ChordEngine.spell(root,type.degrees[i],pc,preference));
+        return {root,typeKey,type,pcs,notes,name:root.name+type.suffix};
+      }
+      static degreeForPc(chord,pc){ const i=chord.pcs.indexOf(pc); return i<0?null:chord.type.degrees[i]; }
+      static chromaticDegree(rootPc,pc){
+        return ['1','♭2','2','♭3','3','4','♭5','5','♭6','6','♭7','7'][mod(pc-rootPc)];
+      }
+      static identifySameRoot(chord,pcs){
+        const set=[...new Set(pcs)].sort((a,b)=>a-b).join(',');
+        for(const [key] of Object.entries(CHORD_TYPES)){
+          const c=ChordEngine.build(chord.root,key);
+          if([...new Set(c.pcs)].sort((a,b)=>a-b).join(',')===set) return c.name;
+        }
+        return null;
+      }
+    }
+
+    class VoicingValidator {
+      static validate(chord,voices,mode='practical'){
+        const pcs=voices.map(v=>v.pc), unique=[...new Set(pcs)], target=new Set(chord.pcs);
+        const extras=unique.filter(pc=>!target.has(pc));
+        const presentDegrees=chord.type.degrees.filter((d,i)=>unique.includes(chord.pcs[i]));
+        let required=mode==='strict'?chord.type.degrees:(mode==='open'?(chord.type.openRequired||chord.type.required):chord.type.required);
+        const missingRequired=required.filter(d=>!presentDegrees.includes(d));
+        const missingAll=chord.type.degrees.filter(d=>!presentDegrees.includes(d));
+        const omittedOptional=missingAll.filter(d=>(chord.type.optional||[]).includes(d));
+        let status='error';
+        if(!voices.length) status='empty';
+        else if(!extras.length&&!missingRequired.length) status='success';
+        else if(!extras.length&&missingRequired.length) status='incomplete';
+        const counts={}; pcs.forEach(pc=>counts[pc]=(counts[pc]||0)+1);
+        const lowest=voices.length?[...voices].sort((a,b)=>a.midi-b.midi)[0]:null;
+        const bassDegree=lowest?ChordEngine.degreeForPc(chord,lowest.pc):null;
+        const inversion=VoicingValidator.inversion(chord,bassDegree,lowest);
+        return {status,pcs,unique,extras,presentDegrees,missingRequired,missingAll,omittedOptional,counts,lowest,bassDegree,inversion,closest:ChordEngine.identifySameRoot(chord,unique)};
+      }
+      static inversion(chord,degree,lowest){
+        if(!lowest) return '—';
+        const bassName=noteNameForPc(lowest.pc);
+        if(degree==='1') return `原位 · 最低音 ${bassName}`;
+        if(!degree) return `最低音 ${bassName}（非目标和弦音）`;
+        const simple=degree.replace(/[^0-9]/g,'');
+        const order={'3':'第一转位','5':'第二转位','7':'第三转位'};
+        return `${chord.name}/${bassName} · ${order[simple]||`${degree} 在低音`}`;
+      }
+    }
+
+    class StatisticsManager {
+      constructor(){ this.key='chordBuilderStatsV1'; this.data=this.load(); }
+      empty(){ return {total:0,correct:0,time:0,hints:0,streak:0,best:0,byType:{},byRoot:{},mistakes:{}}; }
+      load(){ try{return {...this.empty(),...JSON.parse(localStorage.getItem(this.key)||'{}')};}catch{return this.empty();} }
+      save(){ localStorage.setItem(this.key,JSON.stringify(this.data)); }
+      record(chord,correct,time,hints){
+        const d=this.data; d.total++; d.correct+=correct?1:0; d.time+=time; d.hints+=hints;
+        d.streak=correct?d.streak+1:0; d.best=Math.max(d.best,d.streak);
+        for(const [bucket,key] of [[d.byType,chord.typeKey],[d.byRoot,chord.root.name]]){ bucket[key] ||= {total:0,correct:0}; bucket[key].total++; bucket[key].correct+=correct?1:0; }
+        const id=chord.root.name+'|'+chord.typeKey; const delta=correct?-1:3; d.mistakes[id]=Math.max(0,(d.mistakes[id]||0)+delta+(hints?1:0));
+        this.save();
+      }
+      reset(){ this.data=this.empty(); this.save(); }
+    }
+
+    class AudioEngine {
+      constructor(){ this.ctx=null; this.enabled=true; }
+      ensure(){ if(!this.ctx) this.ctx=new (window.AudioContext||window.webkitAudioContext)(); if(this.ctx.state==='suspended')this.ctx.resume(); }
+      play(midi,delay=0,duration=.8,gain=.07){
+        if(!this.enabled)return; this.ensure(); const t=this.ctx.currentTime+delay, o=this.ctx.createOscillator(), g=this.ctx.createGain();
+        o.type='triangle'; o.frequency.setValueAtTime(440*Math.pow(2,(midi-69)/12),t); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(gain,t+.018); g.gain.exponentialRampToValueAtTime(.0001,t+duration); o.connect(g).connect(this.ctx.destination); o.start(t); o.stop(t+duration+.03);
+      }
+      chord(voices,arpeggio=false){ [...voices].sort((a,b)=>a.midi-b.midi).forEach((v,i)=>this.play(v.midi,arpeggio?i*.13:0,arpeggio?.7:1.2,arpeggio?.075:.04)); }
+    }
+
+    const settings={theme:localStorage.getItem('cbTheme')||'light',spelling:'smart',fretCount:15,markerDisplay:'degree',timer:'on',judge:'practical',range:'0-15',strings:'all'};
+    const state={chord:null,selected:new Map(),locateSelected:new Set(),muted:new Set(),hints:0,submitted:false,start:performance.now(),round:0,quizStage:null,quizSelected:new Set(),range:[0,15],locateDegree:null,familyFrom:null,recorded:false};
+    const stats=new StatisticsManager(), audio=new AudioEngine();
+
+    function noteNameForPc(pc){
+      if(!state.chord) return SHARP_NAMES[pc];
+      const i=state.chord.pcs.indexOf(pc); if(i>=0)return state.chord.notes[i];
+      if(settings.spelling==='flat'||(settings.spelling==='smart'&&state.chord.root.name.includes('♭')))return FLAT_NAMES[pc];
+      return SHARP_NAMES[pc];
+    }
+    function typesForLevel(level){ return Object.keys(CHORD_TYPES).filter(k=>CHORD_TYPES[k].level<=level); }
+    function weightedMistake(){
+      const entries=Object.entries(stats.data.mistakes).filter(([,w])=>w>0); if(!entries.length)return null;
+      const total=entries.reduce((s,[,w])=>s+w,0); let r=Math.random()*total;
+      for(const [id,w] of entries){r-=w;if(r<=0){const [rootName,typeKey]=id.split('|');return {root:ROOTS.find(x=>x.name===rootName),typeKey};}}
+    }
+    function chooseQuestion(){
+      const mode=$('#trainingMode').value, level=Number($('#difficulty').value);
+      let root,typeKey;
+      if(mode==='mistakes'){
+        const pick=weightedMistake(); if(pick){root=pick.root;typeKey=pick.typeKey;} else toast('错题池为空，先进行普通训练');
+      }
+      root ||= ROOTS[Math.floor(Math.random()*ROOTS.length)];
+      const types=typesForLevel(level); typeKey ||= types[Math.floor(Math.random()*types.length)];
+      state.chord=ChordEngine.build(root,typeKey,settings.spelling);
+      state.familyFrom=null;
+      if(mode==='family'){
+        const familyKeys=['major','minor','6','maj7','7','sus4','add9'].filter(k=>CHORD_TYPES[k].level<=Math.max(3,level));
+        const alternatives=familyKeys.filter(k=>k!==typeKey); const fromKey=alternatives[Math.floor(Math.random()*alternatives.length)];
+        state.familyFrom=ChordEngine.build(root,fromKey,settings.spelling);
+      }
+      if(mode==='locate') state.locateDegree=state.chord.type.degrees[Math.floor(Math.random()*state.chord.type.degrees.length)];
+    }
+    function currentRange(){
+      const val=$('#fretRange').value, max=settings.fretCount;
+      if(val==='random4'){const start=1+Math.floor(Math.random()*Math.max(1,max-4));return [start,Math.min(max,start+3)];}
+      const [a,b]=val.split('-').map(Number); return [a,Math.min(b,max)];
+    }
+    function activeStrings(){ return settings.strings==='all'?[0,1,2,3,4,5]:settings.strings.split(',').map(Number); }
+    function resetRound(){
+      state.selected.clear();state.locateSelected.clear();state.muted.clear();state.hints=0;state.submitted=false;state.start=performance.now();state.quizSelected.clear();state.recorded=false;state.round++;state.range=currentRange();chooseQuestion();
+      setupQuiz();renderAll();
+    }
+    function setupQuiz(){
+      const mode=$('#trainingMode').value;
+      state.quizStage=mode==='formula'?'formula':mode==='notes'?'notes':null;
+      state.quizSelected.clear();
+      const zone=$('#quizZone');zone.classList.toggle('visible',!!state.quizStage);
+      if(!state.quizStage)return;
+      $('#quizTitle').textContent=state.quizStage==='formula'?'先选出正确的和弦公式':'先选出组成和弦的实际音名';
+      const items=state.quizStage==='formula'?['1','♭2','2','♭3','3','4','♭5','5','♯5','6','♭♭7','♭7','7','♭9','9','♯9']:displayNoteBank();
+      $('#quizChips').innerHTML=items.map(v=>`<button class="chip" data-value="${v}">${v}</button>`).join('');
+      $$('#quizChips .chip').forEach(btn=>btn.onclick=()=>{if(state.submitted)return;const v=btn.dataset.value;state.quizSelected.has(v)?state.quizSelected.delete(v):state.quizSelected.add(v);btn.classList.toggle('selected');renderActions();});
+    }
+    function noteBankFor(chord,preference=settings.spelling){
+      const useFlat=preference==='flat'||(preference==='smart'&&chord.root.name.includes('♭'));
+      return useFlat?FLAT_NAMES:SHARP_NAMES;
+    }
+    function displayNoteBank(){ return noteBankFor(state.chord); }
+    function renderAll(){ renderHeader();renderHints();renderFretboard();renderSelection();renderResult();renderStats();renderActions(); }
+    function renderHeader(){
+      const mode=$('#trainingMode').value, labels={construct:'和弦构造',formula:'公式训练',notes:'音名训练',locate:'和弦音导航',family:'家族变化',mistakes:'错题训练'};
+      $('#modeEyebrow').textContent=labels[mode];$('#chordName').textContent=state.chord.name;$('#levelPill').textContent='LEVEL '+state.chord.type.level;$('#roundCount').textContent=`第 ${state.round} 题`;$('#roundProgress').style.width=`${(state.round%10||10)*10}%`;
+      let prompt='在当前把位中构造一个成立的 Voicing。';
+      if(mode==='formula')prompt=state.quizStage?'先完成和弦公式，再进入指板构造。':'公式正确。现在把它放到指板上。';
+      if(mode==='notes')prompt=state.quizStage?'先选出实际音名，再进入指板构造。':'音名正确。现在构造可演奏 Voicing。';
+      if(mode==='locate')prompt=`在 ${state.range[0]}–${state.range[1]} 品找出所有 ${state.locateDegree} 音。`;
+      if(mode==='family')prompt=`把 ${state.familyFrom.name} 变为 ${state.chord.name}，再构造新的 Voicing。`;
+      if(mode==='mistakes')prompt='高权重错题会优先出现。';
+      $('#promptText').textContent=prompt;
+      $('#stageTitle').textContent=mode==='locate'?`找出所有 ${state.locateDegree} 音`:(state.quizStage?'先完成上方选择':'在指板上选择音符');
+      $('#stageSub').textContent=mode==='locate'?'此模式允许在同一根弦选择多个位置':'每根弦只能有一个发声音；点 × 可静音';
+      $('#fretboard').style.opacity=state.quizStage?'.38':'1'; $('#fretboard').style.pointerEvents=state.quizStage?'none':'auto';
+    }
+    function renderHints(){
+      $('#hintBtn').textContent=`显示提示 · ${state.hints}/3`; $('#hintBtn').disabled=state.hints>=3;
+      const content=[`公式 · ${state.chord.type.degrees.join('  ')}`,`音名 · ${state.chord.notes.join('  ')}`,'候选音已在指板上淡色标出'];
+      $('#hintStack').innerHTML=content.map((t,i)=>state.hints>i?`<div class="hint-line"><b>${i+1}</b>${t}</div>`:`<div class="hint-line locked">提示 ${i+1} · ${['和弦公式','实际音名','候选位置'][i]}</div>`).join('');
+    }
+    function isActiveCell(string,fret){ return activeStrings().includes(string)&&fret>=state.range[0]&&fret<=state.range[1]; }
+    function renderFretboard(){
+      const fb=$('#fretboard'), frets=settings.fretCount, mode=$('#trainingMode').value; fb.style.setProperty('--frets',frets+1); let html='<div></div>';
+      for(let f=0;f<=frets;f++)html+=`<div class="fret-num">${f}</div>`;
+      for(let s=0;s<6;s++){
+        const stringState=state.selected.has(s)?(state.selected.get(s)===0?'○':'●'):'×';
+        html+=`<div class="string-label"><button class="mute-toggle ${stringState==='×'?'active':''}" data-mute="${s}" aria-label="${STRING_NAMES[s]}弦状态：${stringState}">${stringState}</button>${STRING_NAMES[s]}</div>`;
+        for(let f=0;f<=frets;f++){
+          const pc=mod(OPEN_MIDI[s]+f), id=`${s}-${f}`, active=isActiveCell(s,f), selected=mode==='locate'?state.locateSelected.has(id):state.selected.get(s)===f;
+          const degree=ChordEngine.degreeForPc(state.chord,pc), isTarget=!!degree, answerPosition=state.submitted&&isTarget&&active;
+          const candidate=(state.hints>=3||state.submitted)&&isTarget&&active;
+          let marker='';if(selected){const root=degree==='1', wrong=state.submitted&&!degree;marker=`<span class="note-marker ${root?'root':''} ${wrong?'wrong':''}">${markerText(pc,degree)}</span>`;}
+          html+=`<button class="fret-cell ${f===0?'open':''} ${!active?'disabled':''} ${!activeStrings().includes(s)?'string-disabled':''} ${candidate?'candidate':''} ${answerPosition?'answer-position':''}" data-string="${s}" data-fret="${f}" ${!active?'disabled':''} aria-label="${STRING_NAMES[s]}弦 ${f}品">${marker}</button>`;
+        }
+      }
+      html+='<div></div>';
+      for(let f=0;f<=frets;f++){const mark=[3,5,7,9,12,15,17,19,21].includes(f);html+=`<div class="inlay ${f===12?'double':''}">${mark?(f===12?'••':'●'):''}</div>`;}
+      fb.innerHTML=html;
+      $$('.fret-cell').forEach(c=>c.onclick=()=>cellClick(Number(c.dataset.string),Number(c.dataset.fret)));
+      $$('.mute-toggle').forEach(b=>b.onclick=()=>toggleMute(Number(b.dataset.mute)));
+    }
+    function markerText(pc,degree){
+      if(!state.submitted)return '';
+      if(!degree)return '!';
+      if(settings.markerDisplay==='note')return noteNameForPc(pc);
+      if(settings.markerDisplay==='both')return `${degree}·${noteNameForPc(pc)}`;
+      return degree;
+    }
+    function cellClick(s,f){
+      if(state.submitted)return;
+      const mode=$('#trainingMode').value,id=`${s}-${f}`;
+      if(mode==='locate'){state.locateSelected.has(id)?state.locateSelected.delete(id):state.locateSelected.add(id);}
+      else{if(state.selected.get(s)===f)state.selected.delete(s);else{state.selected.set(s,f);state.muted.delete(s);}}
+      if(audio.enabled)audio.play(OPEN_MIDI[s]+f);renderFretboard();renderSelection();
+      renderActions();
+    }
+    function toggleMute(s){ if(state.submitted||$('#trainingMode').value==='locate')return;state.selected.delete(s);state.muted.add(s);renderFretboard();renderSelection();renderActions(); }
+    function voices(){ return [...state.selected].map(([s,f])=>({string:s,fret:f,midi:OPEN_MIDI[s]+f,pc:mod(OPEN_MIDI[s]+f)})); }
+    function renderSelection(){
+      const mode=$('#trainingMode').value;
+      if(mode==='locate'){$('#selectionSummary').textContent=state.locateSelected.size?`已标记 ${state.locateSelected.size} 个位置`:'尚未标记位置';return;}
+      const vs=voices().sort((a,b)=>a.midi-b.midi); $('#selectionSummary').textContent=vs.length?`已选 ${vs.length} 个发声音 · ${vs.map(v=>noteNameForPc(v.pc)).join('  ')}`:'尚未选择音符';
+    }
+    function submit(){
+      if(state.submitted)return;
+      if(state.quizStage){submitQuiz();return;}
+      if($('#trainingMode').value==='locate'){submitLocate();return;}
+      const vs=voices();if(!vs.length){toast('请先在指板上选择音符');return;}
+      state.submitted=true;state.result=VoicingValidator.validate(state.chord,vs,settings.judge);finalizeRecord(state.result.status==='success');renderAll();
+      if(state.result.status==='success')audio.chord(vs,false);
+    }
+    function submitQuiz(){
+      const target=new Set(state.quizStage==='formula'?state.chord.type.degrees:state.chord.notes), selected=state.quizSelected;
+      const ok=selected.size===target.size&&[...selected].every(x=>target.has(x));
+      $$('#quizChips .chip').forEach(b=>{if(target.has(b.dataset.value))b.classList.add('correct');else if(selected.has(b.dataset.value))b.classList.add('wrong');});
+      if(!ok){toast('还不完全正确：绿色边框是本题需要的内容');return;}
+      state.quizStage=null;state.quizSelected.clear();$('#quizZone').classList.remove('visible');toast('正确，现在进入指板构造');renderHeader();renderActions();
+    }
+    function targetLocateIds(){
+      const i=state.chord.type.degrees.indexOf(state.locateDegree), pc=state.chord.pcs[i], ids=[];
+      for(let s=0;s<6;s++)for(let f=0;f<=settings.fretCount;f++)if(isActiveCell(s,f)&&mod(OPEN_MIDI[s]+f)===pc)ids.push(`${s}-${f}`);
+      return ids;
+    }
+    function submitLocate(){
+      const target=new Set(targetLocateIds()), selected=state.locateSelected, ok=selected.size===target.size&&[...selected].every(x=>target.has(x));
+      state.submitted=true;state.result={status:ok?'success':'incomplete',locate:true,target:[...target],missing:[...target].filter(x=>!selected.has(x)),extras:[...selected].filter(x=>!target.has(x))};finalizeRecord(ok);renderAll();
+    }
+    function finalizeRecord(correct){ if(state.recorded)return;stats.record(state.chord,correct,(performance.now()-state.start)/1000,state.hints);state.recorded=true; }
+    function resultCopy(r){
+      if(r.locate){
+        if(r.status==='success')return {icon:'✓',title:'全部找到了',desc:`${state.locateDegree} = ${state.chord.notes[state.chord.type.degrees.indexOf(state.locateDegree)]}，当前范围共有 ${r.target.length} 个位置。`};
+        return {icon:'△',title:'还差一点',desc:`遗漏 ${r.missing.length} 个位置${r.extras.length?`，另有 ${r.extras.length} 个位置不是目标音`:''}。`};
+      }
+      if(r.status==='success')return {icon:'✓',title:`${state.chord.name} 成立`,desc:r.omittedOptional.length?`关键音完整；合理省略了 ${r.omittedOptional.join('、')}。`:'所需和弦功能完整，没有非目标音。'};
+      if(r.status==='incomplete'){
+        if(state.chord.typeKey==='9'&&r.missingRequired.includes('♭7')&&r.presentDegrees.includes('9')) return {icon:'×',title:`尚未构成 ${state.chord.name}`,desc:`这个音集合是 ${state.chord.root.name}add9 的结构；${state.chord.name} 还需要 ♭7 = ${state.chord.notes[state.chord.type.degrees.indexOf('♭7')]}。`};
+        const missingNames=r.missingRequired.map(d=>`${d} = ${state.chord.notes[state.chord.type.degrees.indexOf(d)]}`).join('、');
+        return {icon:'△',title:'接近正确，但结构不完整',desc:`已选音都属于目标和弦，还缺少 ${missingNames}。`};
+      }
+      const closest=r.closest&&r.closest!==state.chord.name?`当前音集合更接近 ${r.closest}。`:'';
+      const susConflict=(state.chord.typeKey==='sus4'&&r.extras.some(pc=>ChordEngine.chromaticDegree(state.chord.root.pc,pc)==='3'))?'sus4 要求三度被 4 替换；当前仍包含 3 音。':'';
+      return {icon:'×',title:`尚未构成 ${state.chord.name}`,desc:`存在 ${r.extras.length} 个非目标音。${susConflict||closest}`};
+    }
+    function renderResult(){
+      const visible=state.submitted;$('#statusEmpty').style.display=visible?'none':'block';$('#resultBox').classList.toggle('visible',visible);if(!visible)return;
+      const r=state.result,c=resultCopy(r),banner=$('#resultBanner');banner.className=`result-banner ${r.status==='success'?'success':r.status==='incomplete'?'incomplete':'error'}`;$('#resultIcon').textContent=c.icon;$('#resultTitle').textContent=c.title;$('#resultDesc').textContent=c.desc;
+      let rows=[];
+      if(r.locate){
+        const targetNote=state.chord.notes[state.chord.type.degrees.indexOf(state.locateDegree)];
+        rows=[['目标',`${state.chord.name} 的 ${state.locateDegree} = ${targetNote}`],['范围',`${state.range[0]}–${state.range[1]} 品 · ${activeStrings().length} 根弦`],['结果',r.status==='success'?'所有位置完整':`遗漏 ${r.missing.length}，误选 ${r.extras.length}`]];
+      }else{
+        const vs=voices().sort((a,b)=>a.midi-b.midi), selected=vs.map(v=>noteNameForPc(v.pc)), functions=vs.map(v=>ChordEngine.degreeForPc(state.chord,v.pc)||ChordEngine.chromaticDegree(state.chord.root.pc,v.pc));
+        const extras=r.extras.map(pc=>`${noteNameForPc(pc)}（${ChordEngine.chromaticDegree(state.chord.root.pc,pc)}）`);
+        const repeats=Object.entries(r.counts).filter(([,n])=>n>1).map(([pc,n])=>`${noteNameForPc(Number(pc))} ×${n}`);
+        rows=[['目标结构',`${state.chord.type.degrees.join('  ')} · ${state.chord.notes.join('  ')}`],['你的答案',selected.join('  ')||'—'],['音级功能',functions.join('  ')||'—']];
+        if(r.missingRequired.length)rows.push(['缺少关键音',r.missingRequired.map(d=>`${d} = ${state.chord.notes[state.chord.type.degrees.indexOf(d)]}`).join('；')]);
+        if(r.status==='success'&&r.omittedOptional.length)rows.push(['合理省略',r.omittedOptional.map(d=>`${d} = ${state.chord.notes[state.chord.type.degrees.indexOf(d)]}`).join('；')]);
+        if(extras.length)rows.push(['错误音',extras.join('；')]);
+        rows.push(['最低音',r.inversion],['重复音',repeats.length?repeats.join('；'):'无']);
+        if(state.familyFrom){
+          const from=state.familyFrom.type.degrees,to=state.chord.type.degrees,removed=from.filter(x=>!to.includes(x)),added=to.filter(x=>!from.includes(x));
+          rows.push(['结构变化',`${removed.length?removed.join('、'):'—'} → ${added.length?added.join('、'):'—'}${state.chord.typeKey==='sus4'?'（3 被 4 替换）':''}`]);
+        }
+      }
+      rows.push(['本题用时',`${((performance.now()-state.start)/1000).toFixed(1)} 秒 · 使用 ${state.hints} 次提示`]);
+      $('#analysisGrid').innerHTML=rows.map(([a,b])=>`<div class="analysis-row"><dt>${a}</dt><dd>${b}</dd></div>`).join('');
+    }
+    function renderStats(){
+      const d=stats.data, pct=d.total?Math.round(d.correct/d.total*100):null;$('#accuracy').innerHTML=pct===null?'— <span>正确率</span>':`${pct}% <span>正确率</span>`;$('#totalMeta').textContent=d.total?`${d.correct} / ${d.total} 题正确 · 平均提示 ${(d.hints/d.total).toFixed(1)} 次`:'还没有作答记录';$('#streakNow').textContent=d.streak;$('#bestStreak').textContent=d.best;$('#avgTime').textContent=d.total?(d.time/d.total).toFixed(1):'—';
+      const candidates=Object.entries(d.byType).filter(([,v])=>v.total>=2).sort((a,b)=>a[1].correct/a[1].total-b[1].correct/b[1].total);
+      $('#coachText').textContent=candidates.length?`目前最值得复习：${CHORD_TYPES[candidates[0][0]].suffix||'Major'}（${Math.round(candidates[0][1].correct/candidates[0][1].total*100)}%）。错题训练会提高它的出现频率。`:'先完成几题，我会帮你判断薄弱的和弦类型。';
+      const rows=entries=>Object.entries(entries).sort((a,b)=>b[1].total-a[1].total).map(([k,v])=>`<div class="detail-row"><span>${CHORD_TYPES[k]?(CHORD_TYPES[k].suffix||'Major'):k}</span><b>${Math.round(v.correct/v.total*100)}%</b></div>`).join('')||'<div class="detail-row"><span>暂无数据</span></div>';
+      $('#detailStats').innerHTML=`<div><h4>和弦类型</h4>${rows(d.byType)}</div><div><h4>根音</h4>${rows(d.byRoot)}</div>`;
+    }
+    function clearSelection(){
+      if(state.submitted){ retryRound(); return; }
+      state.selected.clear();state.locateSelected.clear();state.muted.clear();state.quizSelected.clear();
+      $$('#quizChips .chip').forEach(b=>b.classList.remove('selected','correct','wrong'));
+      renderFretboard();renderSelection();renderActions();
+    }
+    function retryRound(){
+      state.selected.clear();state.locateSelected.clear();state.muted.clear();state.submitted=false;state.result=null;state.start=performance.now();state.recorded=true;
+      renderAll();toast('题目已保留，请重新作答');
+    }
+    function hasAnswer(){
+      if(state.quizStage)return state.quizSelected.size>0;
+      return $('#trainingMode').value==='locate'?state.locateSelected.size>0:state.selected.size>0;
+    }
+    function renderActions(){
+      const submit=$('#submitBtn'), next=$('#nextBtn'), clear=$('#clearBtn');
+      submit.textContent=state.quizStage==='formula'?'确认公式':state.quizStage==='notes'?'确认音名':'提交答案';
+      submit.disabled=state.submitted||!hasAnswer();
+      next.disabled=!state.submitted;
+      clear.textContent=state.submitted?'重做本题':'清空';
+      clear.disabled=!state.submitted&&!hasAnswer();
+    }
+    function showHint(){ if(state.hints>=3)return;state.hints++;renderHints();if(state.hints===3)renderFretboard(); }
+    function toast(text){const t=$('#toast');t.textContent=text;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2200);}
+    function saveSettings(){ localStorage.setItem('cbSettings',JSON.stringify(settings)); }
+    function loadSettings(){try{Object.assign(settings,JSON.parse(localStorage.getItem('cbSettings')||'{}'));}catch{} }
+    function tick(){ if(settings.timer==='off'){$('#timer').textContent='计时隐藏';return;}const t=(performance.now()-state.start)/1000,m=Math.floor(t/60),s=t%60;$('#timer').textContent=`${String(m).padStart(2,'0')}:${s.toFixed(1).padStart(4,'0')}`; }
+    function bind(){
+      $('#submitBtn').onclick=submit;$('#nextBtn').onclick=resetRound;$('#clearBtn').onclick=clearSelection;$('#hintBtn').onclick=showHint;$('#arpBtn').onclick=()=>{const vs=voices();vs.length?audio.chord(vs,true):toast('请先选择音符');};$('#chordBtn').onclick=()=>{const vs=voices();vs.length?audio.chord(vs,false):toast('请先选择音符');};
+      $('#audioToggle').onclick=()=>{audio.enabled=!audio.enabled;$('#audioToggle').textContent=`音效：${audio.enabled?'开':'关'}`;};
+      $('#viewToggle').onclick=()=>{const order=['degree','note','both'],i=(order.indexOf(settings.markerDisplay)+1)%3;settings.markerDisplay=order[i];$('#markerDisplay').value=settings.markerDisplay;$('#viewToggle').textContent=`提交后：${['度数','音名','二者'][i]}`;saveSettings();renderFretboard();};
+      $('#trainingMode').onchange=resetRound;$('#difficulty').onchange=resetRound;
+      $('#fretRange').onchange=()=>{settings.range=$('#fretRange').value;saveSettings();resetRound();};
+      $('#stringGroup').onchange=()=>{settings.strings=$('#stringGroup').value;saveSettings();resetRound();};
+      $$('#judgeMode button').forEach(b=>b.onclick=()=>{$$('#judgeMode button').forEach(x=>x.classList.remove('active'));b.classList.add('active');settings.judge=b.dataset.value;saveSettings();});
+      $('#themeBtn').onclick=()=>{settings.theme=settings.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=settings.theme;localStorage.setItem('cbTheme',settings.theme);};
+      $('#settingsBtn').onclick=()=>$('#settingsPop').classList.add('open');$('#closeSettings').onclick=()=>$('#settingsPop').classList.remove('open');$('#settingsPop').onclick=e=>{if(e.target===$('#settingsPop'))$('#settingsPop').classList.remove('open');};
+      $('#spelling').onchange=()=>{settings.spelling=$('#spelling').value;saveSettings();state.chord=ChordEngine.build(state.chord.root,state.chord.typeKey,settings.spelling);if(state.familyFrom)state.familyFrom=ChordEngine.build(state.familyFrom.root,state.familyFrom.typeKey,settings.spelling);setupQuiz();renderAll();};
+      $('#fretCount').onchange=()=>{settings.fretCount=Number($('#fretCount').value);saveSettings();resetRound();};
+      $('#markerDisplay').onchange=()=>{settings.markerDisplay=$('#markerDisplay').value;saveSettings();renderFretboard();};
+      $('#timerSetting').onchange=()=>{settings.timer=$('#timerSetting').value;saveSettings();};
+      $('#resetStats').onclick=()=>{if(confirm('确定清空本机的全部学习记录与错题权重吗？')){stats.reset();renderStats();toast('学习记录已清空');}};
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#settingsPop').classList.remove('open');return;}if(e.target.matches('select,input,button'))return;if(e.key==='Enter'){state.submitted?resetRound():submit();}if(e.key.toLowerCase()==='n'&&state.submitted)resetRound();});
+    }
+    function acceptanceTests(){
+      const c=ROOTS.find(r=>r.name==='C'), voices=pcs=>pcs.map((pc,i)=>({pc,midi:48+i}));
+      const cases=[];
+      for(const [key,type] of Object.entries(CHORD_TYPES)){
+        const chord=ChordEngine.build(c,key), requiredPcs=type.required.map(d=>chord.pcs[type.degrees.indexOf(d)]);
+        cases.push({name:`${key} 严格完整`,pass:VoicingValidator.validate(chord,voices(chord.pcs),'strict').status==='success'});
+        cases.push({name:`${key} 实战关键音`,pass:VoicingValidator.validate(chord,voices(requiredPcs),'practical').status==='success'});
+        const outsidePc=Array.from({length:12},(_,pc)=>pc).find(pc=>!chord.pcs.includes(pc));
+        cases.push({name:`${key} 排除外音`,pass:VoicingValidator.validate(chord,voices([...requiredPcs,outsidePc]),'practical').status==='error'});
+      }
+      const c7=ChordEngine.build(c,'7'), c9=ChordEngine.build(c,'9'), csus=ChordEngine.build(c,'sus4');
+      cases.push({name:'属七实战允许省略五音',pass:VoicingValidator.validate(c7,voices([0,4,10]),'practical').status==='success'});
+      cases.push({name:'属七严格模式要求五音',pass:VoicingValidator.validate(c7,voices([0,4,10]),'strict').status==='incomplete'});
+      cases.push({name:'属九不能退化为 add9',pass:VoicingValidator.validate(c9,voices([0,4,7,2]),'practical').status==='incomplete'});
+      cases.push({name:'sus4 排除大三度',pass:VoicingValidator.validate(csus,voices([0,4,5,7]),'practical').status==='error'});
+      const cMinorFlat=ChordEngine.build(c,'minor','flat');
+      cases.push({name:'降号音名题包含全部正确选项',pass:cMinorFlat.notes.every(n=>noteBankFor(cMinorFlat,'flat').includes(n))});
+      const failed=cases.filter(x=>!x.pass);if(failed.length)console.error('[Chord Builder] 验收失败',failed);
+      console.info(`[Chord Builder] 验收测试：${cases.length-failed.length}/${cases.length} 通过`);return failed.length===0;
+    }
+    function init(){
+      loadSettings();document.documentElement.dataset.theme=settings.theme;$('#spelling').value=settings.spelling;$('#fretCount').value=String(settings.fretCount);$('#markerDisplay').value=settings.markerDisplay;$('#timerSetting').value=settings.timer;$('#fretRange').value=settings.range;$('#stringGroup').value=settings.strings;$$('#judgeMode button').forEach(b=>b.classList.toggle('active',b.dataset.value===settings.judge));
+      bind();resetRound();acceptanceTests();setInterval(tick,100);
+    }
+    window.ChordBuilder={ChordEngine,VoicingValidator,CHORD_TYPES,runTests:acceptanceTests};
+    init();
+  })();
+  </script>
+</body>
+</html>
