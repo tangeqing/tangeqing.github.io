@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="从单音、关系、级数到短旋律与真实歌曲的本地吉他练耳训练系统。">
+  <meta name="color-scheme" content="dark light">
+  <title>听见 · 旋律听觉训练系统</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand" aria-label="听见 Melody Ear Training">
+        <div class="brand-mark"><span></span><span></span><span></span></div>
+        <div><strong>听见</strong><small>MELODY EAR TRAINING</small></div>
+      </div>
+      <nav class="nav" aria-label="主导航">
+        <button class="nav-item active" data-route="today"><span class="nav-icon">⌂</span><span>今日训练</span></button>
+        <button class="nav-item" data-route="single"><span class="nav-icon">●</span><span>单音训练</span></button>
+        <button class="nav-item" data-route="interval"><span class="nav-icon">↕</span><span>音程训练</span></button>
+        <button class="nav-item" data-route="degree"><span class="nav-icon">Ⅲ</span><span>级数训练</span></button>
+        <button class="nav-item" data-route="melody"><span class="nav-icon">⌁</span><span>短旋律</span></button>
+        <button class="nav-item" data-route="lab"><span class="nav-icon">◉</span><span>Melody Lab</span></button>
+      </nav>
+      <div class="sidebar-foot">
+        <button class="nav-item" data-route="stats"><span class="nav-icon">⌗</span><span>能力地图</span></button>
+        <button class="nav-item" data-route="settings"><span class="nav-icon">⚙</span><span>设置与数据</span></button>
+        <div class="local-badge"><i></i><span>本地模式<br><small>数据只在此浏览器</small></span></div>
+      </div>
+    </aside>
+
+    <div class="main-column">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="打开菜单">☰</button>
+        <div class="breadcrumb"><span id="routeEyebrow">TODAY</span><strong id="routeTitle">今日训练</strong></div>
+        <div class="top-actions">
+          <div class="streak-pill"><span>连续</span><b id="streakCount">0</b><span>天</span></div>
+          <button class="icon-button" id="themeToggle" aria-label="切换主题" title="切换主题">☾</button>
+        </div>
+      </header>
+      <main id="main" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="dataImportInput" accept="application/json,.json" hidden>
+
+  <script src="js/music-theory.js" defer></script>
+  <script src="js/audio-engine.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/trainers.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
