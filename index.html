@@ -180,6 +180,7 @@
   </div>
   <div class="nav-links">
     <div class="nav-item active" data-target="hero">首页</div>
+    <div class="nav-item" data-target="cat-basic">基础</div>
     <div class="nav-item" data-target="cat-scale">音阶</div>
     <div class="nav-item" data-target="cat-chord">和弦</div>
     <div class="nav-item" data-target="cat-misc">综合</div>
@@ -193,7 +194,7 @@
     <img class="hero-avatar" src="./src/img/avatar.jpg" alt="头像"/>
     <h1>吉他练习工具合集</h1>
     <p>从音阶到和弦，系统化吉他练习</p>
-    <button class="btn-start" onclick="scrollToId('cat-scale')">开始练习 →</button>
+    <button class="btn-start" onclick="scrollToId('cat-basic')">开始练习 →</button>
     <div class="scroll-hint">↓ 向下滚动探索工具</div>
   </div>
 </section>
@@ -202,6 +203,13 @@
 <section id="tools">
   <h2 class="section-title"><span class="dot"></span>练习工具</h2>
   <p class="section-desc">按类别浏览吉他练习应用，点击卡片即可在页面内打开。</p>
+
+  <!-- 基础训练类 -->
+  <div class="cat-block" id="cat-basic">
+    <div class="cat-head"><span class="cat-icon">🎯</span><span class="cat-name">基础训练</span></div>
+    <p class="cat-sub">从单音与音程入手，打牢听辨和音名反应基础。</p>
+    <div class="grid-container" data-cat="basic"></div>
+  </div>
 
   <!-- 音阶类 -->
   <div class="cat-block" id="cat-scale">
@@ -267,6 +275,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   // 保留原 appData 结构，扩展 category 字段
   const appData = [
+    {name:'单音训练', url:'./apps/单音训练/index.html', img:'./apps/单音训练/detail.png', category:'basic'},
+    {name:'音程记忆训练', url:'./apps/音程记忆训练/index.html', img:'./apps/音程记忆训练/detail.png', category:'basic'},
     {name:'音阶跟唱练习',url:'./apps/十二个调上下行音阶/index.html', img:'./apps/十二个调上下行音阶/detail.png', category:'misc'},
     {name:'指板记忆',url:'./apps/指板记忆/指板记忆.html', img:'./apps/指板记忆/detail.png', category:'scale'},
     {name:'指板音程音名练习', url:'./apps/指板音程记忆/指板音程记忆.html', img:'./apps/指板音程记忆/detail.png', category:'scale'},
@@ -289,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 生成卡片
   function generateGrids(){
-    const groups = {scale:[], chord:[], misc:[]};
+    const groups = {basic:[], scale:[], chord:[], misc:[]};
     appData.forEach(item=>{ (groups[item.category]||groups.misc).push(item); });
     Object.keys(groups).forEach(cat=>{
       const container = document.querySelector(`.grid-container[data-cat="${cat}"]`);
@@ -338,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 滚动高亮 + 导航栏背景
   const navItems=document.querySelectorAll('.nav-item');
-  const sections=['hero','cat-scale','cat-chord','cat-misc','about'];
+  const sections=['hero','cat-basic','cat-scale','cat-chord','cat-misc','about'];
   const navbar=document.getElementById('navbar');
   function onScroll(){
     navbar.style.background = window.scrollY>40 ? 'rgba(26,26,46,.85)' : 'rgba(26,26,46,.55)';

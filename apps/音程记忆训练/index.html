@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#18251f">
+  <meta name="description" content="离线运行的十二调音程与和弦组成音反应训练器。">
+  <title>音名反应 · 十二调训练器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" type="button" data-tab="interval" aria-label="返回音程训练">
+        <span class="brand-mark" aria-hidden="true">♯</span>
+        <span><strong>音名反应</strong><small>TWELVE-KEY TRAINER</small></span>
+      </button>
+      <nav class="tabs" aria-label="主导航">
+        <button class="tab active" type="button" data-tab="interval">音程训练</button>
+        <button class="tab" type="button" data-tab="chord">和弦训练</button>
+        <button class="tab" type="button" data-tab="mixed">综合训练</button>
+        <button class="tab" type="button" data-tab="stats">学习统计</button>
+      </nav>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="切换深浅色" title="切换深浅色">◐</button>
+    </header>
+
+    <main id="app" class="main" tabindex="-1"></main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <input id="importFile" type="file" accept="application/json,.json" hidden>
+
+  <script src="musicTheory.js"></script>
+  <script src="storage.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

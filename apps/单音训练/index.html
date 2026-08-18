@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17152f">
+  <title>随机单音练耳</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="随机单音练耳首页">
+        <span class="brand-mark" aria-hidden="true">♪</span>
+        <span>
+          <strong>随机单音练耳</strong>
+          <small>听见 · 记住 · 唱出来</small>
+        </span>
+      </a>
+      <nav class="tabs" aria-label="主导航">
+        <button class="tab is-active" data-tab="train" type="button">训练</button>
+        <button class="tab" data-tab="wrong" type="button">错题本 <span id="wrongBadge" class="badge">0</span></button>
+        <button class="tab" data-tab="stats" type="button">统计</button>
+        <button class="tab" data-tab="settings" type="button">设置</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="trainPanel" class="panel is-active" data-panel="train">
+        <div class="control-strip card">
+          <label>
+            <span>训练模式</span>
+            <select id="modeSelect">
+              <option value="random">随机单音</option>
+              <option value="natural">自然音专项</option>
+              <option value="wrong">错题专项</option>
+            </select>
+          </label>
+          <label>
+            <span>音域</span>
+            <select id="rangePreset">
+              <option value="C2-B2">C2–B2</option>
+              <option value="C3-B3">C3–B3</option>
+              <option value="C4-B4">C4–B4</option>
+              <option value="C5-B5">C5–B5</option>
+              <option value="C3-B4">C3–B4</option>
+              <option value="C3-B5">C3–B5</option>
+              <option value="custom">自定义音域</option>
+            </select>
+          </label>
+          <label>
+            <span>音符范围</span>
+            <select id="noteModeSelect">
+              <option value="natural">仅自然音</option>
+              <option value="common">自然音 + 常见变化音</option>
+              <option value="chromatic">全部 12 音</option>
+            </select>
+          </label>
+          <label>
+            <span>音色</span>
+            <select id="timbreSelect">
+              <option value="piano">钢琴</option>
+              <option value="electric">电钢琴</option>
+              <option value="sine">正弦波 / 纯音</option>
+              <option value="guitar">吉他</option>
+              <option value="marimba">木琴 / 马林巴</option>
+              <option value="pad">柔和合成器</option>
+            </select>
+          </label>
+          <button id="previewTimbre" class="icon-button" type="button" title="试听当前音色" aria-label="试听当前音色">♪</button>
+        </div>
+
+        <div id="customRange" class="custom-range card is-hidden" aria-label="自定义音域">
+          <label><span>最低音</span><select id="customMin"></select></label>
+          <span class="range-arrow" aria-hidden="true">→</span>
+          <label><span>最高音</span><select id="customMax"></select></label>
+          <p id="rangeHint" class="field-hint"></p>
+        </div>
+
+        <section class="training-stage card" aria-live="polite">
+          <div class="stage-kicker"><span id="modeDot" class="status-dot"></span><span id="modeLabel">随机单音</span></div>
+          <div id="noteOrb" class="note-orb" aria-hidden="true">
+            <span id="orbIcon">♪</span>
+          </div>
+          <h1 id="stageTitle">准备好了吗？</h1>
+          <p id="stageSubtitle">播放一个音，把它记在脑中，然后用声音模唱出来。</p>
+
+          <div id="answerBox" class="answer-box is-hidden">
+            <strong id="answerNote">G4</strong>
+            <span id="answerFrequency">392.00 Hz</span>
+          </div>
+
+          <div class="primary-actions">
+            <button id="newNoteBtn" class="button button-primary" type="button"><span aria-hidden="true">▶</span> 播放新音</button>
+            <button id="repeatBtn" class="button button-secondary" type="button" disabled><span aria-hidden="true">↻</span> 重复播放</button>
+            <button id="answerBtn" class="button button-ghost" type="button" disabled><span aria-hidden="true">◉</span> 查看答案</button>
+            <button id="nextBtn" class="button button-ghost" type="button" disabled>下一个 <span aria-hidden="true">→</span></button>
+          </div>
+
+          <div class="self-check">
+            <p>完成模唱后，请自行判断</p>
+            <div>
+              <button id="correctBtn" class="button result-button correct" type="button" disabled><span>✓</span> 哼对了 <kbd>1</kbd></button>
+              <button id="wrongBtn" class="button result-button wrong" type="button" disabled><span>×</span> 哼错了 <kbd>2</kbd></button>
+            </div>
+          </div>
+          <p class="shortcut-hint"><kbd>Space</kbd> 重复播放 · <kbd>→</kbd> 下一题 · <kbd>1</kbd> 对 · <kbd>2</kbd> 错</p>
+        </section>
+
+        <section class="session-summary card" aria-label="本轮统计">
+          <div class="summary-heading">
+            <div><span class="eyebrow">SESSION</span><h2>本轮统计</h2></div>
+            <button id="resetSessionBtn" class="text-button" type="button">重新开始本轮</button>
+          </div>
+          <div class="metrics">
+            <div><strong id="sessionTotal">0</strong><span>已练习</span></div>
+            <div><strong id="sessionCorrect">0</strong><span>正确</span></div>
+            <div><strong id="sessionWrong">0</strong><span>错误</span></div>
+            <div><strong id="sessionRate">—</strong><span>正确率</span></div>
+          </div>
+          <div class="progress-track"><span id="sessionProgress"></span></div>
+        </section>
+      </section>
+
+      <section id="wrongPanel" class="panel" data-panel="wrong">
+        <div class="page-heading">
+          <div><span class="eyebrow">REVIEW</span><h1>错题本</h1><p>多错多练，连续答对 3 次后会移入“已掌握”。</p></div>
+          <button id="startWrongPractice" class="button button-primary" type="button">开始错题练习</button>
+        </div>
+        <div class="segmented" role="tablist" aria-label="错题状态">
+          <button class="segment is-active" data-wrong-filter="pending" type="button">待复习 <span id="pendingCount">0</span></button>
+          <button class="segment" data-wrong-filter="mastered" type="button">已掌握 <span id="masteredCount">0</span></button>
+        </div>
+        <div id="wrongList" class="wrong-list"></div>
+      </section>
+
+      <section id="statsPanel" class="panel" data-panel="stats">
+        <div class="page-heading"><div><span class="eyebrow">PROGRESS</span><h1>训练统计</h1><p>看看你的练习积累和最需要加强的音。</p></div></div>
+        <div class="stats-grid">
+          <section class="card stat-hero">
+            <div class="donut" id="accuracyDonut"><div><strong id="totalRate">—</strong><span>累计正确率</span></div></div>
+            <div class="total-metrics">
+              <div><span>总练习数</span><strong id="totalAttempts">0</strong></div>
+              <div><span>总正确数</span><strong id="totalCorrect">0</strong></div>
+              <div><span>总错误数</span><strong id="totalWrong">0</strong></div>
+            </div>
+          </section>
+          <section class="card difficult-card">
+            <div class="section-title"><div><span class="eyebrow">TOP NOTES</span><h2>最容易错的音</h2></div></div>
+            <div id="difficultNotes" class="difficult-list"></div>
+          </section>
+        </div>
+        <section class="card note-table-card">
+          <div class="section-title"><div><span class="eyebrow">DETAIL</span><h2>各音练习明细</h2></div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>音符</th><th>练习</th><th>正确</th><th>错误</th><th>正确率</th></tr></thead>
+              <tbody id="noteStatsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="settingsPanel" class="panel" data-panel="settings">
+        <div class="page-heading"><div><span class="eyebrow">PREFERENCES</span><h1>设置</h1><p>设置会自动保存在当前浏览器中。</p></div></div>
+        <div class="settings-grid">
+          <section class="card settings-card">
+            <div class="section-title"><div><span class="eyebrow">PLAYBACK</span><h2>播放参数</h2></div></div>
+            <label class="setting-row range-setting">
+              <span><strong>音量</strong><small>调整播放响度</small></span>
+              <span class="range-control"><input id="volumeRange" type="range" min="0" max="100" step="1"><output id="volumeOutput">70%</output></span>
+            </label>
+            <label class="setting-row">
+              <span><strong>音符持续时间</strong><small>每次播放的长度</small></span>
+              <select id="durationSelect">
+                <option value="0.5">0.5 秒</option><option value="1">1 秒</option><option value="1.5">1.5 秒</option><option value="2">2 秒</option><option value="3">3 秒</option>
+              </select>
+            </label>
+            <label class="setting-row switch-row">
+              <span><strong>自动播放两遍</strong><small>间隔约 500 毫秒后再次播放</small></span>
+              <input id="twiceToggle" class="switch" type="checkbox" role="switch">
+            </label>
+          </section>
+          <section class="card settings-card">
+            <div class="section-title"><div><span class="eyebrow">DATA</span><h2>数据管理</h2></div></div>
+            <div class="data-actions">
+              <button id="exportBtn" class="button button-secondary" type="button">导出训练数据</button>
+              <button id="importBtn" class="button button-secondary" type="button">导入训练数据</button>
+              <input id="importFile" type="file" accept="application/json,.json" hidden>
+              <button id="clearDataBtn" class="button danger-outline" type="button">清空训练数据</button>
+            </div>
+            <p class="data-note">导出文件包含设置、累计统计、错题本和各音练习明细，可用于换设备恢复。</p>
+          </section>
+        </div>
+        <section class="card about-card">
+          <span class="about-icon" aria-hidden="true">♫</span>
+          <div><h2>练的是“听到并唱出来”</h2><p>本工具不会识别人声，也不会提前显示音名。请先听、在脑中记住音高、完成模唱，再自行判断并按需查看答案。</p></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="feedback" class="feedback" aria-hidden="true"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
