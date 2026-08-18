@@ -265,13 +265,15 @@ function chooseRandomNote() {
 }
 
 async function playCurrent() {
-  if (currentNote === null) return;
+  if (currentNote === null) return false;
   try {
     audioEngine ||= new AudioEngine();
     pulseOrb();
     await audioEngine.play(currentNote, { twice: data.settings.autoTwice });
+    return true;
   } catch (error) {
     showToast(error.message || "音频播放失败，请检查浏览器设置");
+    return false;
   }
 }
 
@@ -292,7 +294,8 @@ async function createQuestion() {
   evaluated = false;
   answerRevealed = false;
   setStageState("question");
-  await playCurrent();
+  const played = await playCurrent();
+  if (played && currentNote === next && !evaluated) els.answerBtn.disabled = false;
 }
 
 function setStageState(state) {
@@ -309,8 +312,9 @@ function setStageState(state) {
     els.orbIcon.textContent = "♪";
     els.stageTitle.textContent = "请模唱这个音";
     els.stageSubtitle.textContent = "先在脑中保持音高，再开口哼唱。音名仍然隐藏。";
-    [els.repeatBtn, els.nextBtn, els.correctBtn, els.wrongBtn].forEach((button) => button.disabled = false);
-    // 先完成模唱并自我判断，再允许揭晓答案，避免退化成看音名唱音。
+    [els.repeatBtn, els.nextBtn].forEach((button) => button.disabled = false);
+    [els.correctBtn, els.wrongBtn].forEach((button) => button.disabled = true);
+    // 播放成功后才启用答案；查看答案后再由用户自行记录对错。
     els.answerBtn.disabled = true;
   } else if (state === "correct") {
     els.orbIcon.textContent = "✓";
@@ -318,12 +322,16 @@ function setStageState(state) {
     els.stageTitle.textContent = "已记录为正确";
     els.stageSubtitle.textContent = "很好，保持住刚才从听觉到发声的感觉。";
     els.correctBtn.disabled = true; els.wrongBtn.disabled = true; els.answerBtn.disabled = false;
+    els.answerBox.classList.toggle("is-hidden", !answerRevealed);
+    els.answerBtn.textContent = answerRevealed ? "◉ 隐藏答案" : "◉ 查看答案";
   } else if (state === "wrong") {
     els.orbIcon.textContent = "×";
     els.noteOrb.classList.add("is-wrong");
     els.stageTitle.textContent = "已加入错题本";
     els.stageSubtitle.textContent = "没关系，记住差异，之后可在错题专项中强化。";
     els.correctBtn.disabled = true; els.wrongBtn.disabled = true; els.answerBtn.disabled = false;
+    els.answerBox.classList.toggle("is-hidden", !answerRevealed);
+    els.answerBtn.textContent = answerRevealed ? "◉ 隐藏答案" : "◉ 查看答案";
   }
 }
 
@@ -340,10 +348,14 @@ function revealAnswer() {
   els.answerFrequency.textContent = `频率 ${frequencyForMidi(currentNote).toFixed(2)} Hz`;
   els.answerBox.classList.toggle("is-hidden", !answerRevealed);
   els.answerBtn.textContent = answerRevealed ? "◉ 隐藏答案" : "◉ 查看答案";
+  if (answerRevealed && !evaluated) {
+    els.correctBtn.disabled = false;
+    els.wrongBtn.disabled = false;
+  }
 }
 
 function judge(isCorrect) {
-  if (currentNote === null || evaluated) return;
+  if (currentNote === null || evaluated || !answerRevealed) return;
   evaluated = true;
   const key = String(currentNote);
   const now = new Date().toISOString();
