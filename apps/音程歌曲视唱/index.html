@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>音程视唱歌曲目录</title>
+<style>
+  :root {
+    --bg:#f5f6f8; --card:#fff; --text:#20242a; --muted:#737b89;
+    --line:#e5e7eb; --accent:#2563eb; --accent-bg:#eff6ff;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+    line-height:1.55;
+  }
+  .wrap { width:min(980px,calc(100% - 28px)); margin:auto; padding:34px 0 70px; }
+  .hero {
+    background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:28px; margin-bottom:20px;
+  }
+  h1 { margin:0 0 8px; font-size:clamp(26px,4vw,39px); }
+  .hero p { margin:5px 0; color:var(--muted); }
+  .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+  #search {
+    flex:1 1 280px; border:1px solid var(--line); background:#fff;
+    border-radius:11px; padding:11px 13px; font:inherit; outline:none;
+  }
+  #search:focus { border-color:#a5b4fc; box-shadow:0 0 0 3px #eef2ff; }
+  .count {
+    display:flex; align-items:center; padding:10px 13px; border-radius:11px;
+    background:var(--accent-bg); color:#1d4ed8; font-size:14px; font-weight:600;
+  }
+  .level {
+    background:var(--card); border:1px solid var(--line);
+    border-radius:18px; overflow:hidden; margin-top:17px;
+  }
+  .level-head {
+    display:flex; justify-content:space-between; gap:20px; align-items:flex-start;
+    padding:19px 22px 14px; border-bottom:1px solid var(--line);
+  }
+  .level-head h2 { margin:0 0 5px; font-size:20px; }
+  .level-head p { margin:0; color:var(--muted); font-size:14px; }
+  .level-count { white-space:nowrap; font-size:13px; color:var(--muted); margin-top:3px; }
+  .song-list { display:grid; }
+  .song-card {
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+    padding:14px 18px 14px 22px; border-bottom:1px solid var(--line);
+  }
+  .song-card:last-child { border-bottom:0; }
+  .song-card:hover { background:#fafbfc; }
+  .song-title { font-weight:650; margin-bottom:3px; }
+  .song-meta { color:var(--muted); font-size:13px; }
+  .link-icon {
+    flex:0 0 38px; width:38px; height:38px; border-radius:10px;
+    display:grid; place-items:center; text-decoration:none; font-size:21px;
+    color:var(--accent); background:var(--accent-bg); font-weight:700;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .link-icon:hover { transform:translateY(-1px); background:#dbeafe; }
+  .footer {
+    margin-top:20px; padding:0 4px; color:var(--muted); font-size:14px;
+  }
+  @media(max-width:620px) {
+    .hero { padding:22px 18px; }
+    .level-head { padding:17px 17px 13px; }
+    .song-card { padding:13px 14px 13px 17px; }
+    .song-meta { font-size:12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>音程视唱歌曲目录</h1>
+    <p>按视唱旋律难度递进：儿歌 → 民歌与经典旋律 → 老歌与影视歌曲 → 流行歌曲。</p>
+    <p>点击每首歌右侧的 <strong>↗</strong> 直接进入对应简谱页面。</p>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="搜索歌曲、类型或训练重点…">
+      <div class="count" id="count">共 83 首</div>
+    </div>
+  </header>
+
+  
+    <section class="level" data-level="1">
+      <div class="level-head">
+        <div>
+          <h2>Level 1｜入门</h2>
+          <p>最熟悉、最短的儿歌与经典旋律。重点是唱稳级进、重复音以及简单三度、五度。</p>
+        </div>
+        <span class="level-count">10 首</span>
+      </div>
+      <div class="song-list">
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">小星星（Twinkle Twinkle Little Star）</div>
+            <div class="song-meta">儿歌 / 经典旋律 · 级进 + 纯五度</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/IgFEa125F.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 小星星（Twinkle Twinkle Little Star） 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">两只老虎</div>
+            <div class="song-meta">儿歌 · 级进为主</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/eHllp18Ej.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 两只老虎 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">欢乐颂</div>
+            <div class="song-meta">经典旋律 · 重复音 + 级进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/pxCwq10Qw.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 欢乐颂 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">生日歌（祝你生日快乐）</div>
+            <div class="song-meta">经典歌曲 · 二度、三度跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/sM41f1bA5.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 生日歌（祝你生日快乐） 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">小兔子乖乖</div>
+            <div class="song-meta">儿歌 · 短乐句 + 级进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/x14Ka1osy.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 小兔子乖乖 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">小毛驴</div>
+            <div class="song-meta">儿歌 · 二度、三度</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/1UGMa1eIN.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 小毛驴 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">粉刷匠</div>
+            <div class="song-meta">儿歌 · 级进 + 重复音</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/XryVa1m3m.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 粉刷匠 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">世上只有妈妈好</div>
+            <div class="song-meta">儿歌 / 经典歌曲 · 二度、三度</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/rxAHa1RLG.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 世上只有妈妈好 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">小燕子</div>
+            <div class="song-meta">儿歌 / 经典歌曲 · 级进 + 小跳</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/V39ph1j75.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 小燕子 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">我上幼儿园</div>
+            <div class="song-meta">儿歌 · 短句 + 重复音</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/jWIGc1cmf.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 我上幼儿园 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        </div>
+    </section>
+    
+    <section class="level" data-level="2">
+      <div class="level-head">
+        <div>
+          <h2>Level 2｜基础</h2>
+          <p>加入民歌、校园歌曲和较完整乐句，开始适应四度、五度及五声音阶。</p>
+        </div>
+        <span class="level-count">14 首</span>
+      </div>
+      <div class="song-list">
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">采蘑菇的小姑娘</div>
+            <div class="song-meta">儿歌 / 少儿歌曲 · 节奏变化 + 小跳</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/e3Olr1H90.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 采蘑菇的小姑娘 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">送别</div>
+            <div class="song-meta">学堂乐歌 / 经典歌曲 · 二三度 + 四五度</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/8hxIa1C6k.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 送别 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">康定情歌</div>
+            <div class="song-meta">四川民歌 · 五声音阶 + 小跳</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/e3Yrl1Qut.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 康定情歌 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">青春舞曲</div>
+            <div class="song-meta">新疆民歌 · 短句重复 + 五声音阶</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/z2Vqf14YS.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 青春舞曲 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">雪绒花</div>
+            <div class="song-meta">外国经典歌曲 · 三拍子 + 三四度</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/nEuye17kx.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 雪绒花 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">友谊地久天长</div>
+            <div class="song-meta">苏格兰经典旋律 · 四度、五度 + 乐句感</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/1TFqe1vLw.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 友谊地久天长 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">外婆的澎湖湾</div>
+            <div class="song-meta">校园民谣 · 级进 + 三度</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/473Cf1zYU.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 外婆的澎湖湾 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">虫儿飞</div>
+            <div class="song-meta">经典影视歌曲 · 小调感 + 短乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/8ptJa1bYz.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 虫儿飞 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">荷塘月色</div>
+            <div class="song-meta">流行 / 中国风 · 五声音阶 + 重复动机</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/n5vca11HF.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 荷塘月色 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">爱江山更爱美人</div>
+            <div class="song-meta">经典歌曲 · 五声音阶 + 顺阶进行</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/cMaMa1T8s.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 爱江山更爱美人 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">渴望</div>
+            <div class="song-meta">经典影视歌曲 · 抒情级进 + 小跳</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/3pK0b1eGi.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 渴望 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">望星空</div>
+            <div class="song-meta">经典歌曲 · 稳定节奏 + 三度</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/dgNDw12Uk.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 望星空 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">乡愁</div>
+            <div class="song-meta">经典歌曲 · 慢速乐句 + 音准控制</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/ThMDw18Am.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 乡愁 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">一剪梅</div>
+            <div class="song-meta">经典流行歌曲 · 三四五度综合</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/oPvEa1D7r.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 一剪梅 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        </div>
+    </section>
+    
+    <section class="level" data-level="3">
+      <div class="level-head">
+        <div>
+          <h2>Level 3｜初中级</h2>
+          <p>以民歌、经典老歌和抒情歌曲为主，增加小调、调式色彩与较长乐句。</p>
+        </div>
+        <span class="level-count">20 首</span>
+      </div>
+      <div class="song-list">
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">鸿雁</div>
+            <div class="song-meta">蒙古族风格歌曲 · 长线条 + 五声音阶</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/Jn3ca105H.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 鸿雁 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">映山红</div>
+            <div class="song-meta">经典歌曲 · 三度、四度 + 抒情旋律</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/N7QCb1eNi.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 映山红 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">牧羊曲</div>
+            <div class="song-meta">经典影视歌曲 · 五声音阶 + 跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/5sHOa1h64.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 牧羊曲 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">月光下的凤尾竹</div>
+            <div class="song-meta">傣族风格歌曲 · 装饰性旋律 + 乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/lr2Ya1Vk6.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 月光下的凤尾竹 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">月亮代表我的心</div>
+            <div class="song-meta">经典流行歌曲 · 二三度 + 抒情跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/NZsHa1HKq.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 月亮代表我的心 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">莫斯科郊外的晚上</div>
+            <div class="song-meta">俄罗斯经典歌曲 · 小调感 + 跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/s5AHa1uV6.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 莫斯科郊外的晚上 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">女儿情</div>
+            <div class="song-meta">经典影视歌曲 · 五声音阶 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/LmiNa1aQm.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 女儿情 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">沧海一声笑</div>
+            <div class="song-meta">经典影视歌曲 · 五声音阶 + 大跨度音级</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/bdkKa1IPy.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 沧海一声笑 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">斯卡布罗集市（Scarborough Fair）</div>
+            <div class="song-meta">英国民歌 · 调式感 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/XXHKa1wRO.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 斯卡布罗集市（Scarborough Fair） 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">青花瓷</div>
+            <div class="song-meta">中国风流行 · 五声音阶 + 连贯旋律</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/S4Ypa1VGW.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 青花瓷 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">Always With Me（永远同在）</div>
+            <div class="song-meta">日本经典歌曲 · 级进 + 小跳 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/KCyua1xti.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 Always With Me（永远同在） 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">南山南</div>
+            <div class="song-meta">民谣 · 重复动机 + 抒情乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/08CBb1pzM.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 南山南 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">贝加尔湖畔</div>
+            <div class="song-meta">民谣 · 慢速音准 + 小调色彩</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/onNib1yf1.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 贝加尔湖畔 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">纸短情长</div>
+            <div class="song-meta">民谣 / 流行 · 级进 + 节奏变化</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/tem5f1j1A.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 纸短情长 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">一生所爱</div>
+            <div class="song-meta">经典影视歌曲 · 小调感 + 跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/lxf6b1QMh.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 一生所爱 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">枉凝眉</div>
+            <div class="song-meta">经典影视歌曲 · 民族调式 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/d3qLa1Z3I.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 枉凝眉 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">星月神话</div>
+            <div class="song-meta">流行歌曲 · 级进 + 抒情跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/GelKa1nvP.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 星月神话 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">追梦人</div>
+            <div class="song-meta">经典流行歌曲 · 稳定旋律 + 跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/FSpcb1fRZ.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 追梦人 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">白狐</div>
+            <div class="song-meta">流行歌曲 · 小调色彩 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/0bLia1d4Z.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 白狐 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">渡情</div>
+            <div class="song-meta">经典影视歌曲 · 民族旋律 + 对答感</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/HQcMa1mRZ.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 渡情 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        </div>
+    </section>
+    
+    <section class="level" data-level="4">
+      <div class="level-head">
+        <div>
+          <h2>Level 4｜中级</h2>
+          <p>进入完整经典歌曲，音域、节奏与跳进明显增加。</p>
+        </div>
+        <span class="level-count">25 首</span>
+      </div>
+      <div class="song-list">
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">童年</div>
+            <div class="song-meta">校园民谣 · 节奏变化 + 连续旋律</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/0VgXv1Lgz.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 童年 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">童话</div>
+            <div class="song-meta">流行歌曲 · 级进、跳进综合</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/slrEa1qZd.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 童话 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">偏偏喜欢你</div>
+            <div class="song-meta">粤语经典歌曲 · 抒情旋律 + 综合音程</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/qDX7b1kXM.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 偏偏喜欢你 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">敢问路在何方</div>
+            <div class="song-meta">经典影视歌曲 · 综合音程 + 节奏</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/8JGMa192L.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 敢问路在何方 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">我和我的祖国</div>
+            <div class="song-meta">经典歌曲 · 较大音域 + 综合音程</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/HEdCb1qu8.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 我和我的祖国 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">天空之城</div>
+            <div class="song-meta">经典影视旋律 · 大跳 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/qyiBa1mPa.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 天空之城 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">红颜旧</div>
+            <div class="song-meta">影视歌曲 · 中国风 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/vpKRa1EZh.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 红颜旧 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">凉凉</div>
+            <div class="song-meta">影视歌曲 · 音域扩展 + 综合跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/VGCcc1jy9.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 凉凉 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">桥边姑娘</div>
+            <div class="song-meta">流行歌曲 · 重复动机 + 综合节奏</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/iFeei1w4y.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 桥边姑娘 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">青城山下白素贞</div>
+            <div class="song-meta">经典影视歌曲 · 五声音阶 + 节奏型</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/dK9Rb1sqh.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 青城山下白素贞 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">可可托海的牧羊人</div>
+            <div class="song-meta">流行歌曲 · 民族风格 + 大跨度</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/vMvga1OZl.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 可可托海的牧羊人 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">半壶纱</div>
+            <div class="song-meta">中国风歌曲 · 装饰音感 + 长线条</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/eqI2b1XAi.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 半壶纱 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">倩女幽魂</div>
+            <div class="song-meta">粤语经典歌曲 · 小调 + 综合音程</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/liZab1PHb.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 倩女幽魂 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">九儿</div>
+            <div class="song-meta">影视歌曲 · 大跳 + 长音控制</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/lVN3b1xt8.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 九儿 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">我要你</div>
+            <div class="song-meta">影视 / 民谣 · 弱起感 + 抒情旋律</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/SfGBc1LSW.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 我要你 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">三寸天堂</div>
+            <div class="song-meta">影视歌曲 · 小调色彩 + 综合跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/95Wcc1Stg.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 三寸天堂 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">月半小夜曲</div>
+            <div class="song-meta">粤语经典歌曲 · 小调 + 音程综合</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/VLK0b1Lqu.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 月半小夜曲 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">这世界那么多人</div>
+            <div class="song-meta">流行歌曲 · 抒情长乐句 + 音准</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/rvXll12QL.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 这世界那么多人 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">雪落下的声音</div>
+            <div class="song-meta">影视歌曲 · 长乐句 + 音域变化</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/FxGvf1s17.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 雪落下的声音 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">无言的结局</div>
+            <div class="song-meta">经典流行歌曲 · 对唱旋律 + 综合音程</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/PI9Nw1AlN.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 无言的结局 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">一天到晚游泳的鱼</div>
+            <div class="song-meta">经典流行歌曲 · 节奏变化 + 跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/ElBGw1CQ2.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 一天到晚游泳的鱼 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">凡人歌</div>
+            <div class="song-meta">经典流行歌曲 · 叙事旋律 + 节奏综合</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/APIDw1pAh.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 凡人歌 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">灰姑娘</div>
+            <div class="song-meta">经典流行歌曲 · 民谣感 + 综合旋律</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/L4tCw1Fcd.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 灰姑娘 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">天使的翅膀</div>
+            <div class="song-meta">流行歌曲 · 抒情旋律 + 综合音程</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/t0cCw1Wk9.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 天使的翅膀 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">蓝莲花</div>
+            <div class="song-meta">摇滚 / 民谣 · 稳定节奏 + 音域扩展</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/URJAw14Mw.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 蓝莲花 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        </div>
+    </section>
+    
+    <section class="level" data-level="5">
+      <div class="level-head">
+        <div>
+          <h2>Level 5｜综合</h2>
+          <p>现代流行、影视和古风旋律，适合前面唱稳后再练。</p>
+        </div>
+        <span class="level-count">14 首</span>
+      </div>
+      <div class="song-list">
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">小幸运</div>
+            <div class="song-meta">流行歌曲 · 现代流行旋律综合</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/RwyBb1JoT.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 小幸运 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">追光者</div>
+            <div class="song-meta">流行歌曲 · 现代流行旋律综合</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/1k6bd1WRL.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 追光者 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">夜空中最亮的星</div>
+            <div class="song-meta">流行歌曲 · 音域扩大 + 综合跳进</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/WkyZb1jpE.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 夜空中最亮的星 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">我心永恒（My Heart Will Go On）</div>
+            <div class="song-meta">外国经典歌曲 · 大跳 + 长线条</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/W3XQa18SR.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 我心永恒（My Heart Will Go On） 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">因为爱情</div>
+            <div class="song-meta">流行歌曲 · 综合音程 + 抒情乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/WWFpa1Wzr.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 因为爱情 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">起风了</div>
+            <div class="song-meta">流行歌曲 · 长乐句 + 音域扩展</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/qGQ5f1cdq.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 起风了 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">美丽的神话</div>
+            <div class="song-meta">影视歌曲 · 大跨度 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/3fQDa1jpK.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 美丽的神话 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">孤勇者</div>
+            <div class="song-meta">流行歌曲 · 节奏密度 + 音域变化</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/6Qksm1PDq.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 孤勇者 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">声声慢</div>
+            <div class="song-meta">流行 / 国风 · 切分感 + 旋律装饰</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/cS8Bj1oOs.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 声声慢 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">红昭愿</div>
+            <div class="song-meta">国风歌曲 · 快速歌词 + 音程变化</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/4uXYe1G25.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 红昭愿 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">海底</div>
+            <div class="song-meta">流行歌曲 · 弱起 + 情绪化长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/C7suj1wnU.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 海底 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">故梦</div>
+            <div class="song-meta">古风歌曲 · 装饰旋律 + 长乐句</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/Wo4Sc1rzh.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 故梦 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">霜雪千年</div>
+            <div class="song-meta">古风歌曲 · 较密节奏 + 综合音程</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/kFiKd1jLV.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 霜雪千年 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        
+
+        <div class="song-card">
+          <div class="song-main">
+            <div class="song-title">长相思</div>
+            <div class="song-meta">古风 / 影视歌曲 · 长线条 + 综合音程</div>
+          </div>
+          <a class="link-icon" href="https://www.kuaiyuepu.com/jianpu/sNyRb1onW.html" target="_blank" rel="noopener noreferrer"
+             aria-label="打开 长相思 的曲谱链接" title="打开链接">↗</a>
+        </div>
+        </div>
+    </section>
+    
+
+  <div class="footer">
+    难度按“视唱旋律”的复杂度粗略排序，不代表声乐演唱难度。建议从前往后练；熟悉的歌曲可以直接跳过。
+  </div>
+</div>
+
+<script>
+const input = document.getElementById('search');
+const count = document.getElementById('count');
+
+function filterSongs() {
+  const q = input.value.trim().toLowerCase();
+  let visibleCount = 0;
+
+  document.querySelectorAll('.song-card').forEach(card => {
+    const show = card.textContent.toLowerCase().includes(q);
+    card.style.display = show ? 'flex' : 'none';
+    if (show) visibleCount++;
+  });
+
+  document.querySelectorAll('.level').forEach(level => {
+    const cards = [...level.querySelectorAll('.song-card')];
+    level.style.display = cards.some(c => c.style.display !== 'none') ? 'block' : 'none';
+  });
+
+  count.textContent = q ? `找到 ${visibleCount} 首` : `共 83 首`;
+}
+input.addEventListener('input', filterSongs);
+</script>
+</body>
+</html>
