@@ -2,7 +2,11 @@
 
 // 随机单音练耳：无依赖、仅使用 Web Audio API 与 localStorage。
 const STORAGE_KEY = "single-note-ear-trainer.v1";
+const MIN_SUPPORTED_MIDI = 36;
+const MAX_SUPPORTED_MIDI = 83;
 const NATURAL_PCS = new Set([0, 2, 4, 5, 7, 9, 11]);
+const ACCIDENTAL_PCS = new Set([1, 3, 6, 8, 10]);
+const ALL_MIDI_NOTES = Array.from({ length: MAX_SUPPORTED_MIDI - MIN_SUPPORTED_MIDI + 1 }, (_, index) => MIN_SUPPORTED_MIDI + index);
 const PITCH_NAMES = ["C", "C♯ / D♭", "D", "D♯ / E♭", "E", "F", "F♯ / G♭", "G", "G♯ / A♭", "A", "A♯ / B♭", "B"];
 const SHORT_NAMES = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
 const TIMBRE_NAMES = { piano: "钢琴", electric: "电钢琴", sine: "正弦波", guitar: "吉他", marimba: "木琴 / 马林巴", pad: "柔和合成器" };
@@ -11,7 +15,8 @@ const RANGE_MAP = { "C2-B2": [36, 47], "C3-B3": [48, 59], "C4-B4": [60, 71], "C5
 const DEFAULT_DATA = {
   settings: {
     mode: "random", rangePreset: "C3-B4", customMin: 48, customMax: 67,
-    noteMode: "natural", timbre: "piano", volume: 0.7, duration: 1.5, autoTwice: false
+    selectedMidiNotes: ALL_MIDI_NOTES.filter((midi) => NATURAL_PCS.has(midi % 12)),
+    timbre: "piano", volume: 0.7, duration: 1.5, autoTwice: false
   },
   statistics: { total: 0, correct: 0, wrong: 0 },
   wrongNotes: {},
@@ -32,13 +37,15 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const els = {
-  modeSelect: $("#modeSelect"), rangePreset: $("#rangePreset"), noteModeSelect: $("#noteModeSelect"),
+  modeSelect: $("#modeSelect"), rangePreset: $("#rangePreset"),
   timbreSelect: $("#timbreSelect"), previewTimbre: $("#previewTimbre"), customRange: $("#customRange"),
   customMin: $("#customMin"), customMax: $("#customMax"), rangeHint: $("#rangeHint"),
+  notePicker: $("#notePicker"), selectedNoteCount: $("#selectedNoteCount"),
+  midiNoteGroups: $("#midiNoteGroups"), notePickerHint: $("#notePickerHint"),
   modeLabel: $("#modeLabel"), modeDot: $("#modeDot"), noteOrb: $("#noteOrb"), orbIcon: $("#orbIcon"),
   stageTitle: $("#stageTitle"), stageSubtitle: $("#stageSubtitle"), answerBox: $("#answerBox"),
   answerNote: $("#answerNote"), answerFrequency: $("#answerFrequency"),
-  newNoteBtn: $("#newNoteBtn"), repeatBtn: $("#repeatBtn"), answerBtn: $("#answerBtn"), nextBtn: $("#nextBtn"),
+  referenceNoteBtn: $("#referenceNoteBtn"), newNoteBtn: $("#newNoteBtn"), repeatBtn: $("#repeatBtn"), answerBtn: $("#answerBtn"), nextBtn: $("#nextBtn"),
   correctBtn: $("#correctBtn"), wrongBtn: $("#wrongBtn"), resetSessionBtn: $("#resetSessionBtn"),
   sessionTotal: $("#sessionTotal"), sessionCorrect: $("#sessionCorrect"), sessionWrong: $("#sessionWrong"),
   sessionRate: $("#sessionRate"), sessionProgress: $("#sessionProgress"), wrongBadge: $("#wrongBadge"),
@@ -78,6 +85,19 @@ function normalizeData(raw) {
   merged.settings.customMax = clamp(Number(merged.settings.customMax), 36, 83);
   merged.settings.volume = clamp(Number(merged.settings.volume), 0, 1);
   merged.settings.duration = [0.5, 1, 1.5, 2, 3].includes(Number(merged.settings.duration)) ? Number(merged.settings.duration) : 1.5;
+  const savedMidiNotes = raw.settings?.selectedMidiNotes;
+  if (Array.isArray(savedMidiNotes)) {
+    merged.settings.selectedMidiNotes = [...new Set(savedMidiNotes.map(Number).filter((midi) => Number.isInteger(midi) && midi >= MIN_SUPPORTED_MIDI && midi <= MAX_SUPPORTED_MIDI))].sort((a, b) => a - b);
+  } else {
+    const savedPitchClasses = raw.settings?.selectedPitchClasses;
+    const oldMode = raw.settings?.noteMode;
+    const allowedPitchClasses = Array.isArray(savedPitchClasses)
+      ? new Set(savedPitchClasses.map(Number).filter((pc) => Number.isInteger(pc) && pc >= 0 && pc < 12))
+      : oldMode === "chromatic" || oldMode === "common" ? new Set(Array.from({ length: 12 }, (_, pc) => pc)) : NATURAL_PCS;
+    merged.settings.selectedMidiNotes = ALL_MIDI_NOTES.filter((midi) => allowedPitchClasses.has(midi % 12));
+  }
+  delete merged.settings.noteMode;
+  delete merged.settings.selectedPitchClasses;
   ["total", "correct", "wrong"].forEach((key) => merged.statistics[key] = Math.max(0, Number(merged.statistics[key]) || 0));
   return merged;
 }
@@ -91,6 +111,10 @@ function frequencyForMidi(midi) { return 440 * Math.pow(2, (midi - 69) / 12); }
 function octaveForMidi(midi) { return Math.floor(midi / 12) - 1; }
 function noteLabel(midi) { return `${PITCH_NAMES[midi % 12]}${octaveForMidi(midi)}`; }
 function shortNoteLabel(midi) { return `${SHORT_NAMES[midi % 12]}${octaveForMidi(midi)}`; }
+function pickerNoteLabel(midi) {
+  const octave = octaveForMidi(midi);
+  return PITCH_NAMES[midi % 12].split(" / ").map((name) => `${name}${octave}`).join(" / ");
+}
 function dateLabel(iso) {
   if (!iso) return "暂无记录";
   return new Intl.DateTimeFormat("zh-CN", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(iso));
@@ -206,7 +230,6 @@ function syncControls() {
   const s = data.settings;
   els.modeSelect.value = s.mode;
   els.rangePreset.value = s.rangePreset;
-  els.noteModeSelect.value = s.noteMode;
   els.timbreSelect.value = s.timbre;
   els.customMin.value = String(s.customMin);
   els.customMax.value = String(s.customMax);
@@ -215,8 +238,97 @@ function syncControls() {
   els.durationSelect.value = String(s.duration);
   els.twiceToggle.checked = Boolean(s.autoTwice);
   els.customRange.classList.toggle("is-hidden", s.rangePreset !== "custom");
-  els.noteModeSelect.disabled = s.mode === "natural" || s.mode === "wrong";
+  renderNotePicker();
   updateModeLabel();
+}
+
+function midiNotesInCurrentRange() {
+  const [min, max] = getRange();
+  return min <= max ? ALL_MIDI_NOTES.filter((midi) => midi >= min && midi <= max) : [];
+}
+
+function renderNotePicker() {
+  const locked = data.settings.mode !== "random";
+  const rangeNotes = midiNotesInCurrentRange();
+  const customSelected = new Set(data.settings.selectedMidiNotes);
+  const selected = data.settings.mode === "natural"
+    ? new Set(rangeNotes.filter((midi) => NATURAL_PCS.has(midi % 12)))
+    : customSelected;
+  const selectedInRange = rangeNotes.filter((midi) => selected.has(midi));
+  els.notePicker.classList.toggle("is-disabled", locked);
+  els.selectedNoteCount.textContent = data.settings.mode === "wrong" ? "由错题本决定" : `当前音域已选 ${selectedInRange.length} / ${rangeNotes.length}`;
+
+  const octaveGroups = new Map();
+  rangeNotes.forEach((midi) => {
+    const octave = octaveForMidi(midi);
+    if (!octaveGroups.has(octave)) octaveGroups.set(octave, []);
+    octaveGroups.get(octave).push(midi);
+  });
+  els.midiNoteGroups.innerHTML = [...octaveGroups.entries()].map(([octave, notes]) => `
+    <section class="octave-note-group" aria-label="第 ${octave} 八度">
+      <div class="octave-note-head"><strong>八度 ${octave}</strong><span>${shortNoteLabel(notes[0])}–${shortNoteLabel(notes.at(-1))}</span></div>
+      <div class="midi-note-grid" role="group" aria-label="八度 ${octave} 的训练音高">
+        ${notes.map((midi) => `<button class="midi-note-button${selected.has(midi) ? " is-selected" : ""}" type="button"
+          data-midi-note="${midi}" aria-pressed="${selected.has(midi)}" ${locked ? "disabled" : ""}>${pickerNoteLabel(midi)}</button>`).join("")}
+      </div>
+    </section>
+  `).join("");
+  $$('.note-presets [data-note-preset]').forEach((button) => {
+    const preset = button.dataset.notePreset;
+    const presetValues = preset === "natural" ? rangeNotes.filter((midi) => NATURAL_PCS.has(midi % 12))
+      : preset === "accidental" ? rangeNotes.filter((midi) => ACCIDENTAL_PCS.has(midi % 12))
+      : preset === "chromatic" ? rangeNotes
+      : [];
+    button.disabled = locked;
+    button.classList.toggle("is-active", presetValues.length === selectedInRange.length && presetValues.every((midi) => selected.has(midi)));
+  });
+
+  if (data.settings.mode === "natural") {
+    els.notePickerHint.textContent = "自然音专项固定使用 C、D、E、F、G、A、B；切回随机单音后会恢复你的自定义选择。";
+  } else if (data.settings.mode === "wrong") {
+    els.notePickerHint.textContent = "错题专项按照错题本出题；切回随机单音后会恢复你的自定义选择。";
+  } else if (!selectedInRange.length) {
+    els.notePickerHint.textContent = "请在当前音域中至少选择一个具体音高后再开始训练。";
+  } else {
+    els.notePickerHint.textContent = "随机出题只会使用当前音域中高亮的具体音高。";
+  }
+  els.notePickerHint.classList.toggle("is-warning", data.settings.mode === "random" && !selectedInRange.length);
+  els.newNoteBtn.disabled = data.settings.mode === "random" && !selectedInRange.length;
+}
+
+function resetQuestionForNoteSelection() {
+  currentNote = null;
+  recentNotes = [];
+  evaluated = false;
+  answerRevealed = false;
+  setStageState("idle");
+}
+
+function saveMidiNoteSelection(midiNotes) {
+  data.settings.selectedMidiNotes = [...new Set(midiNotes)].sort((a, b) => a - b);
+  saveData();
+  syncControls();
+  resetQuestionForNoteSelection();
+}
+
+function applyNotePreset(preset) {
+  if (data.settings.mode !== "random") return;
+  const rangeNotes = midiNotesInCurrentRange();
+  const selected = new Set(data.settings.selectedMidiNotes);
+  rangeNotes.forEach((midi) => selected.delete(midi));
+  const presetNotes = preset === "natural" ? rangeNotes.filter((midi) => NATURAL_PCS.has(midi % 12))
+    : preset === "accidental" ? rangeNotes.filter((midi) => ACCIDENTAL_PCS.has(midi % 12))
+    : preset === "chromatic" ? rangeNotes : [];
+  presetNotes.forEach((midi) => selected.add(midi));
+  saveMidiNoteSelection([...selected]);
+}
+
+function toggleMidiNote(midi) {
+  if (data.settings.mode !== "random" || !Number.isInteger(midi)) return;
+  const selected = new Set(data.settings.selectedMidiNotes);
+  if (selected.has(midi)) selected.delete(midi);
+  else selected.add(midi);
+  saveMidiNoteSelection([...selected]);
 }
 
 function updateModeLabel() {
@@ -235,10 +347,10 @@ function getAvailableNotes() {
   }
   const [min, max] = getRange();
   if (min > max) return [];
-  const naturalOnly = data.settings.mode === "natural" || data.settings.noteMode === "natural";
+  const selectedMidiNotes = new Set(data.settings.selectedMidiNotes);
   const notes = [];
   for (let midi = min; midi <= max; midi++) {
-    if (!naturalOnly || NATURAL_PCS.has(midi % 12)) notes.push(midi);
+    if (data.settings.mode === "natural" ? NATURAL_PCS.has(midi % 12) : selectedMidiNotes.has(midi)) notes.push(midi);
   }
   return notes;
 }
@@ -284,7 +396,7 @@ async function createQuestion() {
       showToast("待复习错题为空，请先进行随机训练");
       switchTab("wrong");
     } else {
-      showToast("自定义音域无效，请检查最低音和最高音");
+      showToast("当前音域内没有已选音符，请调整音域或音符选择");
     }
     return;
   }
@@ -515,7 +627,7 @@ function onSettingChange(key, value) {
   data.settings[key] = value;
   saveData();
   syncControls();
-  if (["mode", "rangePreset", "customMin", "customMax", "noteMode"].includes(key)) {
+  if (["mode", "rangePreset", "customMin", "customMax"].includes(key)) {
     currentNote = null;
     recentNotes = [];
     evaluated = false;
@@ -621,15 +733,28 @@ function attachEvents() {
 
   els.modeSelect.addEventListener("change", (event) => onSettingChange("mode", event.target.value));
   els.rangePreset.addEventListener("change", (event) => onSettingChange("rangePreset", event.target.value));
-  els.noteModeSelect.addEventListener("change", (event) => onSettingChange("noteMode", event.target.value));
   els.timbreSelect.addEventListener("change", (event) => onSettingChange("timbre", event.target.value));
   els.customMin.addEventListener("change", () => validateCustomRange("customMin"));
   els.customMax.addEventListener("change", () => validateCustomRange("customMax"));
+  $$('.note-presets [data-note-preset]').forEach((button) => button.addEventListener("click", () => applyNotePreset(button.dataset.notePreset)));
+  els.midiNoteGroups.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-midi-note]");
+    if (button) toggleMidiNote(Number(button.dataset.midiNote));
+  });
 
   els.previewTimbre.addEventListener("click", async () => {
     audioEngine ||= new AudioEngine();
     try { await audioEngine.play(60, { duration: 1.2, twice: false }); showToast(`正在试听：${TIMBRE_NAMES[data.settings.timbre]}`); }
     catch (error) { showToast(error.message); }
+  });
+  els.referenceNoteBtn.addEventListener("click", async () => {
+    audioEngine ||= new AudioEngine();
+    try {
+      await audioEngine.play(60, { duration: 1.5, twice: false });
+      showToast("标准音 C4 · 261.63 Hz");
+    } catch (error) {
+      showToast(error.message || "标准音播放失败，请检查浏览器设置");
+    }
   });
   els.newNoteBtn.addEventListener("click", createQuestion);
   els.repeatBtn.addEventListener("click", playCurrent);

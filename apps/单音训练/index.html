@@ -49,14 +49,6 @@
             </select>
           </label>
           <label>
-            <span>音符范围</span>
-            <select id="noteModeSelect">
-              <option value="natural">仅自然音</option>
-              <option value="common">自然音 + 常见变化音</option>
-              <option value="chromatic">全部 12 音</option>
-            </select>
-          </label>
-          <label>
             <span>音色</span>
             <select id="timbreSelect">
               <option value="piano">钢琴</option>
@@ -77,6 +69,24 @@
           <p id="rangeHint" class="field-hint"></p>
         </div>
 
+        <section id="notePicker" class="note-picker card" aria-labelledby="notePickerTitle">
+          <div class="note-picker-head">
+            <div>
+              <h2 id="notePickerTitle">精确选择训练音高</h2>
+              <p>每个八度独立选择；例如 C3、C4 和 C5 可以分别开启或关闭。</p>
+            </div>
+            <strong id="selectedNoteCount">当前音域已选</strong>
+          </div>
+          <div class="note-presets" aria-label="音符快捷预设">
+            <button type="button" data-note-preset="natural">当前音域自然音</button>
+            <button type="button" data-note-preset="accidental">当前音域升降音</button>
+            <button type="button" data-note-preset="chromatic">当前音域全选</button>
+            <button type="button" data-note-preset="clear">清空当前音域</button>
+          </div>
+          <div id="midiNoteGroups" class="octave-note-groups" aria-label="按八度选择训练音高"></div>
+          <p id="notePickerHint" class="note-picker-hint"></p>
+        </section>
+
         <section class="training-stage card" aria-live="polite">
           <div class="stage-kicker"><span id="modeDot" class="status-dot"></span><span id="modeLabel">随机单音</span></div>
           <div id="noteOrb" class="note-orb" aria-hidden="true">
@@ -91,6 +101,7 @@
           </div>
 
           <div class="primary-actions">
+            <button id="referenceNoteBtn" class="button button-secondary" type="button"><span aria-hidden="true">♩</span> 标准音 C4</button>
             <button id="newNoteBtn" class="button button-primary" type="button"><span aria-hidden="true">▶</span> 播放新音</button>
             <button id="repeatBtn" class="button button-secondary" type="button" disabled><span aria-hidden="true">↻</span> 重复播放</button>
             <button id="answerBtn" class="button button-ghost" type="button" disabled><span aria-hidden="true">◉</span> 查看答案</button>
