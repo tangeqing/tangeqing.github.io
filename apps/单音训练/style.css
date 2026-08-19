@@ -70,6 +70,24 @@ button:disabled { cursor: not-allowed; }
 .panel.is-active { display: block; }
 @keyframes panel-in { from { opacity: 0; transform: translateY(4px); } }
 
+.interval-model-heading { align-items: center; }
+.interval-model-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.model-resource-link {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 14px;
+  color: var(--primary-dark); background: white; border: 1px solid #dcd6ed; border-radius: 10px;
+  text-decoration: none; font-size: 12px; font-weight: 750;
+}
+.model-resource-link:hover { border-color: #bdb4dc; background: var(--primary-soft); transform: translateY(-1px); }
+.interval-model-card { overflow: hidden; margin-bottom: 22px; }
+.interval-model-tip { padding: 12px 16px; color: var(--muted); background: #faf9fc; border-bottom: 1px solid var(--line); font-size: 12px; }
+.interval-model-scroll {
+  overflow: auto; max-height: 74vh; padding: 14px; background: #f3f2f5;
+  scrollbar-color: #b8b2c6 #ebe8ef; overscroll-behavior: contain;
+}
+.interval-model-scroll:focus-visible { outline: 3px solid rgba(102,86,216,.24); outline-offset: -3px; }
+.interval-model-image { display: block; width: 100%; height: auto; margin: 0 auto; background: white; border-radius: 9px; box-shadow: 0 8px 24px rgba(31,25,67,.09); }
+.interval-model-card figcaption { padding: 11px 16px 13px; color: var(--muted); border-top: 1px solid var(--line); font-size: 11px; }
+
 .card { background: rgba(255,255,255,.96); border: 1px solid rgba(255,255,255,.9); border-radius: var(--radius); box-shadow: var(--shadow); }
 
 .control-strip {
@@ -289,6 +307,7 @@ output { width: 38px; color: var(--muted); font-size: 12px; font-variant-numeric
   .field-hint { grid-column: 1 / -1; margin: 0; }
   .midi-note-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .stats-grid, .settings-grid { grid-template-columns: 1fr; }
+  .interval-model-image { width: 960px; max-width: none; }
 }
 
 @media (max-width: 560px) {
@@ -316,6 +335,9 @@ output { width: 38px; color: var(--muted); font-size: 12px; font-variant-numeric
   .session-summary { padding: 18px 14px; }
   .metrics strong { font-size: 23px; }
   .page-heading { align-items: stretch; flex-direction: column; margin-top: 22px; }
+  .interval-model-actions { justify-content: flex-start; }
+  .model-resource-link { flex: 1; }
+  .interval-model-scroll { max-height: 68vh; padding: 9px; }
   .page-heading h1 { font-size: 33px; }
   .wrong-item { grid-template-columns: 62px 1fr; gap: 11px; padding: 16px 13px; }
   .item-actions { grid-column: 1 / -1; justify-content: flex-end; border-top: 1px solid var(--line); padding-top: 10px; }

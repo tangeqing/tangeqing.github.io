@@ -18,6 +18,7 @@
         </span>
       </a>
       <nav class="tabs" aria-label="主导航">
+        <button class="tab" data-tab="model" type="button">音程模型</button>
         <button class="tab is-active" data-tab="train" type="button">训练</button>
         <button class="tab" data-tab="wrong" type="button">错题本 <span id="wrongBadge" class="badge">0</span></button>
         <button class="tab" data-tab="stats" type="button">统计</button>
@@ -26,6 +27,27 @@
     </header>
 
     <main>
+      <section id="modelPanel" class="panel" data-panel="model">
+        <div class="page-heading interval-model-heading">
+          <div>
+            <span class="eyebrow">REFERENCE</span>
+            <h1>音程模型</h1>
+            <p>通过熟悉歌曲建立上行与下行音程的听觉联想。</p>
+          </div>
+          <div class="interval-model-actions">
+            <a class="model-resource-link" href="./assets/音程模型/音程模型.png" target="_blank" rel="noopener">打开高清图</a>
+            <a class="model-resource-link" href="./assets/音程模型/音程模型.pdf" target="_blank" rel="noopener">查看原 PDF</a>
+          </div>
+        </div>
+        <figure class="interval-model-card card">
+          <div class="interval-model-tip">可在图内上下左右滚动查看；手机端横向滑动可保持文字清晰。</div>
+          <div class="interval-model-scroll" tabindex="0" aria-label="音程模型图片查看器">
+            <img class="interval-model-image" src="./assets/音程模型/音程模型.png" alt="音程模型：上行与下行音程的歌曲联想图" loading="lazy" decoding="async"/>
+          </div>
+          <figcaption>资料来源：《音程模型》PDF，已转换为高清图片以提升浏览器和手机兼容性。</figcaption>
+        </figure>
+      </section>
+
       <section id="trainPanel" class="panel is-active" data-panel="train">
         <div class="control-strip card">
           <label>
